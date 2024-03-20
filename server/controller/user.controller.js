@@ -24,7 +24,7 @@ class UserController {
         return res.status(400).json({message: "Ошибка при регистрации!", errors})
       }
       const { email, name, surname, password } = req.body;
-      if (validator.ValidEmail(email)) {
+      if (!validator.ValidEmail(email)) {
         return res.status(400).json({ message: 'Email занят!' });
       }
       const newPerson = await db.query('INSERT INTO person (email, name, surname, password) values ($1, $2, $3, $4) RETURNING *', [email, name, surname, password]);
