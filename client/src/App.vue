@@ -1,15 +1,13 @@
 <script setup>
-import FormsContainer from "./components/FormsContainer.vue";
+import { FormsContainer } from './widgets/index.js';
 </script>
 
 <template>
-  <forms-container class="component"></forms-container>
+  <FormsContainer class="component"></FormsContainer>
 </template>
 
 <style scoped>
 .component {
   display: block;
-  width: 1200px;
-  height: 700px;
 }
 </style>
