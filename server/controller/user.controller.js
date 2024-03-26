@@ -20,31 +20,57 @@ class UserController {
   async createUser(req, res) {
     try {
       const errors = validationResult(req);
-      if(!errors.isEmpty()) {
-        return res.status(400).json({message: "Ошибка при регистрации!", errors})
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ message: "Ошибка при регистрации!", errors })
       }
       const { email, name, surname, password } = req.body;
-      if (!validator.ValidEmail(email)) {
+      const isValidEmail = await validator.ValidEmail(email)
+      if (!isValidEmail) {
         return res.status(400).json({ message: 'Email занят!' });
       }
+
       const newPerson = await db.query('INSERT INTO person (email, name, surname, password) values ($1, $2, $3, $4) RETURNING *', [email, name, surname, password]);
       return res.json(newPerson.rows[0]);
+
     } catch (e) {
       console.log(e);
       res.status(400).json({ message: 'Ошибка при регистрации!' });
     }
   }
-  async getUser(req, res) {
+  async authUser(req, res) {
+    try {
+      const { email, password } = req.body;
+      const isValidEmail = await validator.ValidEmail(email);
+      if (isValidEmail) {
+        return res.status(400).json({ message: 'Почта не зарегистрирована!' })
+      }
+
+      const isValidPassword = await validator.ValidPassword(email, password);
+
+      if (!isValidPassword) {
+        return res.status(400).json({ message: 'Пароль неверный!' })
+      }
+
+      const idUser = await db.query('SELECT * FROM person WHERE email = $1', [email])
+      return res.json(idUser.rows[0])
+
+    } catch (e) {
+      console.log(e);
+      res.status(400).json({ message: 'Ошибка при авторизации!' });
+    }
+  }
+  async getByUser(req, res) {
     try {
       const id = req.params.id;
-      if (!validator.ValidId(id)) {
-        return res.status(400).json({ message: `Пользователь с id: ${id} не найден` })
+      const isValidId = await validator.ValidId(id);
+      if (!isValidId) {
+        return res.status(400).json({ message: `Пользователь с id: ${id} не найден` });
       }
-      const user = await db.query('SELECT * FROM person where id = $1', [id]);
+      const user = await db.query('SELECT * FROM person WHERE id = $1', [id]);
       return res.json(user.rows[0]);
     } catch (e) {
       console.log(e);
-      res.status(400).json({ message: 'Произошла ошибка поиска пользователя!' })
+      res.status(400).json({ message: 'Произошла ошибка поиска пользователя!' });
     }
   }
   async getAllUsers(req, res) {
@@ -91,10 +117,11 @@ class UserController {
   async deleteUser(req, res) {
     try {
       const id = req.params.id;
-      if (!validator.ValidId(id)) {
+      const isValidId = validator.ValidId(id);
+      if (!isValidId) {
         return res.status(400).json({ message: `Не удалось удалить пользователя с id: ${id}` });
       }
-      const user = await db.query('DELETE FROM person where id = $1', [id]);
+      const user = await db.query('DELETE FROM person WHERE id = $1', [id]);
       res.json(user.rows[0]);
     } catch (e) {
       console.log(e);
