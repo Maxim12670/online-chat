@@ -1,13 +1,7 @@
 <script setup>
-import { FormsContainer } from './widgets/index.js';
 </script>
 
 <template>
-  <FormsContainer class="component"></FormsContainer>
+  <router-view></router-view>
 </template>
 
-<style scoped>
-.component {
-  display: block;
-}
-</style>

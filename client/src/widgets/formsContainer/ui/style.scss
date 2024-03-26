@@ -1,4 +1,62 @@
-.title {
-  background-color: green;
-  font-size: 1.6rem;
+@import './src/assets/variables.scss';
+
+.authorization {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: $c-ligth-gray;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 50rem;
+    height: max-content;
+    padding: 3rem 2rem;
+    border-radius: 3rem;
+    box-shadow: rgba(13, 141, 244, 0.45) 0rem 3rem 6rem -1.2rem, rgba(13, 141, 244, 0.45) 0rem 1.8rem 3.6rem -1.8rem;
+    box-sizing: border-box;
+    background-color: $c-white;
+  }
+
+  &__forms {
+    margin-top: 2rem;
+  }
+}
+
+.switcher {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 25rem;
+
+  &__label {
+    font-size: 1.8rem;
+    font-weight: 400;
+    color: $c-dark-blue;
+    cursor: pointer;
+
+    &-active {
+      font-weight: 700;
+      text-decoration: .2rem underline $c-dark-blue;
+      text-underline-offset: .5rem;
+    }
+  }
+}
+
+.form-login {
+
+  &__input {
+    margin-bottom: 2rem;
+  }
+
+  &__btn {
+    display: flex;
+    width: 50%;
+    margin: 0 auto;
+    margin-top: 2.5rem;
+    justify-content: center;
+    align-items: center;
+  }
 }
