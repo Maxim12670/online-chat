@@ -1,9 +1,10 @@
 @import './variables.scss';
+@import './fonts.scss';
 
-html,
-body {
+* {
   margin: 0;
   padding: 0;
+  font-family: $f-roboto;
 }
 
 body {
@@ -14,9 +15,11 @@ html {
   // 1rem === 10px
   box-sizing: border-box;
   font-size: calc(100vw / 1920 * 10);
+
   @media (max-width: 1024px) {
     font-size: calc(100vw / 768 * 10);
   }
+
   @media (max-width: 767px) {
     font-size: calc(100vw / 320 * 10);
   }
