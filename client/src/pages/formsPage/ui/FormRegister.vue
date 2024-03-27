@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="authorizeUser" class="form-login">
+  <form @submit.prevent="registerUser" class="form-login">
     <my-input v-model="formData.name" class="form-login__input" type="text" placeholder="Имя" :isRequired="true" />
     <my-input v-model="formData.surname" class="form-login__input" type="text" placeholder="Фамилия"
       :isRequired="false" />
@@ -28,7 +28,7 @@ const formData = ref({
 
 const userAPI = useUserAPI();
 
-const authorizeUser = async (event) => {
+const registerUser = async (event) => {
   event.preventDefault();
 
   const { name, surname, email, password } = formData.value;

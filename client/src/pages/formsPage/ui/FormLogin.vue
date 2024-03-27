@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="registerUser" class="form-login">
+  <form @submit.prevent="authorizeUser" class="form-login">
     <my-input v-model="formData.email" class="form-login__input" type="email" placeholder="Email" :isRequired="true" />
     <my-input v-model="formData.password" class="form-login__input" type="password" placeholder="Пароль"
       :isRequired="true" />
@@ -15,6 +15,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { MyInput, MyButton } from '@/shared/ui/index';
 import { useUserStore } from '@/stores/userStore';
+import { useRouter } from 'vue-router';
 
 const formData = ref({
   email: '',
@@ -22,8 +23,9 @@ const formData = ref({
 });
 
 const userStore = useUserStore();
+const router = useRouter();
 
-const registerUser = async (event) => {
+const authorizeUser = async (event) => {
 
   const { email, password } = formData.value;
   try {
@@ -32,7 +34,10 @@ const registerUser = async (event) => {
       password: password
     })
       .then(res => {
-        userStore.getUserData(res.data.id)
+        userStore.getUserData(res.data.id);
+      })
+      .then(() => {
+        router.push('/')
       })
       .catch(error => {
         console.log('ошибка:', error)
