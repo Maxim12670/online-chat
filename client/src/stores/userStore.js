@@ -44,6 +44,7 @@ export const useUserStore = defineStore('userStore', () => {
   watch(userData, () => {
     if (isLogin) {
       localStorage.setItem('userData', JSON.stringify(userData))
+      
     }
   }, { deep: true })
 

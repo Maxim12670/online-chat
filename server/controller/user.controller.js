@@ -114,6 +114,22 @@ class UserController {
       return res.status(400).json({ message: 'Произошла ошибка при обновление данных!' })
     }
   }
+
+
+  // async uploadImageUser(req, res) {
+  //   try {
+  //     const id = req.params.id;
+  //     const image = Buffer.from(req.body.imageData, 'base64');
+  //     await db.query('UPDATE person SET image = $1 WHERE id = $2', [image, id]);
+  //     console.log('установил))');
+  //     return res.status(200).send('Изображение успешно загружено в базу данных.');
+
+  //   } catch (e) {
+  //     console.log(e);
+  //     return res.status(400).json({ message: 'Ошибка при загрузке фото!' })
+  //   }
+  // }
+
   async deleteUser(req, res) {
     try {
       const id = req.params.id;

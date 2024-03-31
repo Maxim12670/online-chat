@@ -15,9 +15,9 @@ export const useUserAPI = defineStore('userAPI', () => {
         email: email,
         password: password
       })
-      .then(res => {
-        console.log('Пользователь успешно зарегистрирован!');
-      })
+        .then(res => {
+          console.log('Пользователь успешно зарегистрирован!');
+        })
         .catch(error => {
           if (error.response) {
             if (error.response.status === 400) {
@@ -36,6 +36,7 @@ export const useUserAPI = defineStore('userAPI', () => {
   const getUserById = async (id) => {
     try {
       const response = await axios.get(`${urlByUser}${id}`);
+      console.log('response.data:', response.data)
       return response.data;
     } catch (error) {
       console.log('Произошла ошибка:', error)

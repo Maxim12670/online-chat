@@ -1,0 +1,22 @@
+// MAIN PAGE
+
+.main-page {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 85vh;
+  background-color: blueviolet;
+
+  &__menu {
+    display: block;
+    width: 25%;
+    background-color: pink;
+    box-sizing: border-box;
+  }
+
+  &__content {
+    width: 75%;
+    background-color: blue;
+    box-sizing: border-box;
+  }
+}

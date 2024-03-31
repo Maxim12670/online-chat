@@ -8,7 +8,6 @@ createApp(App).use(createPinia()).use(router).mount('#app');
 
 const user = localStorage.getItem('userData');
 if (user) {
-  console.log(111)
   router.push('/')
 } else {
   console.log(3333)
