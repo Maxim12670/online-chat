@@ -10,7 +10,6 @@ router.post('/auth', userController.authUser)
 router.get('/user/:id', userController.getByUser);
 router.get('/users', userController.getAllUsers);
 router.put('/user', userController.updateUser);
-// router.post('/upload/:id', userController.uploadImageUser);
 router.post('/user/:id', userController.deleteUser);
 
 
