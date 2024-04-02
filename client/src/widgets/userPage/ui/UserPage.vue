@@ -1,6 +1,10 @@
 <template>
   <div class="user-page">
 
+    <teleport to="body">
+      <ModalWindow :showModalWindow="showModalWindow" @click="showModalWindow = false" />
+    </teleport>
+
     <div class="user-page__content">
       <div class="user-page__photo">
         <img src="../../../shared/assets/image/pict.jpg" alt="logo">
@@ -20,7 +24,7 @@
         </div>
 
 
-        <button class="user-page__btn">Редактировать профиль</button>
+        <button class="user-page__btn" @click="showModalWindow = true">Редактировать профиль</button>
 
       </div>
     </div>
@@ -35,6 +39,11 @@
 import './style.scss';
 import { useUserStore } from '@/stores/userStore';
 import { ListPost } from '@/widgets/index';
+
+import { ref } from 'vue';
+import { ModalWindow } from '@/shared/ui/index';
+const showModalWindow = ref(false);
+
 
 const userStore = useUserStore();
 const { name, surname, email } = userStore.userData;
