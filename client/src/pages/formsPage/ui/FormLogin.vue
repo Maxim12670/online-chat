@@ -29,7 +29,7 @@ const authorizeUser = async (event) => {
 
   const { email, password } = formData.value;
   try {
-    await axios.post('http://localhost:5000/api/auth', {
+    await axios.post('http://localhost:5000/api/user/auth', {
       email: email,
       password: password
     })

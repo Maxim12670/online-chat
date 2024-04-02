@@ -1,33 +1,32 @@
 <template>
   <div class="user-page">
 
-    <div class="user-page__wrapper">
+    <div class="user-page__content">
       <div class="user-page__photo">
         <img src="../../../shared/assets/image/pict.jpg" alt="logo">
       </div>
       <div class="user-page__descr">
-        <div class="user-page__name">
-          Акайкин Максим
+        <div v-show="surname !== null" class="user-page__name">
+          {{ surname + ' ' + name }}
         </div>
-        <div class="user-page__item">
-          Почта: <span>{{ userStore.userData }}</span>
+        <div v-show="email !== null" class="user-page__item">
+          Почта: <span>{{ email }}</span>
         </div>
         <div class="user-page__item">
           Город: <span>Томск</span>
         </div>
+        <div class="user-page__item">
+          Возраст: <span>23</span>
+        </div>
+
 
         <button class="user-page__btn">Редактировать профиль</button>
+
       </div>
     </div>
 
-    <div class="post">
-      <div class="post__wrapper">
-        <input type="text" class="post__input" placeholder="Написать новый пост">
-        <button class="post__btn">OK</button>
-      </div>
-      <div class="post__list">
-        <div class="post__item"></div>
-      </div>
+    <div class="user-page__post">
+      <list-post></list-post>
     </div>
   </div>
 </template>
@@ -35,10 +34,10 @@
 <script setup>
 import './style.scss';
 import { useUserStore } from '@/stores/userStore';
+import { ListPost } from '@/widgets/index';
 
 const userStore = useUserStore();
-console.log(userStore.userData.name + 1111)
-
+const { name, surname, email } = userStore.userData;
 
 
 </script>

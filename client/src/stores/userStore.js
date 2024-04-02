@@ -2,10 +2,10 @@ import axios from "axios";
 import { defineStore } from "pinia";
 import { ref, watch } from 'vue';
 import { useUserAPI } from "@/api/userApiStore";
+import { getCookies } from "@/shared/helper/cookies/Cookies";
 
 const urlByUser = 'http://localhost:5000/api/user/';
 
-//save to localstorage
 export const useUserStore = defineStore('userStore', () => {
 
   const isLogin = ref(false);
@@ -33,18 +33,28 @@ export const useUserStore = defineStore('userStore', () => {
         surname: data.surname,
         email: data.email,
         image: data.image
-      }
-      isLogin.value = !isLogin.value
-      console.log(userData.value)
+      };
+      isLogin.value = !isLogin.value;
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
   };
 
+  if (localStorage.getItem('userData')) {
+    const cookieValue = JSON.parse(getCookies('userData'));
+    const { id, name, surname, email, image } = cookieValue;
+    userData.value = {
+      id: id,
+      name: name,
+      surname: surname,
+      email: email,
+      image: image
+    }
+  }
+
   watch(userData, () => {
     if (isLogin) {
       localStorage.setItem('userData', JSON.stringify(userData))
-      
     }
   }, { deep: true })
 

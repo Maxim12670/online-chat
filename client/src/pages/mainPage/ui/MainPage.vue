@@ -15,9 +15,7 @@
 import './style.scss';
 import { ContentContainer } from '../../../shared/ui/index.js';
 import { NavMenu, UserPage } from '../../../widgets/index.js';
-
-
-
+import { onBeforeUpdate } from 'vue';
 
 
 

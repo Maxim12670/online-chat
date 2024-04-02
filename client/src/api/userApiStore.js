@@ -4,12 +4,21 @@ import { defineStore } from "pinia";
 const urlPostUser = "http://localhost:5000/api/registr";
 const urlByUser = "http://localhost:5000/api/user/";
 
+const baseURL = "http://localhost:5173/";
+const instance = axios.create({
+  withCredentials: true,
+  headers: {
+    ['Content-Type']: "application/json"
+  }
+
+});
+
 export const useUserAPI = defineStore('userAPI', () => {
 
   //регистрация пользователя
   const postUser = async (name, surname, email, password) => {
     try {
-      await axios.post(urlPostUser, {
+      await instance.post(urlPostUser, {
         name: name,
         surname: surname,
         email: email,
@@ -35,8 +44,8 @@ export const useUserAPI = defineStore('userAPI', () => {
   //получение пользователя по id
   const getUserById = async (id) => {
     try {
-      const response = await axios.get(`${urlByUser}${id}`);
-      console.log('response.data:', response.data)
+      axios.defaults.withCredentials = true
+      const response = await instance.get(`${urlByUser}${id}`);
       return response.data;
     } catch (error) {
       console.log('Произошла ошибка:', error)

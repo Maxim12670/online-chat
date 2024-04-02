@@ -10,6 +10,5 @@ const user = localStorage.getItem('userData');
 if (user) {
   router.push('/')
 } else {
-  console.log(3333)
   router.push('/auth')
 }
