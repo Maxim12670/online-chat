@@ -5,5 +5,7 @@ create TABLE person(
   name VARCHAR(255),
   surname VARCHAR(255),
   password VARCHAR(255),
-  image VARCHAR(255)
+  image VARCHAR(255),
+  age INTEGER,
+  city VARCHAR(255)
 );
