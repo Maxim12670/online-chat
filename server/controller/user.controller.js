@@ -42,17 +42,24 @@ class UserController {
       const { email, password } = req.body;
       const isValidEmail = await validator.ValidEmail(email);
       if (isValidEmail) {
-        return res.status(400).json({ message: 'Почта не зарегистрирована!' })
+        return res.status(400).json({ message: 'Почта не зарегистрирована!' });
       }
-
       const isValidPassword = await validator.ValidPassword(email, password);
-
       if (!isValidPassword) {
-        return res.status(400).json({ message: 'Пароль неверный!' })
+        return res.status(400).json({ message: 'Пароль неверный!' });
       }
+      const userData = await db.query('SELECT * FROM person WHERE email = $1', [email]);
 
-      const idUser = await db.query('SELECT * FROM person WHERE email = $1', [email])
-      return res.json(idUser.rows[0])
+      // const userData = {
+      //   id: data.rows[0].id,
+      //   name: data.rows[0].name,
+      //   surname: data.rows[0].surname,
+      //   email: data.rows[0].email,
+      //   password: data.rows[0].password,
+      //   image: data.rows[0].image
+      // };
+
+      return res.status(200).json(userData.rows[0]);
 
     } catch (e) {
       console.log(e);
@@ -63,11 +70,15 @@ class UserController {
     try {
       const id = req.params.id;
       const isValidId = await validator.ValidId(id);
+
       if (!isValidId) {
         return res.status(400).json({ message: `Пользователь с id: ${id} не найден` });
       }
-      const user = await db.query('SELECT * FROM person WHERE id = $1', [id]);
-      return res.json(user.rows[0]);
+
+      const userData = await db.query('SELECT * FROM person WHERE id = $1', [id]);
+
+      console.log(JSON.stringify(userData.rows[0]))
+      return res.cookie('userData', JSON.stringify(userData.rows[0])).status(200).json(userData.rows[0]);
     } catch (e) {
       console.log(e);
       res.status(400).json({ message: 'Произошла ошибка поиска пользователя!' });
