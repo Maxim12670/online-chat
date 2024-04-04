@@ -1,5 +1,6 @@
 const express = require('express');
 const userRouter = require('./routes/user.routes');
+const postRouter = require('./routes/post.routers');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 5000;
@@ -13,7 +14,7 @@ app.use(
     baseURL,
     origin: true
   })
-)
+);
 
 app.all('*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", req.headers.origin);
@@ -24,9 +25,9 @@ app.all('*', function (req, res, next) {
   next();
 });
 
-
 app.use(cookieParser());
-app.use('/api/user', userRouter)
+app.use('/api/user', userRouter);
+app.use('/api/post', postRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

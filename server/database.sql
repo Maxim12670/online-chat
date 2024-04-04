@@ -9,3 +9,12 @@ create TABLE person(
   age INTEGER,
   city VARCHAR(255)
 );
+
+
+create TABLE post(
+  id SERIAL PRIMARY KEY,
+  content TEXT NOT NULL,
+  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  userID INT,
+  FOREIGN KEY (userID) REFERENCES person(id)
+);

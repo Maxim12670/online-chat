@@ -57,11 +57,10 @@ class UserController {
       res.status(400).json({ message: 'Ошибка при авторизации!' });
     }
   }
-
   async getByUser(req, res) {
     try {
       const id = req.params.id;
-      const isValidId = await validator.ValidId(id);
+      const isValidId = await validator.ValidId(id, 'person');
 
       if (!isValidId) {
         return res.status(400).json({ message: `Пользователь с id: ${id} не найден` });
@@ -86,11 +85,9 @@ class UserController {
       res.status(400).json({ message: 'Произошла ошибка при поиске всех пользователей!' });
     }
   }
-  // GGGGGGGGGGGGGGGGGGGGG
   async updateUser(req, res) {
     try {
       const { id, email, name, surname, password, image, age, city } = req.body;
-
       const [booleanFlag, oldUser] = await validator.UpdateValueUser(id);
 
       if (!booleanFlag) {
@@ -126,7 +123,7 @@ class UserController {
   async deleteUser(req, res) {
     try {
       const id = req.params.id;
-      const isValidId = validator.ValidId(id);
+      const isValidId = await validator.ValidId(id, 'person');
       if (!isValidId) {
         return res.status(400).json({ message: `Не удалось удалить пользователя с id: ${id}` });
       }

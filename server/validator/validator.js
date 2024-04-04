@@ -28,9 +28,9 @@ class Validator {
     }
   }
 
-  async ValidId(id) {
+  async ValidId(id, tableName) {
     try {
-      const result = await db.query('SELECT COUNT(*) FROM person WHERE id = $1', [id]);
+      const result = await db.query(`SELECT COUNT(*) FROM ${tableName} WHERE id = $1`, [id]);
       if (result.rows[0].count == 0) {
         return false;
       }
