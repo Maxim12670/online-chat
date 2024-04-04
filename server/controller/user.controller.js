@@ -50,15 +50,6 @@ class UserController {
       }
       const userData = await db.query('SELECT * FROM person WHERE email = $1', [email]);
 
-      // const userData = {
-      //   id: data.rows[0].id,
-      //   name: data.rows[0].name,
-      //   surname: data.rows[0].surname,
-      //   email: data.rows[0].email,
-      //   password: data.rows[0].password,
-      //   image: data.rows[0].image
-      // };
-
       return res.status(200).json(userData.rows[0]);
 
     } catch (e) {
@@ -66,6 +57,7 @@ class UserController {
       res.status(400).json({ message: 'Ошибка при авторизации!' });
     }
   }
+
   async getByUser(req, res) {
     try {
       const id = req.params.id;
@@ -78,6 +70,7 @@ class UserController {
       const userData = await db.query('SELECT * FROM person WHERE id = $1', [id]);
 
       console.log(JSON.stringify(userData.rows[0]))
+
       return res.cookie('userData', JSON.stringify(userData.rows[0])).status(200).json(userData.rows[0]);
     } catch (e) {
       console.log(e);
@@ -93,9 +86,10 @@ class UserController {
       res.status(400).json({ message: 'Произошла ошибка при поиске всех пользователей!' });
     }
   }
+  // GGGGGGGGGGGGGGGGGGGGG
   async updateUser(req, res) {
     try {
-      const { id, email, name, surname, password, image } = req.body;
+      const { id, email, name, surname, password, image, age, city } = req.body;
 
       const [booleanFlag, oldUser] = await validator.UpdateValueUser(id);
 
@@ -108,7 +102,9 @@ class UserController {
         'name': name,
         'surname': surname,
         'password': password,
-        'image': image
+        'image': image,
+        'age': age,
+        'city': city
       }
 
       const newValue = findNewValue(oldUser, newUser)
@@ -116,10 +112,12 @@ class UserController {
 
 
       const user = await db.query(
-        'UPDATE person set email = $1, name = $2, surname = $3, password = $4, image = $5 where id = $6 RETURNING *',
-        [newValue.email, newValue.name, newValue.surname, newValue.password, newValue.image, id]
+        'UPDATE person set email = $1, name = $2, surname = $3, password = $4, image = $5, age = $6, city = $7  where id = $8 RETURNING *',
+        [newValue.email, newValue.name, newValue.surname, newValue.password, newValue.image, newValue.age, newValue.city, id]
       );
-      return res.json(user.rows[0]);
+
+      console.log(user.rows[0])
+      return res.clearCookie('userData').cookie('userData', JSON.stringify(user.rows[0])).status(200).json(user.rows[0]);
     } catch (e) {
       console.log(e)
       return res.status(400).json({ message: 'Произошла ошибка при обновление данных!' })

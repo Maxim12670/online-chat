@@ -29,10 +29,7 @@ const formData = ref({
 const userAPI = useUserAPI();
 
 const registerUser = async (event) => {
-  event.preventDefault();
-
   const { name, surname, email, password } = formData.value;
-
   await userAPI.postUser(name, surname, email, password);
 
 }

@@ -2,7 +2,7 @@
   <div class="user-page">
 
     <teleport to="body">
-      <ModalWindow :showModalWindow="showModalWindow" @click="showModalWindow = false" />
+      <ModalWindow :show="show" />
     </teleport>
 
     <div class="user-page__content">
@@ -10,25 +10,21 @@
         <img src="../../../shared/assets/image/pict.jpg" alt="logo">
       </div>
       <div class="user-page__descr">
-        <div v-show="surname !== null" class="user-page__name">
-          {{ surname + ' ' + name }}
+        <div v-show="userData.surname !== null" class="user-page__name">
+          {{ userData.surname + ' ' + userData.name }}
         </div>
-        <div v-show="email !== null" class="user-page__item">
-          Почта: <span>{{ email }}</span>
+        <div v-show="userData.email !== null" class="user-page__item">
+          Почта: <span>{{ userData.email }}</span>
         </div>
-        <div class="user-page__item">
-          Город: <span>Томск</span>
+        <div v-show="userData.city !== null" class="user-page__item">
+          Город: <span>{{ userData.city }}</span>
         </div>
-        <div class="user-page__item">
-          Возраст: <span>23</span>
+        <div v-show="userData.age !== null" class="user-page__item">
+          Возраст: <span>{{ userData.age }}</span>
         </div>
-
-
-        <button class="user-page__btn" @click="showModalWindow = true">Редактировать профиль</button>
-
+        <button class="user-page__btn" @click="show = !show">Редактировать профиль</button>
       </div>
     </div>
-
     <div class="user-page__post">
       <list-post></list-post>
     </div>
@@ -39,14 +35,10 @@
 import './style.scss';
 import { useUserStore } from '@/stores/userStore';
 import { ListPost } from '@/widgets/index';
-
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { ModalWindow } from '@/shared/ui/index';
-const showModalWindow = ref(false);
 
-
+const show = ref(false);
 const userStore = useUserStore();
-const { name, surname, email } = userStore.userData;
-
-
+const userData = computed(() => userStore.userData)
 </script>

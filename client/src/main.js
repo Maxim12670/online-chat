@@ -6,8 +6,7 @@ import router from './router.js';
 
 createApp(App).use(createPinia()).use(router).mount('#app');
 
-const user = localStorage.getItem('userData');
-if (user) {
+if (localStorage.getItem('isLogin')) {
   router.push('/')
 } else {
   router.push('/auth')

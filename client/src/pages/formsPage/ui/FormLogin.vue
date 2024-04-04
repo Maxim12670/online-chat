@@ -26,7 +26,6 @@ const userStore = useUserStore();
 const router = useRouter();
 
 const authorizeUser = async (event) => {
-
   const { email, password } = formData.value;
   try {
     await axios.post('http://localhost:5000/api/user/auth', {
@@ -35,6 +34,7 @@ const authorizeUser = async (event) => {
     })
       .then(res => {
         userStore.getUserData(res.data.id);
+        userStore.updateIsLogin(true);
       })
       .then(() => {
         router.push('/')

@@ -1,6 +1,9 @@
 <template>
-  <input :value="modelValue" @input="onModelValueUpdate" :type="type" :placeholder="placeholder" :required="isRequired"
-    class="my-input">
+
+  <input v-if="type==='file'" type="file" accept="image/*" class="my-input_file">
+
+    <input v-else :value="modelValue" @input="onModelValueUpdate" :type="type" :placeholder="placeholder"
+      :required="isRequired" class="my-input">
 </template>
 
 <script setup>

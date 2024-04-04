@@ -4,13 +4,11 @@ import { defineStore } from "pinia";
 const urlPostUser = "http://localhost:5000/api/registr";
 const urlByUser = "http://localhost:5000/api/user/";
 
-const baseURL = "http://localhost:5173/";
 const instance = axios.create({
   withCredentials: true,
   headers: {
     ['Content-Type']: "application/json"
   }
-
 });
 
 export const useUserAPI = defineStore('userAPI', () => {
@@ -52,5 +50,24 @@ export const useUserAPI = defineStore('userAPI', () => {
     }
   }
 
-  return { getUserById, postUser }
+  // обновление данных пользователя
+  const putUpdateUser = async (id, name = null, surname = null,
+    age = null, city = null, image = null) => {
+    try {
+      const response = await axios.put(urlByUser, {
+        id: id,
+        name: name,
+        surname: surname,
+        age: age,
+        city: city,
+        image: image
+      });
+      return response.data;
+      console.log('api update', response.data)
+    } catch (error) {
+      console.log('Произошла ошибка:', error)
+    }
+  }
+
+  return { getUserById, postUser, putUpdateUser }
 })

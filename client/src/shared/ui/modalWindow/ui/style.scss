@@ -13,23 +13,48 @@
   }
 
   &__container {
-    width: 300px;
+    width: 40rem;
     margin: auto;
-    padding: 20px 30px;
+    padding: 2rem 3rem;
     background-color: #fff;
-    border-radius: 2px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    border-radius: 2rem;
+    box-shadow: 0 .2rem .8rem rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
+  }
+
+  &__title {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  &__input {
+    margin-bottom: 1.2rem;
+
+    &_file {
+      display: block;
+      margin-left: auto;
+      margin-right: 0;
+    }
+  }
+
+  &__btn {
+    display: block;
+    margin: 0 auto;
+    width: 25rem;
   }
 }
 
 
-.modal-enter-active,
-.modal-leave-active {
-  transition: opacity 0.5s ease;
+.modal-enter-from {
+  opacity: 0;
 }
 
-.modal-enter-from,
 .modal-leave-to {
   opacity: 0;
+}
+
+.modal-enter-from .modal-container,
+.modal-leave-to .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
 }

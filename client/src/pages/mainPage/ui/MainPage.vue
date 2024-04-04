@@ -15,8 +15,8 @@
 import './style.scss';
 import { ContentContainer } from '../../../shared/ui/index.js';
 import { NavMenu, UserPage } from '../../../widgets/index.js';
-import { onBeforeUpdate } from 'vue';
+import { useUserStore } from '@/stores/userStore';
 
-
+const userStore = useUserStore();
 
 </script>
