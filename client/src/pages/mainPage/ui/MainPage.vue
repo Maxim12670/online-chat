@@ -13,7 +13,7 @@
 
 <script setup>
 import './style.scss';
-import { ContentContainer } from '../../../shared/ui/index.js';
+import { ContentContainer} from '../../../shared/ui/index.js';
 import { NavMenu, UserPage } from '../../../widgets/index.js';
 import { useUserStore } from '@/stores/userStore';
 

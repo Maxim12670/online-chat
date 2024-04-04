@@ -3,9 +3,13 @@
     <div v-if="show" class="modal-window__mask">
       <div class="modal-window__container">
         <form @submit.prevent="updateUserInfo">
-          <h2 class="modal-window__title">
-            Введите свои данные
-          </h2>
+          <div class="modal-window__wrapper">
+            <h2 class="modal-window__title">Введите свои данные</h2>
+            <SpriteSVG />
+            <svg class="modal-window__close" @click="show = !show">
+              <use xlink:href="#close-icon"></use>
+            </svg>
+          </div>
           <my-input class="modal-window__input" v-model="formData.name" type="text" placeholder="Имя:"
             :isRequired="false" />
           <my-input class="modal-window__input" v-model="formData.surname" type="text" placeholder="Фамилия:"
@@ -29,7 +33,7 @@
 <script setup>
 import './style.scss';
 import { ref } from 'vue';
-import { MyInput, MyButton } from '../../index';
+import { MyInput, MyButton, SpriteSVG } from '../../index';
 import { useUserStore } from '@/stores/userStore';
 
 const props = defineProps({

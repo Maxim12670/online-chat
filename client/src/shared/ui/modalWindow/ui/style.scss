@@ -22,9 +22,20 @@
     transition: all 0.3s ease;
   }
 
+  &__wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
   &__title {
     font-size: 1.8rem;
     margin-bottom: 1rem;
+  }
+
+  &__close {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 
   &__input {

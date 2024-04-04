@@ -22,7 +22,7 @@
         <div v-show="userData.age !== null" class="user-page__item">
           Возраст: <span>{{ userData.age }}</span>
         </div>
-        <button class="user-page__btn" @click="show = !show">Редактировать профиль</button>
+        <my-button class="user-page__btn" @click="show = !show" text="Редактировать профиль" />
       </div>
     </div>
     <div class="user-page__post">
@@ -36,7 +36,7 @@ import './style.scss';
 import { useUserStore } from '@/stores/userStore';
 import { ListPost } from '@/widgets/index';
 import { ref, computed } from 'vue';
-import { ModalWindow } from '@/shared/ui/index';
+import { ModalWindow, MyButton } from '@/shared/ui/index';
 
 const show = ref(false);
 const userStore = useUserStore();
