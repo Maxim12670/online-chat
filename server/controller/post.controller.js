@@ -5,8 +5,7 @@ const validator = require('../validator/validator');
 class PostController {
   async createPost(req, res) {
     try {
-      const { userId } = req.params
-      const { content } = req.body;
+      const { userId, content } = req.body;
       const newPost = await db.query('INSERT INTO post (content, userId) values ($1, $2) RETURNING *', [content, userId])
       console.log(newPost.rows[0]);
       return res.json(newPost.rows[0]);
@@ -39,7 +38,6 @@ class PostController {
       } else {
         return res.status(404).json({ message: 'постов нет!' });
       }
-
     } catch (error) {
       console.log(error);
       res.status(400).json({ message: 'Ошибка при получении постов!' });
