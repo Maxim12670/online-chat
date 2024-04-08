@@ -1,7 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 
-const urlPostUser = "http://localhost:5000/api/registr";
+const urlRegistrUser = "http://localhost:5000/api/registr";
 const urlByUser = "http://localhost:5000/api/user/";
 
 const instance = axios.create({
@@ -16,7 +16,7 @@ export const useUserAPI = defineStore('userAPI', () => {
   //регистрация пользователя
   const postUser = async (name, surname, email, password) => {
     try {
-      await instance.post(urlPostUser, {
+      await instance.post(urlRegistrUser, {
         name: name,
         surname: surname,
         email: email,
@@ -63,7 +63,6 @@ export const useUserAPI = defineStore('userAPI', () => {
         image: image
       });
       return response.data;
-      console.log('api update', response.data)
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
