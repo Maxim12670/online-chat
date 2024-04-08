@@ -1,6 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-import { ref, watch, isRef } from 'vue';
+import { ref } from 'vue';
 import { useUserAPI } from "@/api/userApiStore";
 import { getCookies } from "@/shared/helper/cookies/Cookies";
 
@@ -43,6 +43,15 @@ export const useUserStore = defineStore('userStore', () => {
     }
   };
 
+  async function getCurrentUser(id) {
+    try {
+      const res = await userAPI.getUserById(id);
+      return res.data;
+    } catch (error) {
+      console.log('Произошла ошибка:', error);
+    }
+  }
+
   async function updateUser(id, name = null, surname = null,
     age = null, city = null, image = null) {
     try {
@@ -53,7 +62,7 @@ export const useUserStore = defineStore('userStore', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   if (localStorage.getItem('isLogin')) {
     const cookieValue = JSON.parse(getCookies('userData'));
@@ -69,5 +78,5 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
-  return { userData, isLogin, getUserData, updateIsLogin, updateUser }
+  return { userData, isLogin, getUserData, getCurrentUser, updateIsLogin, updateUser }
 });

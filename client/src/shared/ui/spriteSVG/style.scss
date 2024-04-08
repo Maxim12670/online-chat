@@ -1,0 +1,10 @@
+@import "@/assets/variables.scss";
+
+#basket-icon {
+  cursor: pointer;
+  fill: $c-black;
+
+  &:hover {
+    fill: $c-red;
+  }
+}

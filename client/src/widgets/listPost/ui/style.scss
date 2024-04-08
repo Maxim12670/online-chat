@@ -1,4 +1,4 @@
-.post {
+.list-post {
   width: 100%;
 
   &__wrapper {
@@ -24,7 +24,12 @@
     border: 2px solid white;
   }
 
-  &__list {
+  &__container {
     width: 100%;
+  }
+
+  &__item {
+    width: 100%;
+    margin-top: 1rem;
   }
 }

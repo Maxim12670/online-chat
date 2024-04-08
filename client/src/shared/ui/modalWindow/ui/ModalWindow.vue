@@ -20,8 +20,7 @@
             :isRequired="false" />
           <my-input class="modal-window__input modal-window__input_file" v-model="formData.image" type="file"
             placeholder="Загрузить фото" :isRequired="false" />
-          <my-button class="modal-window__btn" type="submit" text="Сохранить данные"
-            @click="show = !show, updateUserInfo">
+          <my-button class="modal-window__btn" type="submit" text="Сохранить данные" @click="show = !show">
             Сохранить данные
           </my-button>
         </form>
