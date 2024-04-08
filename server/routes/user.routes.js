@@ -14,7 +14,7 @@ router.post('/registr', [
 ], userController.createUser);
 router.post('/auth', userController.authUser)
 router.get('/:id', userController.getByUser);
-router.get('/users', userController.getAllUsers);
+router.post('/users', userController.getAllUsers);
 router.put('/', userController.updateUser);
 router.post('/:id', userController.deleteUser);
 
