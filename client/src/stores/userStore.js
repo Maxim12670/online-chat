@@ -50,16 +50,27 @@ export const useUserStore = defineStore('userStore', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
-  }
+  };
 
-  async function getAllUsers() {
+  async function getUsers() {
     try {
       const res = await userAPI.getAllUsers();
-      return res.data;
-    }catch (error) {
-      console.log('Произошла ошибка:', error)
+      return res;
+
+    } catch (error) {
+      console.log('Произошла ошибка:', error);
     }
   }
+
+  // async function getUsers() {
+  //   try {
+  //     const { data } = await userAPI.getAllUsers();
+  //     console.log('store', data)
+  //     return data;
+  //   } catch (error) {
+  //     console.log('Произошла ошибка:', error)
+  //   }
+  // }
 
   async function updateUser(id, name = null, surname = null,
     age = null, city = null, image = null) {
@@ -87,5 +98,5 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
-  return { userData, isLogin, getUserData, getCurrentUser, getAllUsers, updateIsLogin, updateUser }
+  return { userData, isLogin, getUserData, getCurrentUser, getUsers, updateIsLogin, updateUser }
 });

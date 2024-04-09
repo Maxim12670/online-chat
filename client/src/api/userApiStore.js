@@ -53,8 +53,8 @@ export const useUserAPI = defineStore('userAPI', () => {
   //получение всех пользователей
   const getAllUsers = async () => {
     try {
-      const response = await axios.post(`${urlByUser}/users`);
-      return response.data;
+      const { data } = await axios.post(`${urlByUser}/users`);
+      return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
