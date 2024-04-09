@@ -6,9 +6,8 @@
       <my-button class="list-post__btn" type="submit" text="ок" />
     </form>
     <div class="list-post__container">
-      <user-post class="list-post__item" v-for="(post, index) in posts" :key="index"
-        :userId="post.userid" @delete-current-post="deleteCurrentPost" :id="post.id"
-        :content="post.content" :date="post.date" />
+      <user-post class="list-post__item" v-for="(post, index) in posts" :key="index" :userId="post.userid"
+        @delete-current-post="deleteCurrentPost" :id="post.id" :content="post.content" :date="post.date" />
     </div>
   </div>
 </template>
@@ -19,34 +18,32 @@ import { onMounted, ref } from 'vue';
 import { MyInput, MyButton } from '@/shared/ui';
 import { UserPost } from '@/entities/ui/index';
 import { usePostStore } from "@/stores/postStore";
-// import { useUserStore } from '@/stores/userStore';
+
 
 const postStore = usePostStore();
-// const userStore = useUserStore();
 const posts = ref([]);
 const newPostContent = ref('');
+
+async function getPosts() {
+  posts.value = await postStore.getUserPosts();
+  posts.value.reverse();
+}
 
 const submitPost = async () => {
   if (newPostContent.value !== '') {
     await postStore.addUserPost(newPostContent.value);
     newPostContent.value = '';
   }
-  posts.value = await postStore.getUserPosts();
+  getPosts();
 }
-
-// const getCurrentUser = async (id) => {
-//   const currentUser = await userStore.getCurrentUser(id);
-//   console.log(currentUser)
-//   return currentUser;
-// }
 
 const deleteCurrentPost = async (id) => {
   await postStore.deleteUserPost(id);
-  posts.value = await postStore.getUserPosts();
+  getPosts()
 }
 
 onMounted(async () => {
-  posts.value = await postStore.getUserPosts();
+  getPosts();
 })
 
 </script>
