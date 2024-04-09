@@ -45,4 +45,14 @@
     background-color: rgba(28, 28, 28, 0);
     margin-left: 1.5rem;
   }
+
+  &__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    stroke: $c-black;
+
+    &:hover {
+      stroke: $c-white;
+    }
+  }
 }
