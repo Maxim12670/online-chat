@@ -1,4 +1,4 @@
-// NAV MENU
+@import '@/assets/variables.scss';
 
 .nav-menu {
   width: 100%;
@@ -24,6 +24,7 @@
   &__icon {
     width: 3.5rem;
     height: 3.5rem;
+    stroke: $c-black;
   }
 
   &__text {
