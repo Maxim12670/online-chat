@@ -22,7 +22,7 @@ export const usePostStore = defineStore('postStore', () => {
         await postAPI.addPost(userId, content);
       }
       else {
-        console.log('Нельзя добавить пустой пост!')
+        console.log('Нельзя добавить пустой пост!');
       }
     } catch (error) {
       console.log('Произошла ошибка:', error);
@@ -32,9 +32,8 @@ export const usePostStore = defineStore('postStore', () => {
   async function getUserPosts() {
     try {
       const userId = userStore.userData.id;
-      const response = await postAPI.getAllPosts(userId);
-      postsArray.value = response
-      // return postsArray.value
+      const res = await postAPI.getAllPosts(userId);
+      return res;
 
     } catch (error) {
       console.log('Произошла ошибка:', error);
@@ -45,7 +44,7 @@ export const usePostStore = defineStore('postStore', () => {
     try {
       await postAPI.deletePost(id);
     }catch (error) {
-      console.log('Произошла ошибка:', error)
+      console.log('Произошла ошибка:', error);
     }
   }
 

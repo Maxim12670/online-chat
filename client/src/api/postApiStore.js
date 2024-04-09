@@ -22,10 +22,10 @@ export const usePostAPI = defineStore('postAPI', () => {
 
   const getAllPosts = async (userId) => {
     try {
-      const response = await axios.post(`${baseURLPost}/posts`, {
+      const { data } = await axios.post(`${baseURLPost}/posts`, {
         userId: userId
       });
-      return response.data;
+      return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
