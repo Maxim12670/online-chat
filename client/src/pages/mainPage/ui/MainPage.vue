@@ -5,9 +5,8 @@
         <nav-menu />
       </div>
       <div class="main-page__content">
-        <router-view/>
-        <!-- <user-view /> -->
-        <!-- <search-view /> -->
+        <!-- <router-view /> -->
+        <message-view/>
       </div>
     </div>
   </content-container>
@@ -16,7 +15,7 @@
 <script setup>
 import './style.scss';
 import { ContentContainer } from '../../../shared/ui/index.js';
-import { NavMenu, UserView, SearchView } from '../../../widgets/index.js';
+import {NavMenu, MessageView} from '@/widgets/index';
 import { useUserStore } from '@/stores/userStore';
 
 const userStore = useUserStore();
