@@ -14,7 +14,7 @@
           {{ date }}
         </div>
       </div>
-      <div class="post-header__delete" @click="() => deleteCurrentPost(id)">
+      <div class="post-header__delete" @click="$emit('deleteCurrentPost', id)">
         <svg class="nav-menu__icon">
           <use xlink:href="#basket-icon"></use>
         </svg>
@@ -44,15 +44,11 @@ const currentUser = ref();
 const userStore = useUserStore();
 const postStore = usePostStore();
 
+
 watch(() => props.userId, async (newValue, oldValue) => {
   if (newValue !== oldValue && oldValue !== undefined) {
     currentUser.value = await userStore.getCurrentUser(newValue);
   }
 })
-
-// функционал удаления
-async function deleteCurrentPost(id) {
-  await postStore.deleteUserPost(id);
-}
 
 </script>

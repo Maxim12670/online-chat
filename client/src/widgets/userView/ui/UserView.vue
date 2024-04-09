@@ -33,9 +33,9 @@
 
 <script setup>
 import './style.scss';
+import { ref, computed } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 import { ListPost } from '@/widgets/index';
-import { ref, computed } from 'vue';
 import { ModalWindow, MyButton } from '@/shared/ui/index';
 
 const show = ref(false);
