@@ -11,12 +11,13 @@ export const navLinks = [
     label: 'Поиск',
     idIcon: '#search-icon',
     path: 'search'
+  },
+  {
+    label: 'Сообщения',
+    idIcon: '#message-icon',
+    path: 'message'
   }
   // ,
-  // {
-  //   label: 'Сообщения',
-  //   idIcon: '#message-icon'
-  // },
   // {
   //   label: 'Друзья',
   //   idIcon: '#friends-icon'
