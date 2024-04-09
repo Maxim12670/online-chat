@@ -15,19 +15,24 @@ import { MyInput } from '@/shared/ui';
 import SearchItem from '../searchItem/SearchItem.vue';
 import { useUserStore } from '@/stores/userStore.js';
 
-
 const userStore = useUserStore();
 const filterString = ref('');
 const persons = ref([]);
 
 const filterPersons = computed(() => {
   if (filterString) {
-    return persons.value.filter((person) => person.name.indexOf(filterString.value) !== -1 || person.surname.indexOf(filterString.value) !== -1)
+    return persons.value.filter((person) =>
+      person.name.indexOf(filterString.value) !== -1 || person.surname.indexOf(filterString.value) !== -1)
   }
   return persons.value;
 })
 
 onMounted(async () => {
-  persons.value = await userStore.getUsers();
+  const personsArray = await userStore.getUsers();
+  personsArray.forEach(item => {
+    if (item.id !== userStore.userData.id) {
+      persons.value.push(item);
+    }
+  });
 })
 </script>
