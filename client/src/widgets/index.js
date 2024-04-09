@@ -1,11 +1,11 @@
 import NavMenu from "./navMenu/ui/NavMenu.vue";
-import UserPage from "./userPage/ui/UserPage.vue";
-import SearchPage from "./searchPage/ui/SearchPage.vue";
+import UserView from "./userView/ui/UserView.vue";
+import SearchView from "./searchView/ui/SearchView.vue";
 import ListPost from "./listPost/ui/ListPost.vue";
 
 export {
-  UserPage,
-  SearchPage,
+  UserView,
+  SearchView,
   NavMenu,
   ListPost
 }

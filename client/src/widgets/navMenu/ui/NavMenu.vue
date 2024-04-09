@@ -1,19 +1,16 @@
 <template>
   <nav class="nav-menu">
     <SpriteSVG />
-    <ul class="nav-menu__list">
-      <li class="nav-menu__item" v-for="link in navLinks" :key="link.label">
-
-        <svg class="nav-menu__icon">
-          <use :xlink:href="link.idIcon"></use>
-        </svg>
-
-        <div class="nav-menu__text">
-          <span>{{ link.label }}</span>
-        </div>
-
-      </li>
-    </ul>
+    <div class="nav-menu__list">
+      <router-link :to="link.path" class="nav-menu__item" v-for="link in navLinks" :key="link.label">
+          <svg class="nav-menu__icon">
+            <use :xlink:href="link.idIcon"></use>
+          </svg>
+          <div class="nav-menu__text">
+            <span>{{ link.label }}</span>
+          </div>
+      </router-link>
+    </div>
   </nav>
 </template>
 
