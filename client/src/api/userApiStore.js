@@ -43,8 +43,8 @@ export const useUserAPI = defineStore('userAPI', () => {
   const getUserById = async (id) => {
     try {
       axios.defaults.withCredentials = true
-      const response = await instance.get(`${urlByUser}${id}`);
-      return response.data;
+      const { data } = await instance.post(`${urlByUser}${id}`);
+      return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
@@ -53,7 +53,7 @@ export const useUserAPI = defineStore('userAPI', () => {
   //получение всех пользователей
   const getAllUsers = async () => {
     try {
-      const { data } = await axios.post(`${urlByUser}/users`);
+      const { data } = await axios.get(`${urlByUser}users`);
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)

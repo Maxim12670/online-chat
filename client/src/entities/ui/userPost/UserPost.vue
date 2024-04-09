@@ -6,9 +6,8 @@
         <img src="../../../shared/assets/image/pict.jpg" alt="avatar">
       </div>
       <div class="post-header__wrapper">
-        <div class="post-header__initials" v-if="currentUser !== undefined">
-          {{ `${currentUser}` }}
-          <!-- {{ `${currentUser.surname} ${currentUser.name}` }} -->
+        <div class="post-header__initials">
+          {{ `${userData.name} ${userData.surname}` }}
         </div>
         <div class="post-header__date">
           {{ date }}
@@ -28,27 +27,28 @@
 
 <script setup>
 import './style.scss';
+import { ref } from 'vue';
 import { SpriteSVG } from '@/shared/ui/index';
-import { watch, ref } from 'vue';
 import { useUserStore } from '@/stores/userStore';
-import { usePostStore } from '@/stores/postStore';
 
 const props = defineProps({
   id: Number,
+  userId: Number,
   content: String,
   date: String,
-  userId: Number
 });
 
-const currentUser = ref();
 const userStore = useUserStore();
-const postStore = usePostStore();
+const userData = ref('');
+const dateString = ref('')
+
+const getUserDataAsync = async () => {
+  userData.value = await userStore.getCurrentUser(props.userId);
+};
 
 
-watch(() => props.userId, async (newValue, oldValue) => {
-  if (newValue !== oldValue && oldValue !== undefined) {
-    currentUser.value = await userStore.getCurrentUser(newValue);
-  }
-})
+(async () => {
+  await getUserDataAsync();
+})();
 
 </script>
