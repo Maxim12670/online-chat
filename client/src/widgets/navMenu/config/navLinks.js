@@ -4,18 +4,21 @@
 export const navLinks = [
   {
     label: 'Главная',
-    idIcon: 'none'
+    idIcon: 'none',
+    path: 'user'
   },
   {
     label: 'Поиск',
-    idIcon: '#search-icon'
-  },
-  {
-    label: 'Сообщения',
-    idIcon: '#message-icon'
-  },
-  {
-    label: 'Друзья',
-    idIcon: '#friends-icon'
+    idIcon: '#search-icon',
+    path: 'search'
   }
+  // ,
+  // {
+  //   label: 'Сообщения',
+  //   idIcon: '#message-icon'
+  // },
+  // {
+  //   label: 'Друзья',
+  //   idIcon: '#friends-icon'
+  // }
 ]
