@@ -50,6 +50,16 @@ export const useUserAPI = defineStore('userAPI', () => {
     }
   }
 
+  //получение всех пользователей
+  const getAllUsers = async () => {
+    try {
+      const response = await axios.post(`${urlByUser}/users`);
+      return response.data;
+    } catch (error) {
+      console.log('Произошла ошибка:', error)
+    }
+  }
+
   // обновление данных пользователя
   const putUpdateUser = async (id, name = null, surname = null,
     age = null, city = null, image = null) => {
@@ -68,5 +78,5 @@ export const useUserAPI = defineStore('userAPI', () => {
     }
   }
 
-  return { getUserById, postUser, putUpdateUser }
+  return { getUserById, postUser, putUpdateUser, getAllUsers }
 })

@@ -52,6 +52,15 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
+  async function getAllUsers() {
+    try {
+      const res = await userAPI.getAllUsers();
+      return res.data;
+    }catch (error) {
+      console.log('Произошла ошибка:', error)
+    }
+  }
+
   async function updateUser(id, name = null, surname = null,
     age = null, city = null, image = null) {
     try {
@@ -78,5 +87,5 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
-  return { userData, isLogin, getUserData, getCurrentUser, updateIsLogin, updateUser }
+  return { userData, isLogin, getUserData, getCurrentUser, getAllUsers, updateIsLogin, updateUser }
 });
