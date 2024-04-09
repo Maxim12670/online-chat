@@ -10,7 +10,7 @@
           {{ `${userData.name} ${userData.surname}` }}
         </div>
         <div class="post-header__date">
-          {{ date }}
+          {{ dateString }}
         </div>
       </div>
       <div class="post-header__delete" @click="$emit('deleteCurrentPost', id)">
@@ -42,13 +42,19 @@ const userStore = useUserStore();
 const userData = ref('');
 const dateString = ref('')
 
-const getUserDataAsync = async () => {
-  userData.value = await userStore.getCurrentUser(props.userId);
+const getUserDataAsync = async (userId) => {
+  userData.value = await userStore.getCurrentUser(userId);
 };
+
+const correctDateString = (str) => {
+  dateString.value = str.split('T')[0].replaceAll('-', ':');
+  return dateString.value;
+}
 
 
 (async () => {
-  await getUserDataAsync();
+  await getUserDataAsync(props.userId);
+  correctDateString(props.date);
 })();
 
 </script>
