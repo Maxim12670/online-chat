@@ -16,10 +16,10 @@ export const navLinks = [
     label: 'Сообщения',
     idIcon: '#message-icon',
     path: 'message'
+  },
+  {
+    label: 'Друзья',
+    idIcon: '#friends-icon',
+    path: 'friends'
   }
-  // ,
-  // {
-  //   label: 'Друзья',
-  //   idIcon: '#friends-icon'
-  // }
 ]

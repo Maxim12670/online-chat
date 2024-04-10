@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import MainPage from "./pages/mainPage/ui/MainPage.vue";
 import FormsPage from "./pages/formsPage/ui/FormsPage.vue";
-import { UserView, SearchView, MessageView } from "./widgets/index";
+import { UserView, SearchView, MessageView, FriendsView } from "./widgets/index";
 
 
 
@@ -11,7 +11,8 @@ const routers = [
     children: [
       { path: 'user', component: UserView, meta: { default: true } },
       { path: 'search', component: SearchView },
-      { path: 'message', component: MessageView }
+      { path: 'message', component: MessageView },
+      {path: 'friends', component: FriendsView}
     ]
   },
   { name: 'FormsPage', path: '/auth', component: FormsPage },
