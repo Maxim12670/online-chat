@@ -1,9 +1,9 @@
 <template>
-  <dialog-list/>
+  <dialog-list />
 </template>
 
 <script setup>
 import './style.scss';
-import {DialogList} from '@/widgets/messageView/components/index';
+import { DialogList } from '@/widgets/messageView/components/index';
 
 </script>

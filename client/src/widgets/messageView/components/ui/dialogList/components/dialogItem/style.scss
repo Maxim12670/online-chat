@@ -1,0 +1,28 @@
+@import '@/assets/variables.scss';
+
+.dialog-item {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  background-color: $c-light-blue;
+  border: 1px solid $c-white;
+  border-radius: 1rem;
+
+  &:hover {
+    border: none;
+  }
+
+
+  &__photo {
+    display: block;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 100%;
+  }
+
+  &__initials {
+    margin: auto 0 auto 2rem;
+    font-size: 1.8rem;
+    font-weight: 500;
+  }
+}

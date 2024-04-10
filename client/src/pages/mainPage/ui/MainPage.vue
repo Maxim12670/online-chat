@@ -5,8 +5,8 @@
         <nav-menu />
       </div>
       <div class="main-page__content">
-        <router-view />
-        <!-- <message-view/> -->
+        <!-- <router-view /> -->
+        <message-view/>
       </div>
     </div>
   </content-container>
