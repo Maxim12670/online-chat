@@ -1,0 +1,33 @@
+@import '@/assets/variables.scss';
+
+.friends-list {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 2rem 1rem;
+
+  &__nav {
+    display: flex;
+    margin-top: 1.5rem;
+  }
+
+  &__label {
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-left: 1rem;
+    cursor: pointer;
+
+    &:hover {
+      color: $c-white;
+    }
+  }
+
+  &__radio {
+    display: none;
+
+    &:checked + .friends-list__label {
+      border-bottom: 2px solid $c-black;
+    }
+  }
+}
+

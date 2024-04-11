@@ -5,9 +5,9 @@
         <nav-menu />
       </div>
       <div class="main-page__content">
-        <router-view />
+        <!-- <router-view /> -->
         <!-- <message-view/> -->
-        <!-- <friends-view/> -->
+        <friends-view/>
       </div>
     </div>
   </content-container>
