@@ -1,6 +1,7 @@
 const express = require('express');
 const userRouter = require('./routes/user.routes');
 const postRouter = require('./routes/post.routers');
+const friendRouter = require('./routes/friend.router'); 
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const PORT = process.env.PORT || 5000;
@@ -28,6 +29,7 @@ app.all('*', function (req, res, next) {
 app.use(cookieParser());
 app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
+app.use('/api/friend', friendRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
