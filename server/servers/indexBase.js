@@ -32,5 +32,5 @@ app.use('/api/post', postRouter);
 // app.use('/api/friend', friendRouter);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`base server is running on port ${PORT}`);
 });

@@ -23,8 +23,8 @@ create TABLE post(
 CREATE TYPE status_enum AS ENUM ('active', 'await');
 create TABLE friends(
   id SERIAL PRIMARY KEY,
-  user_sender INT NOT NULL,
-  user_recipient INT NOT NULL,
+  id_sender INT NOT NULL,
+  id_recipient INT NOT NULL,
   status status_enum,
   FOREIGN KEY (user_sender) REFERENCES person(id),
   FOREIGN KEY (user_recipient) REFERENCES person(id)
