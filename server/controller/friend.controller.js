@@ -57,18 +57,18 @@ class FriendController {
 
   async removeFromFriends(req, res) {
     try {
-      const { idFirst, idSecond } = req.body;
-      const isValidFirst = await validator.ValidId(idFirst, 'person');
-      const isValidSecond = await validator.ValidId(idSecond, 'person');
+      const { firstUser, secondUser } = req.body;
+      const isValidFirst = await validator.ValidId(firstUser, 'person');
+      const isValidSecond = await validator.ValidId(secondUser, 'person');
 
       if (!isValidFirst || !isValidSecond) {
         return res.status(400).json({ message: 'Пользователь не найден!' });
       }
 
-      const isPairExist = await validatorFriend.OnlyPair(idFirst, idSecond);
+      const isPairExist = await validatorFriend.OnlyPair(firstUser, secondUser);
 
       if (isPairExist === false) {
-        await db.query(`DELETE FROM friends WHERE (id_sender = ${idFirst} AND id_recipient = ${idSecond}) OR (id_sender = ${idSecond} AND id_recipient = ${idFirst}) RETURNING *`);
+        await db.query(`DELETE FROM friends WHERE (id_sender = ${firstUser} AND id_recipient = ${secondUser}) OR (id_sender = ${secondUser} AND id_recipient = ${firstUser}) RETURNING *`);
         return res.status(200).json({ message: 'Пара удалена' });
       }
 
@@ -86,8 +86,8 @@ class FriendController {
       const isValidId = await validator.ValidId(idUser, 'person');
 
       if (isValidId == true) {
-        const result = await db.query(`SELECT * FROM friends WHERE (id_sender = $1 OR id_recipient = $2) AND status = $3`,
-          [idUser, idUser, Status.Active]);
+        const result = await db.query(`SELECT * FROM friends WHERE (id_sender = $1 OR id_recipient = $1) AND status = $2`,
+          [idUser, Status.Active]);
         console.log(result.rows);
         return result.rows;
       }
@@ -99,7 +99,7 @@ class FriendController {
   };
 
   // получение всех подписчиков
-  async getSubscribers(req, res) {
+  async getFollowers(req, res) {
     try {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
@@ -118,7 +118,7 @@ class FriendController {
   };
 
   // получить все заявки в друзья
-  async getReceiveApplications(req, res) {
+  async  getSubscriptions(req, res) {
     try {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
