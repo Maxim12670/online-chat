@@ -36,6 +36,7 @@ export const useFriendsAPI = defineStore('friendsAPI', () => {
         id_recipient: userId,
         status: status
       });
+      console.log(data)
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
@@ -60,7 +61,7 @@ export const useFriendsAPI = defineStore('friendsAPI', () => {
       const { data } = await axios.get(`${baseURLFriends}${ApiRoutes.getFriends}`, {
         idUser: userId
       });
-      
+
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
@@ -80,7 +81,6 @@ export const useFriendsAPI = defineStore('friendsAPI', () => {
     }
   }
 
-
   // получить все подписки
   const getAllSubscriptions = async (userId) => {
     try {
@@ -94,5 +94,8 @@ export const useFriendsAPI = defineStore('friendsAPI', () => {
     }
   }
 
-  return { sendFriendRequest, respondToFriendRequest, removeFriend, getAllFriends, getAllFollowers, getAllSubscriptions }
+  return {
+    sendFriendRequest, respondToFriendRequest, removeFriend,
+    getAllFriends, getAllFollowers, getAllSubscriptions
+  }
 })
