@@ -57,20 +57,21 @@ class UserController {
       res.status(400).json({ message: 'Ошибка при авторизации!' });
     }
   }
-  async getByUser(req, res) {
+  async getUserData(req, res) {
     try {
-      const id = req.params.id;
+      const { id, withCookie } = req.body;
       const isValidId = await validator.ValidId(id, 'person');
 
       if (!isValidId) {
         return res.status(400).json({ message: `Пользователь с id: ${id} не найден` });
       }
-
       const userData = await db.query('SELECT * FROM person WHERE id = $1', [id]);
 
-      console.log(JSON.stringify(userData.rows[0]))
+      if (withCookie) {
+        return res.cookie('userData', JSON.stringify(userData.rows[0])).status(200).json(userData.rows[0]);
+      }
 
-      return res.cookie('userData', JSON.stringify(userData.rows[0])).status(200).json(userData.rows[0]);
+      return res.status(200).json(userData.rows[0]);
     } catch (e) {
       console.log(e);
       res.status(400).json({ message: 'Произошла ошибка поиска пользователя!' });

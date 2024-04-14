@@ -12,8 +12,10 @@ router.post('/registr', [
     туче()
   }
 ], userController.createUser);
+
+
 router.post('/auth', userController.authUser)
-router.post('/:id', userController.getByUser);
+router.post('/user', userController.getUserData);
 router.get('/users', userController.getAllUsers);
 router.put('/', userController.updateUser);
 router.post('/:id', userController.deleteUser);
