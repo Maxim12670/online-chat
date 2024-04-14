@@ -1,7 +1,6 @@
 <template>
   <div>
-    <h2>friends page</h2>
-    <FriendsList />
+    <friends-list />
   </div>
 </template>
 

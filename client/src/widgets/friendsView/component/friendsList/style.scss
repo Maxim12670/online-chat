@@ -25,9 +25,24 @@
   &__radio {
     display: none;
 
-    &:checked + .friends-list__label {
+    &:checked+.friends-list__label {
       border-bottom: 2px solid $c-black;
     }
   }
-}
 
+  &__item {
+    margin-top: .5rem;
+  }
+
+  &__icon {
+    display: flex;
+    width: 100%;
+    margin-top: 5rem;
+    justify-content: center;
+  }
+
+  &__title {
+    font-size: 2rem;
+    text-align: center;
+  }
+}

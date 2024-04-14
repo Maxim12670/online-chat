@@ -1,35 +1,26 @@
 <template>
   <div class="friends-list">
     <my-input v-model="searchString" class="friends-list__input" type="text" placeholder="Поиск" />
-
     <div class="friends-list__nav">
-
-      <input id="all" class="friends-list__radio" checked type="radio" name="category-name" value="all"
-        v-model="filterList">
-      <label for="all" class="friends-list__label">Друзья</label>
-
-      <input id="request" class="friends-list__radio" type="radio" name="category-name" value="request"
-        v-model="filterList">
-      <label for="request" class="friends-list__label">Запросы</label>
-
-      <input id="subscription" class="friends-list__radio" type="radio" name="category-name" value="subscription"
-        v-model="filterList">
-      <label for="subscription" class="friends-list__label">Подписки</label>
-
+      <div v-for="item in nuvBtnValues" :key="item.value">
+        <input :id="item.id" class="friends-list__radio" :checked="item.isChecked" type="radio" name="category-name"
+          :value="item.value" v-model="filter">
+        <label :for="item.id" class="friends-list__label">{{ item.labelText }}</label>
+      </div>
     </div>
 
     <div class="friends-list__container">
-      <div v-if="filterList === 'all'">
-        all friends
-        <friend-item />
+      <div v-if="persons != 0">
+        <friend-item v-for="person in persons" :key="person.id_found" :id="person.id_found" :type-case="filter"
+          class="friends-list__item" />
       </div>
-      <div v-else-if="filterList === 'request'">
-        request
-        <friend-item />
-      </div>
-      <div v-else-if="filterList === 'subscription'">
-        subscription
-        <friend-item />
+
+      <div v-else class="friends-list__wrapper">
+        <SpriteSVG />
+        <svg class="friends-list__icon">
+          <use xlink:href="#absence-icon"></use>
+        </svg>
+        <h2 class="friends-list__title">Нет данных!</h2>
       </div>
     </div>
 
@@ -39,12 +30,33 @@
 <script setup>
 import './style.scss';
 import FriendItem from './component/FriendItem.vue';
-import { MyInput } from '@/shared/ui';
+import { MyInput, SpriteSVG } from '@/shared/ui';
 import { ref } from 'vue';
+import { computedAsync } from '@vueuse/core'
+import { nuvBtnValues } from './config/nuvBtnValues';
+import { useFriendsStore } from '@/stores/friendsStore.js';
 
+const friendStore = useFriendsStore();
 const searchString = ref('');
-const filterList = ref('all');
+const filter = ref('friends');
 
+const persons = computedAsync(async () => {
+  if (filter.value == 'friends') {
+    const arrayPersons = await friendStore.getAllFriends();
+    if (searchString.value !== '') {
+      return arrayPersons.filter((item) =>
+        item.name.indexOf(searchString.value) !== -1 || item.surname.indexOf(searchString.value) !== -1)
+    }
+    return arrayPersons;
+
+  } else if (filter.value == 'follower') {
+    const arrayPersons = await friendStore.getAllFollowers();
+    return arrayPersons;
+  } else {
+    const arrayPersons = await friendStore.getAllSubscriptions();
+    return arrayPersons;
+  }
+});
 
 
 </script>
