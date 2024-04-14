@@ -25,10 +25,8 @@ class FriendController {
         return res.json(newPair.rows[0])
       }
       return res.status(400).json({ message: 'Такая пара уже существует' });
-
     } catch (error) {
-      console.log(error);
-      res.status(400).json({ message: 'Ошибка при отправке запроса в друзья!' });
+      return res.status(400).json({ message: 'Ошибка при отправке запроса в друзья!' });
     }
   };
 
@@ -50,7 +48,6 @@ class FriendController {
         [Status.Active, id_sender, id_recipient]);
       return res.json(result.rows[0]);
     } catch (error) {
-      console.log(error);
       res.status(400).json({ message: 'Ошибка при отправке ответа на запрос!' })
     }
   };
@@ -74,7 +71,6 @@ class FriendController {
 
       return res.status(400).json({ message: 'Такой пары друзей нет!' })
     } catch (error) {
-      console.log(error);
       res.status(400).json({ message: 'Ошибка при удалении из друзей!' })
     }
   };
@@ -97,13 +93,11 @@ class FriendController {
           ($1 IN (id_sender, id_recipient)) 
           AND status = $2;`,
           [idUser, Status.Active]);
-        console.log(result.rows);
         return res.json(result.rows);
       }
-
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
-      console.log('Произошла ошибка:', error)
+      return res.status(200).json({message: 'Ошибка на сервере!'})
     }
   };
 
@@ -119,13 +113,11 @@ class FriendController {
           FROM friends
           WHERE id_recipient = $1 AND status = $2`,
           [idUser, Status.Await]);
-        console.log(result.rows);
         return res.json(result.rows);
       }
-
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
-      console.log('Произошла ошибка:', error)
+      return res.status(200).json({message: 'Ошибка на сервере!'})
     }
   };
 
@@ -141,13 +133,11 @@ class FriendController {
         FROM friends
         WHERE id_sender = $1 AND status = $2`,
           [idUser, Status.Await]);
-        console.log(result.rows);
         return res.json(result.rows);
       }
-
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
-      console.log('Произошла ошибка:', error);
+      return res.status(400).json({message: 'Ошибка на сервере!'})
     }
   };
 }

@@ -33,10 +33,10 @@ class UserController {
       return res.json(newPerson.rows[0]);
 
     } catch (e) {
-      console.log(e);
-      res.status(400).json({ message: 'Ошибка при регистрации!' });
+      return res.status(400).json({ message: 'Ошибка при регистрации!' });
     }
-  }
+  };
+  
   async authUser(req, res) {
     try {
       const { email, password } = req.body;
@@ -53,10 +53,10 @@ class UserController {
       return res.status(200).json(userData.rows[0]);
 
     } catch (e) {
-      console.log(e);
-      res.status(400).json({ message: 'Ошибка при авторизации!' });
+      return res.status(400).json({ message: 'Ошибка при авторизации!' });
     }
-  }
+  };
+
   async getUserData(req, res) {
     try {
       const { id, withCookie } = req.body;
@@ -73,19 +73,19 @@ class UserController {
 
       return res.status(200).json(userData.rows[0]);
     } catch (e) {
-      console.log(e);
-      res.status(400).json({ message: 'Произошла ошибка поиска пользователя!' });
+      return res.status(400).json({ message: 'Произошла ошибка поиска пользователя!' });
     }
-  }
+  };
+
   async getAllUsers(req, res) {
     try {
       const users = await db.query('SELECT * FROM person');
       res.json(users.rows);
     } catch (e) {
-      console.log(e);
-      res.status(400).json({ message: 'Произошла ошибка при поиске всех пользователей!' });
+      return res.status(400).json({ message: 'Произошла ошибка при поиске всех пользователей!' });
     }
-  }
+  };
+
   async updateUser(req, res) {
     try {
       const { id, email, name, surname, password, image, age, city } = req.body;
@@ -105,22 +105,17 @@ class UserController {
         'city': city
       }
 
-      const newValue = findNewValue(oldUser, newUser)
-      console.log(newValue.email)
-
-
+      const newValue = findNewValue(oldUser, newUser);
       const user = await db.query(
         'UPDATE person set email = $1, name = $2, surname = $3, password = $4, image = $5, age = $6, city = $7  where id = $8 RETURNING *',
         [newValue.email, newValue.name, newValue.surname, newValue.password, newValue.image, newValue.age, newValue.city, id]
       );
-
-      console.log(user.rows[0])
       return res.clearCookie('userData').cookie('userData', JSON.stringify(user.rows[0])).status(200).json(user.rows[0]);
     } catch (e) {
-      console.log(e)
       return res.status(400).json({ message: 'Произошла ошибка при обновление данных!' })
     }
-  }
+  };
+
   async deleteUser(req, res) {
     try {
       const id = req.params.id;
@@ -129,12 +124,11 @@ class UserController {
         return res.status(400).json({ message: `Не удалось удалить пользователя с id: ${id}` });
       }
       const user = await db.query('DELETE FROM person WHERE id = $1', [id]);
-      res.json(user.rows[0]);
+      return res.json(user.rows[0]);
     } catch (e) {
-      console.log(e);
-      res.status(400).json({ message: 'Произошла ошибка при удалении пользователя!' })
+      return res.status(400).json({ message: 'Произошла ошибка при удалении пользователя!' })
     }
-  }
+  };
 }
 
 module.exports = new UserController();
