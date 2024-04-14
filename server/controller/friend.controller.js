@@ -79,17 +79,26 @@ class FriendController {
     }
   };
 
-  // ЕСТЬ КОСЯК, ПОСТМАН ДУМАЕТ ДУМАЕТ, А КОНСОЛЬ ВЫДАЕТ ОТВЕТ НОРМАЛЬНЫЙ!!!!
   async getFriends(req, res) {
     try {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
 
       if (isValidId == true) {
-        const result = await db.query(`SELECT * FROM friends WHERE (id_sender = $1 OR id_recipient = $1) AND status = $2`,
+        const result = await db.query(`
+        SELECT 
+          CASE 
+            WHEN id_sender = $1 THEN id_recipient
+            ELSE id_sender
+          END AS id_found
+        FROM 
+          friends 
+        WHERE 
+          ($1 IN (id_sender, id_recipient)) 
+          AND status = $2;`,
           [idUser, Status.Active]);
         console.log(result.rows);
-        return result.rows;
+        return res.json(result.rows);
       }
 
       return res.status(400).json({ message: 'Такого пользователя нет!' });
@@ -105,10 +114,13 @@ class FriendController {
       const isValidId = await validator.ValidId(idUser, 'person');
 
       if (isValidId == true) {
-        const result = await db.query(`SELECT * FROM friends WHERE id_recipient = $1 AND status = $2`,
+        const result = await db.query(`
+          SELECT id_sender AS id_found
+          FROM friends
+          WHERE id_recipient = $1 AND status = $2`,
           [idUser, Status.Await]);
         console.log(result.rows);
-        return result.rows;
+        return res.json(result.rows);
       }
 
       return res.status(400).json({ message: 'Такого пользователя нет!' });
@@ -117,25 +129,27 @@ class FriendController {
     }
   };
 
-  // получить все заявки в друзья
-  async  getSubscriptions(req, res) {
+  // получить все подписки
+  async getSubscriptions(req, res) {
     try {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
 
       if (isValidId == true) {
-        const result = await db.query(`SELECT * FROM friends WHERE id_sender = $1 AND status = $2`,
+        const result = await db.query(`
+        SELECT id_recipient AS id_found
+        FROM friends
+        WHERE id_sender = $1 AND status = $2`,
           [idUser, Status.Await]);
         console.log(result.rows);
-        return result.rows;
+        return res.json(result.rows);
       }
 
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
-  }
-
+  };
 }
 
 

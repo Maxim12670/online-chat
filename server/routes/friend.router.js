@@ -5,9 +5,9 @@ const friendController = require('../controller/friend.controller');
 router.post('/request', friendController.sendRequestToFriends)
 router.put('/answer', friendController.answerFriendRequest)
 router.post('/remove', friendController.removeFromFriends)
-router.get('/friends', friendController.getFriends)
-router.get('/followers', friendController.getFollowers)
-router.get('/subscriptions', friendController.getSubscriptions)
+router.post('/friends', friendController.getFriends)
+router.post('/followers', friendController.getFollowers)
+router.post('/subscriptions', friendController.getSubscriptions)
 
 
 module.exports = router;
