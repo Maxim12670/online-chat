@@ -36,7 +36,6 @@ export const useFriendsAPI = defineStore('friendsAPI', () => {
         id_recipient: userId,
         status: status
       });
-      console.log(data)
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
@@ -53,46 +52,43 @@ export const useFriendsAPI = defineStore('friendsAPI', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   // получить всех друзей
   const getAllFriends = async (userId) => {
     try {
-      const { data } = await axios.get(`${baseURLFriends}${ApiRoutes.getFriends}`, {
+      const { data } = await axios.post(`${baseURLFriends}${ApiRoutes.getFriends}`, {
         idUser: userId
       });
-
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   // получить всех подписчиков
   const getAllFollowers = async (userId) => {
     try {
-      const { data } = await axios.get(`${baseURLFriends}${ApiRoutes.getFollowers}`, {
+      const { data } = await axios.post(`${baseURLFriends}${ApiRoutes.getFollowers}`, {
         idUser: userId
       });
-
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   // получить все подписки
   const getAllSubscriptions = async (userId) => {
     try {
-      const { data } = await axios.get(`${baseURLFriends}${ApiRoutes.getSubscriptions}`, {
+      const { data } = await axios.post(`${baseURLFriends}${ApiRoutes.getSubscriptions}`, {
         idUser: userId
       });
-
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   return {
     sendFriendRequest, respondToFriendRequest, removeFriend,

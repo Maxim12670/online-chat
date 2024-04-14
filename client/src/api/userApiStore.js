@@ -37,18 +37,21 @@ export const useUserAPI = defineStore('userAPI', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   //получение пользователя по id
-  const getUserById = async (id) => {
+  const getUserById = async (id, withCookie) => {
     try {
       axios.defaults.withCredentials = true
-      const { data } = await instance.post(`${urlByUser}${id}`);
+      const { data } = await instance.post(`${urlByUser}user`, {
+        id: id,
+        withCookie: withCookie
+      });
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   //получение всех пользователей
   const getAllUsers = async () => {
@@ -58,7 +61,7 @@ export const useUserAPI = defineStore('userAPI', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   // обновление данных пользователя
   const putUpdateUser = async (id, name = null, surname = null,
@@ -76,7 +79,7 @@ export const useUserAPI = defineStore('userAPI', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   return { getUserById, postUser, putUpdateUser, getAllUsers }
 })

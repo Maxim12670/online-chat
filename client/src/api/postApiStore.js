@@ -18,7 +18,7 @@ export const usePostAPI = defineStore('postAPI', () => {
     } catch (error) {
       console.log('Произошла ошибка', error);
     }
-  }
+  };
 
   const getAllPosts = async (userId) => {
     try {
@@ -29,7 +29,7 @@ export const usePostAPI = defineStore('postAPI', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   const deletePost = async (id) => {
     try {
@@ -39,7 +39,7 @@ export const usePostAPI = defineStore('postAPI', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
-  }
+  };
 
   return { addPost, getAllPosts, deletePost }
 })

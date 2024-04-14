@@ -28,7 +28,7 @@ export const useUserStore = defineStore('userStore', () => {
 
   async function getUserData(id) {
     try {
-      const data = await userAPI.getUserById(id);
+      const data = await userAPI.getUserById(id, true);
       userData.value = {
         id: data.id,
         name: data.name,
@@ -45,7 +45,7 @@ export const useUserStore = defineStore('userStore', () => {
 
   async function getCurrentUser(id) {
     try {
-      const res = await userAPI.getUserById(id);
+      const res = await userAPI.getUserById(id, false);
       return res;
     } catch (error) {
       console.log('Произошла ошибка:', error);
@@ -87,5 +87,9 @@ export const useUserStore = defineStore('userStore', () => {
     }
   }
 
-  return { userData, isLogin, getUserData, getCurrentUser, getUsers, updateIsLogin, updateUser }
+  return {
+    userData, isLogin, getUserData,
+    getCurrentUser, getUsers, updateIsLogin,
+    updateUser
+  }
 });

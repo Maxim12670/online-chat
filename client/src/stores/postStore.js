@@ -27,18 +27,17 @@ export const usePostStore = defineStore('postStore', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
-  }
+  };
 
   async function getUserPosts() {
     try {
       const userId = userStore.userData.id;
       const res = await postAPI.getAllPosts(userId);
       return res;
-
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
-  }
+  };
 
   async function deleteUserPost(id) {
     try {
@@ -46,7 +45,7 @@ export const usePostStore = defineStore('postStore', () => {
     }catch (error) {
       console.log('Произошла ошибка:', error);
     }
-  }
+  };
 
   return { postsArray, addUserPost, getUserPosts, deleteUserPost }
 })
