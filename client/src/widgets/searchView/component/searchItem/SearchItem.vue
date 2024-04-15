@@ -13,7 +13,7 @@
           <use xlink:href="#message-icon"></use>
         </svg>
       </button>
-      <button class="search-item__btn">
+      <button class="search-item__btn" @click="sendFriendRequest">
         <svg class="search-item__icon">
           <use xlink:href="#friends-icon"></use>
         </svg>
@@ -25,17 +25,24 @@
 <script setup>
 import './style.scss';
 import { SpriteSVG } from '@/shared/ui/index';
-import { useUserStore } from '@/stores/userStore';
+import { useFriendsStore } from '@/stores/friendsStore';
 
-const userStore = useUserStore();
-
-defineProps({
+const props = defineProps({
   id: Number,
   name: String,
   surname: String
 })
 
-//добавить функционал - добавить в друзья
-//добавить функиционал - написать сообщение
+const friendsStore = useFriendsStore();
 
+async function sendFriendRequest() {
+  try {
+    await friendsStore.sendFriendRequest(props.id);
+    console.log('запрос отправлен успешно')
+  } catch(error) {
+    console.log('Произошла ошибка:', error);
+  }
+}
+// добавить функционал добавления в друзья
+//добавить функиционал - написать сообщение
 </script>

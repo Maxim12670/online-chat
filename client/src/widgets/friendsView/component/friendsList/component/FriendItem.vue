@@ -50,11 +50,12 @@ async function deleteFriend() {
 
 async function addToFriend() {
   await friendsStore.respondToFriendRequest(props.id, true)
-  cons.log('запрос успешно отправлен');
+  cons.log('добавил в друзья');
 };
 
 async function deleteToSubscription() {
   await friendsStore.respondToFriendRequest(props.id, false)
+  console.log('отменил подписку')
 };
 
 (async () => {
@@ -66,7 +67,7 @@ async function deleteToSubscription() {
     case 'follower':
       await getUserData();
       selectedFunction.value = addToFriend;
-      break;
+      breautk;
     case 'subscription':
       await getUserData();
       selectedFunction.value = deleteToSubscription;

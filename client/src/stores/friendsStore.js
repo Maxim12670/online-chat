@@ -17,9 +17,9 @@ export const useFriendsStore = defineStore('friendsStore', () => {
     }
   };
 
-  async function respondToFriendRequest(subscriberId) {
+  async function respondToFriendRequest(subscriberId, status) {
     try {
-      const result = await friendApi.respondToFriendRequest(userId, subscriberId);
+      const result = await friendApi.respondToFriendRequest(userId, subscriberId, status);
       return result;
     } catch (error) {
       console.log('Произошла ошибка:', error);

@@ -1,4 +1,4 @@
-import { defineStore } from "pinia";
+import { defineStore, setMapStoreSuffix } from "pinia";
 import axios from 'axios';
 
 const baseURLFriends = "http://localhost:5001/api/friend";
@@ -31,12 +31,22 @@ export const useFriendsAPI = defineStore('friendsAPI', () => {
   // дать ответ на запрос
   const respondToFriendRequest = async (userId, subscriberId, status) => {
     try {
-      const { data } = await axios.put(`${baseURLFriends}${ApiRoutes.answerRequest}`, {
-        id_sender: userId,
-        id_recipient: subscriberId,
-        status: status
-      });
-      return data;
+      if (status === true) {
+        const { data } = await axios.put(`${baseURLFriends}${ApiRoutes.answerRequest}`, {
+          id_sender: subscriberId,
+          id_recipient: userId,
+          status: status
+        });
+        return data;
+      } else if (status === false) {
+        const { data } = await axios.put(`${baseURLFriends}${ApiRoutes.answerRequest}`, {
+          id_sender: userId,
+          id_recipient: subscriberId,
+          status: status
+        });
+        return data;
+      }
+
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }
