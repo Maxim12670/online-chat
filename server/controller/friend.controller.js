@@ -65,7 +65,10 @@ class FriendController {
       const isPairExist = await validatorFriend.OnlyPair(firstUser, secondUser);
 
       if (isPairExist === false) {
-        await db.query(`DELETE FROM friends WHERE (id_sender = ${firstUser} AND id_recipient = ${secondUser}) OR (id_sender = ${secondUser} AND id_recipient = ${firstUser}) RETURNING *`);
+        await db.query(`
+        DELETE FROM friends WHERE (id_sender = $1 AND id_recipient = $2 AND status = $3)
+        OR (id_sender = $2 AND id_recipient = $1 AND status = $3)`,
+          [firstUser, secondUser, Status.Active]);
         return res.status(200).json({ message: 'Пара удалена' });
       }
 
@@ -97,7 +100,7 @@ class FriendController {
       }
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
-      return res.status(200).json({message: 'Ошибка на сервере!'})
+      return res.status(200).json({ message: 'Ошибка на сервере!' })
     }
   };
 
@@ -117,7 +120,7 @@ class FriendController {
       }
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
-      return res.status(200).json({message: 'Ошибка на сервере!'})
+      return res.status(200).json({ message: 'Ошибка на сервере!' })
     }
   };
 
@@ -137,7 +140,7 @@ class FriendController {
       }
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
-      return res.status(400).json({message: 'Ошибка на сервере!'})
+      return res.status(400).json({ message: 'Ошибка на сервере!' })
     }
   };
 }
