@@ -32,8 +32,8 @@ export const useFriendsAPI = defineStore('friendsAPI', () => {
   const respondToFriendRequest = async (userId, subscriberId, status) => {
     try {
       const { data } = await axios.put(`${baseURLFriends}${ApiRoutes.answerRequest}`, {
-        id_sender: subscriberId,
-        id_recipient: userId,
+        id_sender: userId,
+        id_recipient: subscriberId,
         status: status
       });
       return data;
