@@ -41,7 +41,8 @@ class FriendController {
       }
 
       if (status === false) {
-        await db.query(`DELETE FROM friends WHERE id_sender = ${id_sender} AND id_recipient = ${id_recipient}`);
+        await db.query(`DELETE FROM friends WHERE id_sender = $1 AND id_recipient = $2`, 
+      [id_sender, id_recipient]);
         return res.status(200).json({ message: 'Пара удалена' });
       }
       const result = await db.query(`UPDATE friends SET status = $1 WHERE id_sender = $2 and id_recipient = $3 RETURNING *`,
