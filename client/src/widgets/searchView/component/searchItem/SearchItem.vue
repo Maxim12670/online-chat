@@ -38,7 +38,6 @@ const friendsStore = useFriendsStore();
 async function sendFriendRequest() {
   try {
     await friendsStore.sendFriendRequest(props.id);
-    console.log('запрос отправлен успешно')
   } catch(error) {
     console.log('Произошла ошибка:', error);
   }
