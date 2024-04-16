@@ -13,7 +13,7 @@
       </button>
       <button class="friend-item__btn" @click="selectedFunction">
         <svg class="nav-menu__icon">
-          <use xlink:href="#basket-icon"></use>
+          <use :xlink:href="typeCase === 'follower' ? '#friends-icon' : '#basket-icon'"></use>
         </svg>
       </button>
     </div>
