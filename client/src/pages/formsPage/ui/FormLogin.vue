@@ -33,7 +33,7 @@ const authorizeUser = async (event) => {
       password: password
     })
       .then(res => {
-        userStore.getUserData(res.data.id);
+        userStore.getUserData(res.data.id, true);
         userStore.updateIsLogin(true);
       })
       .then(() => {

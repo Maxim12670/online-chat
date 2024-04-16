@@ -26,9 +26,9 @@ export const useUserStore = defineStore('userStore', () => {
     localStorage.setItem('isLogin', isLogin.value)
   }
 
-  async function getUserData(id) {
+  async function getUserData(id, withCookie) {
     try {
-      const data = await userAPI.getUserById(id, true);
+      const data = await userAPI.getUserById(id, withCookie);
       userData.value = {
         id: data.id,
         name: data.name,
