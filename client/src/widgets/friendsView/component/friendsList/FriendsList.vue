@@ -11,7 +11,8 @@
 
     <div class="friends-list__container">
       <div v-if="persons != 0">
-        <friend-item v-for="person in persons" :key="person.id_found" :id="person.id_found" :type-case="filter"
+        <friend-item v-for="person in persons" :key="person.id_found" :id="person.id" :name="person.name" 
+        :surname="person.surname" :image="person.image" :type-case="filter"
           class="friends-list__item" />
       </div>
 

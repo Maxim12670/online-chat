@@ -3,7 +3,7 @@
     <SpriteSVG />
     <img class="friend-item__photo" src="@/shared/assets/image/pict.jpg" alt="avatar">
     <div class="friend-item__initials">
-      {{ `${userData.surname} ${userData.name}` }}
+      {{ `${surname} ${name }` }}
     </div>
     <div class="friend-item__wrapper">
       <button class="friend-item__btn">
@@ -23,25 +23,19 @@
 <script setup>
 import './style.scss';
 import { SpriteSVG } from '@/shared/ui';
-import { useUserStore } from '@/stores/userStore';
 import { useFriendsStore } from '@/stores/friendsStore';
 import { ref } from 'vue';
 
 const props = defineProps({
   id: Number,
+  name: String,
+  surname: String,
+  image: String,
   typeCase: String
 });
 
-const userStore = useUserStore();
 const friendsStore = useFriendsStore();
-const userData = ref('');
 const selectedFunction = ref('');
-
-async function getUserData() {
-  if (props.id) {
-    userData.value = await userStore.getCurrentUser(props.id);
-  }
-};
 
 async function deleteFriend() {
   await friendsStore.removeFriend(props.id);
@@ -61,15 +55,12 @@ async function deleteToSubscription() {
 (async () => {
   switch (props.typeCase) {
     case 'friends':
-      await getUserData();
       selectedFunction.value = deleteFriend;
       break;
     case 'follower':
-      await getUserData();
       selectedFunction.value = addToFriend;
       breautk;
     case 'subscription':
-      await getUserData();
       selectedFunction.value = deleteToSubscription;
       break;
   }
