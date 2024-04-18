@@ -10,7 +10,7 @@
           {{ `${userData.name} ${userData.surname}` }}
         </div>
         <div class="post-header__date">
-          {{ dateString }}
+          {{ correctDateString(date) }}
         </div>
       </div>
       <div class="post-header__delete" @click="$emit('deleteCurrentPost', id)">
@@ -47,8 +47,8 @@ const getUserDataAsync = async (userId) => {
 };
 
 const correctDateString = (str) => {
-  dateString.value = str.split('T')[0].replaceAll('-', ':');
-  return dateString.value;
+  const date = new Date(str)
+  return `${date.getDate()}:${new Date(str).getMonth() + 1}:${new Date(str).getFullYear()}`;
 }
 
 
