@@ -11,9 +11,8 @@
 
     <div class="friends-list__container">
       <div v-if="persons != 0">
-        <friend-item v-for="person in persons" :key="person.id_found" :id="person.id" :name="person.name" 
-        :surname="person.surname" :image="person.image" :type-case="filter"
-          class="friends-list__item" />
+        <friend-item v-for="person in persons" :key="person.id_found" :id="person.id" :name="person.name"
+          :surname="person.surname" :image="person.image" :type-case="filter" class="friends-list__item" />
       </div>
 
       <div v-else class="friends-list__wrapper">
@@ -40,24 +39,26 @@ import { useFriendsStore } from '@/stores/friendsStore.js';
 const friendStore = useFriendsStore();
 const searchString = ref('');
 const filter = ref('friends');
+const arrayPersons = ref([])
 
 const persons = computedAsync(async () => {
-  if (filter.value == 'friends') {
-    const arrayPersons = await friendStore.getAllFriends();
-    if (searchString.value !== '') {
-      return arrayPersons.filter((item) =>
-        item.name.indexOf(searchString.value) !== -1 || item.surname.indexOf(searchString.value) !== -1)
-    }
-    return arrayPersons;
-
-  } else if (filter.value == 'follower') {
-    const arrayPersons = await friendStore.getAllFollowers();
-    return arrayPersons;
-  } else {
-    const arrayPersons = await friendStore.getAllSubscriptions();
-    return arrayPersons;
+  switch (filter.value) {
+    case 'friends':
+      arrayPersons.value = await friendStore.getAllFriends();
+      return arrayPersons.value;
+    case 'follower':
+      arrayPersons.value = await friendStore.getAllFollowers();
+      return arrayPersons.value;
+    case 'subscription':
+      arrayPersons.value = await friendStore.getAllSubscriptions();
+      return arrayPersons.value;
   }
 });
 
 
+// if (searchString) {
+//   return arrayPersons.value.filter((person) => {
+//     person.name.indexOf(searchString.value) !== -1 || person.surname.indexOf(searchString.value) !== -1
+//   })
+// }
 </script>
