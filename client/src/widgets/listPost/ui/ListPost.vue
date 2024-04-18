@@ -6,9 +6,8 @@
       <my-button class="list-post__btn" type="submit" text="ок" />
     </form>
     <div class="list-post__container">
-      <user-post class="list-post__item" v-for="(post, index) in posts" :key="index" 
-        :id="post.id" :name="post.name" :surname="post.surname" :image="post.image"
-        :content="post.content" :date="post.date"
+      <user-post class="list-post__item" v-for="(post, index) in posts" :key="index" :id="post.id" :name="post.name"
+        :surname="post.surname" :image="post.image" :content="post.content" :date="post.date"
         @delete-current-post="deleteCurrentPost" />
     </div>
   </div>

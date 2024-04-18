@@ -33,6 +33,7 @@ export const usePostStore = defineStore('postStore', () => {
     try {
       const userId = userStore.userData.id;
       const res = await postAPI.getAllPosts(userId);
+      
       return res;
     } catch (error) {
       console.log('Произошла ошибка:', error);
