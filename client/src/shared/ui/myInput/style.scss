@@ -5,7 +5,7 @@
   height: 4rem;
   padding: 0 1rem;
   box-sizing: border-box;
-  border: none;
+  border: .1rem solid white;
   border-radius: 1rem;
   background-color: $c-syper-light-blue;
   opacity: 0.9;
@@ -13,14 +13,17 @@
   font-size: 1.8rem;
   font-weight: 500;
 
-  &:hover {
-    border: none;
-    box-shadow: -0.1rem 0rem 2.1rem 0rem rgba(26, 68, 166, 0.75);
+  @media (hover:hover) {
+    transition: border-color .15s, transform .15s;
+
+    &:hover {
+      border-color: transparent;
+      box-shadow: -0.1rem 0rem 2.1rem 0rem rgba(26, 68, 166, 0.75);
+    }
   }
 }
 
 .my-input_file {
-
   color: #444;
   padding: 5px;
   background: #fff;
