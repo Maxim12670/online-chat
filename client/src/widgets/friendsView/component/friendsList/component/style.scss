@@ -5,12 +5,16 @@
   align-items: center;
   width: 100%;
   box-sizing: border-box;
-  border: 1px solid $c-white;
+  border: .1rem solid $c-white;
   background: $c-light-blue;
   border-radius: 1rem;
 
-  &:hover {
-    border: none;
+  @media (hover:hover) {
+    transition: transform .15s;
+
+    &:hover {
+      transform: translate(.2rem, -.2rem);
+    }
   }
 
   &__photo {
@@ -31,13 +35,14 @@
   }
 
   &__btn {
-    background-color: rgba(28,28,28,0);
+    background-color: rgba(28, 28, 28, 0);
     border: none;
     margin-left: 1rem;
+    cursor: pointer;
+
     &:hover {
       stroke: aqua;
       fill: red;
-      
     }
   }
 }

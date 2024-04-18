@@ -6,9 +6,13 @@
   box-sizing: border-box;
   padding: 2rem 1rem;
 
+  &__input {
+    margin-bottom: 1.5rem;
+  }
+
   &__nav {
     display: flex;
-    margin-top: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   &__label {
@@ -17,8 +21,10 @@
     margin-left: 1rem;
     cursor: pointer;
 
-    &:hover {
-      color: $c-white;
+    @media (hover:hover) {
+      &:hover {
+        color: $c-white;
+      }
     }
   }
 
@@ -31,7 +37,7 @@
   }
 
   &__item {
-    margin-top: .5rem;
+    margin-bottom: .5rem;
   }
 
   &__icon {
