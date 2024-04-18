@@ -19,6 +19,5 @@ import { ContentContainer } from '../../../shared/ui/index.js';
 import {NavMenu, MessageView, FriendsView} from '@/widgets/index';
 import { useUserStore } from '@/stores/userStore';
 
-const userStore = useUserStore();
 
 </script>

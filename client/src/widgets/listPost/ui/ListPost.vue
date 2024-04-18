@@ -19,7 +19,6 @@ import { MyInput, MyButton } from '@/shared/ui';
 import { UserPost } from '@/entities/ui/index';
 import { usePostStore } from "@/stores/postStore";
 
-
 const postStore = usePostStore();
 const posts = ref([]);
 const newPostContent = ref('');

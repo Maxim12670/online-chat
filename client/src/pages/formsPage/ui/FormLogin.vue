@@ -33,7 +33,7 @@ const authorizeUser = async (event) => {
       password: password
     })
       .then(res => {
-        userStore.getUserData(res.data.id, true);
+        userStore.getUserData(res.data.id);
         userStore.updateIsLogin(true);
       })
       .then(() => {
@@ -46,7 +46,4 @@ const authorizeUser = async (event) => {
     console.log('Произошла ошибка:', error)
   }
 }
-
-
-
 </script>
