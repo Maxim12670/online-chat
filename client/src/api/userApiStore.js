@@ -40,12 +40,11 @@ export const useUserAPI = defineStore('userAPI', () => {
   };
 
   //получение пользователя по id
-  const getUserById = async (id, withCookie) => {
+  const getUserById = async (id) => {
     try {
       axios.defaults.withCredentials = true
       const { data } = await instance.post(`${urlByUser}user`, {
-        id: id,
-        withCookie: withCookie
+        id: id
       });
       return data;
     } catch (error) {

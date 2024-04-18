@@ -59,7 +59,7 @@ class UserController {
 
   async getUserData(req, res) {
     try {
-      const { id, withCookie } = req.body;
+      const { id } = req.body;
       const isValidId = await validator.ValidId(id, 'person');
 
       if (!isValidId) {
@@ -67,11 +67,8 @@ class UserController {
       }
       const userData = await db.query('SELECT * FROM person WHERE id = $1', [id]);
 
-      if (withCookie) {
-        return res.cookie('userData', JSON.stringify(userData.rows[0])).status(200).json(userData.rows[0]);
-      }
+      return res.cookie('userData', JSON.stringify(userData.rows[0])).status(200).json(userData.rows[0]);
 
-      return res.status(200).json(userData.rows[0]);
     } catch (e) {
       return res.status(400).json({ message: 'Произошла ошибка поиска пользователя!' });
     }
