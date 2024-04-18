@@ -41,8 +41,8 @@ class FriendController {
       }
 
       if (status === false) {
-        await db.query(`DELETE FROM friends WHERE id_sender = $1 AND id_recipient = $2`, 
-      [id_sender, id_recipient]);
+        await db.query(`DELETE FROM friends WHERE id_sender = $1 AND id_recipient = $2`,
+          [id_sender, id_recipient]);
         return res.status(200).json({ message: 'Пара удалена' });
       }
       const result = await db.query(`UPDATE friends SET status = $1 WHERE id_sender = $2 and id_recipient = $3 RETURNING *`,
@@ -84,8 +84,8 @@ class FriendController {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
 
-      if (isValidId == true) {
-        const result = await db.query(`
+      if (isValidId) {
+        const friendsQuery = await db.query(`
         SELECT 
           CASE 
             WHEN id_sender = $1 THEN id_recipient
@@ -97,7 +97,16 @@ class FriendController {
           ($1 IN (id_sender, id_recipient)) 
           AND status = $2;`,
           [idUser, Status.Active]);
-        return res.json(result.rows);
+
+        const friends = friendsQuery.rows;
+        const usersData = [];
+        for (const friend of friends) {
+          const userQuery = await db.query('SELECT * FROM person WHERE id = $1', [friend.id_found]);
+          const userData = userQuery.rows[0];
+          usersData.push(userData);
+        }
+        
+        return res.json(usersData);
       }
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
@@ -111,13 +120,22 @@ class FriendController {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
 
-      if (isValidId == true) {
-        const result = await db.query(`
+      if (isValidId) {
+        const followersQuery = await db.query(`
           SELECT id_sender AS id_found
           FROM friends
           WHERE id_recipient = $1 AND status = $2`,
           [idUser, Status.Await]);
-        return res.json(result.rows);
+
+        const followers = followersQuery.rows;
+        const usersData = [];
+
+        for (const follower of followers) {
+          const userQuery = await db.query('SELECT * FROM person WHERE id = $1', [follower.id_found]);
+          const userData = userQuery.rows[0];
+          usersData.push(userData);
+        }
+        return res.json(usersData);
       }
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
@@ -131,19 +149,32 @@ class FriendController {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
 
-      if (isValidId == true) {
-        const result = await db.query(`
-        SELECT id_recipient AS id_found
-        FROM friends
-        WHERE id_sender = $1 AND status = $2`,
+      if (isValidId) {
+        const subscriptionsQuery = await db.query(`
+                SELECT id_recipient AS id_found
+                FROM friends
+                WHERE id_sender = $1 AND status = $2`,
           [idUser, Status.Await]);
-        return res.json(result.rows);
+
+        const subscriptions = subscriptionsQuery.rows;
+
+        const usersData = [];
+        for (const subscr of subscriptions) {
+          const userQuery = await db.query('SELECT * FROM person WHERE id = $1', [subscr.id_found]);
+          const userData = userQuery.rows[0];
+          usersData.push(userData);
+        }
+
+        return res.json(usersData);
       }
+
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
-      return res.status(400).json({ message: 'Ошибка на сервере!' })
+      console.error(error);
+      return res.status(500).json({ message: 'Ошибка на сервере!' });
     }
   };
+
 }
 
 
