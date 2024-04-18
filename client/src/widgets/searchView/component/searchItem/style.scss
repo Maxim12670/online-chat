@@ -12,9 +12,15 @@
   border: 0.1rem solid $c-white;
   border-radius: 1rem;
 
-  &:hover {
-    border: none;
+  @media (hover:hover) {
+    transition: border-color .15s, transform .15s;
+
+    &:hover {
+      border-color: transparent;
+      transform: translate(.2rem, -.2rem);
+    }
   }
+
 
   &__photo {
     width: 7rem;

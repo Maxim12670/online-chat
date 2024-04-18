@@ -36,7 +36,7 @@ class UserController {
       return res.status(400).json({ message: 'Ошибка при регистрации!' });
     }
   };
-  
+
   async authUser(req, res) {
     try {
       const { email, password } = req.body;

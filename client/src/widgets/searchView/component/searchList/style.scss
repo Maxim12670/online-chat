@@ -1,7 +1,12 @@
 .search-list {
   padding: 3rem 1rem;
 
-  &__item {
-    margin-top: 0.6rem;
+  &__input {
+    margin-bottom: .6rem;
+  }
+
+  &__container {
+    display: grid;
+    gap: .6rem;
   }
 }
