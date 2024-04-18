@@ -6,12 +6,17 @@
   width: 100%;
   padding: 1rem 1.5rem;
   border-radius: 1rem;
-  border: 1px solid $c-white;
+  border: 0.1rem solid $c-white;
   box-sizing: border-box;
   background-color: $c-light-blue;
 
-  &:hover {
-    border: none;
+  @media (hover:hover) {
+    transition: border-color .15s, transform .15s;
+
+    &:hover {
+      border-color: transparent;
+      transform: translate(.2rem, -.2rem);
+    }
   }
 
   &-header {
@@ -53,6 +58,8 @@
       display: flex;
       align-items: center;
       margin: 0 0 0 auto;
+      cursor: pointer;
+
       &:hover {
         fill: $c-red;
       }
