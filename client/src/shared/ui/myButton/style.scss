@@ -3,7 +3,7 @@
 .my-button {
   width: 100%;
   height: 4rem;
-  border: none;
+  border: .1rem solid white;
   border-radius: 1rem;
   background-color: $c-light-blue;
   color: $c-white;
@@ -11,7 +11,12 @@
   text-transform: uppercase;
   cursor: pointer;
 
-  &:hover {
-    background-color: $c-syper-light-blue;
+  @media (hover:hover) {
+    transition: border-color .15s, background-color .15s;
+
+    &:hover {
+      background-color: $c-syper-light-blue;
+      border-color: transparent;
+    }
   }
 }
