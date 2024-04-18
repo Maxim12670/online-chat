@@ -7,7 +7,7 @@
       </div>
       <div class="post-header__wrapper">
         <div class="post-header__initials">
-          {{ `${userData.name} ${userData.surname}` }}
+          {{ `${name} ${surname}` }}
         </div>
         <div class="post-header__date">
           {{ correctDateString(date) }}
@@ -33,27 +33,19 @@ import { useUserStore } from '@/stores/userStore';
 
 const props = defineProps({
   id: Number,
-  userId: Number,
+  name: String,
+  surname: String,
+  image: String,
   content: String,
   date: String,
 });
-
-const userStore = useUserStore();
-const userData = ref('');
-const dateString = ref('')
-
-const getUserDataAsync = async (userId) => {
-  userData.value = await userStore.getCurrentUser(userId);
-};
 
 const correctDateString = (str) => {
   const date = new Date(str)
   return `${date.getDate()}:${new Date(str).getMonth() + 1}:${new Date(str).getFullYear()}`;
 }
 
-
 (async () => {
-  await getUserDataAsync(props.userId);
   correctDateString(props.date);
 })();
 
