@@ -20,6 +20,7 @@ export const usePostAPI = defineStore('postAPI', () => {
     }
   };
 
+  // получить все посты
   const getAllPosts = async (userId) => {
     try {
       const { data } = await axios.post(`${baseURLPost}/posts`, {
@@ -31,6 +32,7 @@ export const usePostAPI = defineStore('postAPI', () => {
     }
   };
 
+  // удалить выбранный пост
   const deletePost = async (id) => {
     try {
       await axios.post(`${baseURLPost}/delete`, {
