@@ -20,7 +20,7 @@ class PostController {
         return res.status(404).json({ message: 'Такого поста не существует!' })
       }
       await db.query('DELETE FROM post WHERE id = $1', [id]);
-      return res.status(200).json({message: 'Пост успешно удален!'});
+      return res.status(200).json({ message: 'Пост успешно удален!' });
     } catch (error) {
       return res.status(400).json({ message: 'Ошибка при удалении поста!' });
     }
@@ -28,12 +28,17 @@ class PostController {
   async getAllPost(req, res) {
     try {
       const { userId } = req.body;
-      const posts = await db.query('SELECT * FROM post WHERE userId = $1', [userId]);
-      if (posts.rows.length != 0) {
-        return res.status(200).json(posts.rows);
-      } else {
+      const posts = await db.query(`
+        SELECT post.id, post.content, post.date, person.name, person.surname, person.image
+        FROM post
+        JOIN person ON post.userid = person.id
+        WHERE post.userId = $1`, [userId]);
+      if (posts.rows.length === 0) {
         return res.status(404).json({ message: 'постов нет!' });
       }
+
+      return res.status(200).json(posts.rows);
+
     } catch (error) {
       return res.status(400).json({ message: 'Ошибка при получении постов!' });
     }
