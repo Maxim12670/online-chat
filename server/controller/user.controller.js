@@ -7,7 +7,9 @@ const findNewValue = (oldUser, newUser) => {
   const keys = Object.keys(oldUser);
 
   for (let key of keys) {
-    if (oldUser[key] !== newUser[key] && newUser[key] !== undefined) {
+    if (oldUser[key] !== newUser[key]
+      && newUser[key] !== undefined
+      && newUser[key] !== null) {
       newValue[key] = newUser[key];
     } else {
       newValue[key] = oldUser[key];
@@ -88,6 +90,11 @@ class UserController {
       const { id, email, name, surname, password, image, age, city } = req.body;
       const [booleanFlag, oldUser] = await validator.UpdateValueUser(id);
 
+      if(req.file) {
+        console.log('имя файла:', req.file)
+      }
+      console.log('файла не было(')
+
       if (!booleanFlag) {
         return res.status(400).json({ message: 'Пользователь не найден!' });
       }
@@ -109,7 +116,7 @@ class UserController {
       );
       return res.clearCookie('userData').cookie('userData', JSON.stringify(user.rows[0])).status(200).json(user.rows[0]);
     } catch (e) {
-      return res.status(400).json({ message: 'Произошла ошибка при обновление данных!' })
+      return res.status(400).json({ message: `Произошла ошибка при обновление данных!` })
     }
   };
 

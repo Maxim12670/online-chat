@@ -66,15 +66,20 @@ export const useUserAPI = defineStore('userAPI', () => {
   const putUpdateUser = async (id, name = null, surname = null,
     age = null, city = null, image = null) => {
     try {
-      const response = await axios.put(urlByUser, {
-        id: id,
-        name: name,
-        surname: surname,
-        age: age,
-        city: city,
-        image: image
+      const formData = new FormData();
+      formData.append('id', id);
+      formData.append('name', name);
+      formData.append('surname', surname);
+      formData.append('age', age);
+      formData.append('city', city);
+      formData.append('image', image);
+      console.log(formData.get("image"))
+      const { data } = await axios.post(`${urlByUser}update`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       });
-      return response.data;
+      return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
     }

@@ -1,12 +1,19 @@
 const express = require('express');
-const userRouter = require('../routes/user.routes');
-const postRouter = require('../routes/post.routers');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const path = require('path');
+const multer = require('multer');
+const userRouter = require('../routes/user.routes');
+const postRouter = require('../routes/post.routers');
 const PORT = process.env.PORT || 5000;
 const baseURL = "*";
+
+const upload = multer();
 const app = express();
-app.use(express.json());
+
+app.use(upload.any());
+app.use(express.json({ extended: true }));
+app.use('/images', express.static(path.join(__dirname, '../images')));
 
 app.use(
   cors({

@@ -18,8 +18,8 @@
             :isRequired="false" />
           <my-input class="modal-window__input" v-model="formData.city" type="text" placeholder="Город:"
             :isRequired="false" />
-          <my-input class="modal-window__input modal-window__input_file" v-model="formData.image" type="file"
-            placeholder="Загрузить фото" :isRequired="false" />
+          <input class="modal-window__input modal-window__input_file"  @change="onFileChange" type="file"
+            placeholder="Загрузить фото" />
           <my-button class="modal-window__btn" type="submit" text="Сохранить данные" @click="show = !show">
             Сохранить данные
           </my-button>
@@ -49,13 +49,15 @@ const formData = ref({
   image: null
 });
 
+const onFileChange = (event) => {
+  formData.value.image = event.target.files[0];
+}
+
 const updateUserInfo = async (event) => {
   try {
-    event.preventDefault()
     const { name, surname, age, city, image } = formData.value;
     const { id } = userStore.userData;
     await userStore.updateUser(id, name, surname, age, city, image);
-
   } catch (error) {
     console.log('Произошла ошибка:', error);
   }
