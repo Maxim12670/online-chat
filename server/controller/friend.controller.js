@@ -1,13 +1,14 @@
 const db = require('../db');
-const validator = require('../validator/validator');
-const validatorFriend = require('../validator/friend');
+const validator = require('../validator/UserDatabaseValidator');
+const validatorFriend = require('../validator/FriendsDatabaseValidator');
 
 // active - пара пользователей является друзьями
 // await - пользователь 1 ожидает ответа
 const Status = { Active: 'active', Await: 'await' }
 
 class FriendController {
-  async sendRequestToFriends(req, res) {
+  // отправить запрос
+  static async sendRequestToFriends(req, res) {
     try {
       const { id_sender, id_recipient } = req.body;
       const isValidFirst = await validator.ValidId(id_sender, 'person');
@@ -17,10 +18,12 @@ class FriendController {
         return res.status(400).json({ message: 'Пользователь не найден!' });
       }
 
-      const isValidPair = await validatorFriend.ValidPair(id_sender, id_recipient);
+      const isValidPair = await validatorFriend.friendsPairExists(id_sender, id_recipient);
       const isOnlyPair = await validatorFriend.OnlyPair(id_sender, id_recipient);
       if (isValidPair && isOnlyPair) {
-        const newPair = await db.query(`INSERT INTO friends (id_sender, id_recipient, status) values ($1, $2, $3) RETURNING *`,
+        const newPair = await db.query(
+          `INSERT INTO friends (id_sender, id_recipient, status)
+           values ($1, $2, $3) RETURNING *`,
           [id_sender, id_recipient, Status.Await]);
         return res.json(newPair.rows[0])
       }
@@ -29,8 +32,8 @@ class FriendController {
       return res.status(400).json({ message: 'Ошибка при отправке запроса в друзья!' });
     }
   };
-
-  async answerFriendRequest(req, res) {
+  // дать ответ на запрос
+  static async answerFriendRequest(req, res) {
     try {
       const { id_sender, id_recipient, status } = req.body;
       const isValidFirst = await validator.ValidId(id_sender, 'person');
@@ -41,19 +44,23 @@ class FriendController {
       }
 
       if (status === false) {
-        await db.query(`DELETE FROM friends WHERE id_sender = $1 AND id_recipient = $2`,
+        await db.query(
+          `DELETE FROM friends 
+          WHERE id_sender = $1 AND id_recipient = $2`,
           [id_sender, id_recipient]);
         return res.status(200).json({ message: 'Пара удалена' });
       }
-      const result = await db.query(`UPDATE friends SET status = $1 WHERE id_sender = $2 and id_recipient = $3 RETURNING *`,
+      const result = await db.query(
+        `UPDATE friends SET status = $1 
+        WHERE id_sender = $2 and id_recipient = $3 RETURNING *`,
         [Status.Active, id_sender, id_recipient]);
       return res.json(result.rows[0]);
     } catch (error) {
       res.status(400).json({ message: 'Ошибка при отправке ответа на запрос!' })
     }
   };
-
-  async removeFromFriends(req, res) {
+  // удалить пару друзей
+  static async removeFromFriends(req, res) {
     try {
       const { firstUser, secondUser } = req.body;
       const isValidFirst = await validator.ValidId(firstUser, 'person');
@@ -67,7 +74,8 @@ class FriendController {
 
       if (isPairExist === false) {
         await db.query(`
-        DELETE FROM friends WHERE (id_sender = $1 AND id_recipient = $2 AND status = $3)
+        DELETE FROM friends 
+        WHERE (id_sender = $1 AND id_recipient = $2 AND status = $3)
         OR (id_sender = $2 AND id_recipient = $1 AND status = $3)`,
           [firstUser, secondUser, Status.Active]);
         return res.status(200).json({ message: 'Пара удалена' });
@@ -78,8 +86,8 @@ class FriendController {
       res.status(400).json({ message: 'Ошибка при удалении из друзей!' })
     }
   };
-
-  async getFriends(req, res) {
+  // получить всех друзей
+  static async getFriends(req, res) {
     try {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
@@ -101,11 +109,12 @@ class FriendController {
         const friends = friendsQuery.rows;
         const usersData = [];
         for (const friend of friends) {
-          const userQuery = await db.query('SELECT * FROM person WHERE id = $1', [friend.id_found]);
+          const userQuery = await db.query(
+            'SELECT * FROM person WHERE id = $1', [friend.id_found]);
           const userData = userQuery.rows[0];
           usersData.push(userData);
         }
-        
+
         return res.json(usersData);
       }
       return res.status(400).json({ message: 'Такого пользователя нет!' });
@@ -113,9 +122,8 @@ class FriendController {
       return res.status(200).json({ message: 'Ошибка на сервере!' })
     }
   };
-
-  // получение всех подписчиков
-  async getFollowers(req, res) {
+  // получить всех подписчиков
+  static async getFollowers(req, res) {
     try {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
@@ -131,7 +139,8 @@ class FriendController {
         const usersData = [];
 
         for (const follower of followers) {
-          const userQuery = await db.query('SELECT * FROM person WHERE id = $1', [follower.id_found]);
+          const userQuery = await db.query(
+            'SELECT * FROM person WHERE id = $1', [follower.id_found]);
           const userData = userQuery.rows[0];
           usersData.push(userData);
         }
@@ -142,9 +151,8 @@ class FriendController {
       return res.status(200).json({ message: 'Ошибка на сервере!' })
     }
   };
-
   // получить все подписки
-  async getSubscriptions(req, res) {
+  static async getSubscriptions(req, res) {
     try {
       const { idUser } = req.body;
       const isValidId = await validator.ValidId(idUser, 'person');
@@ -160,7 +168,8 @@ class FriendController {
 
         const usersData = [];
         for (const subscr of subscriptions) {
-          const userQuery = await db.query('SELECT * FROM person WHERE id = $1', [subscr.id_found]);
+          const userQuery = await db.query(
+            'SELECT * FROM person WHERE id = $1', [subscr.id_found]);
           const userData = userQuery.rows[0];
           usersData.push(userData);
         }
@@ -174,8 +183,6 @@ class FriendController {
       return res.status(500).json({ message: 'Ошибка на сервере!' });
     }
   };
-
 }
 
-
-module.exports = new FriendController();
+module.exports = FriendController;

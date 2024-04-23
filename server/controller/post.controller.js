@@ -1,31 +1,39 @@
 const db = require('../db');
-const validator = require('../validator/validator');
+const validator = require('../validator/UserDatabaseValidator');
 
 
 class PostController {
-  async createPost(req, res) {
+  // создать новый пост
+  static async createPost(req, res) {
     try {
       const { userId, content } = req.body;
-      const newPost = await db.query('INSERT INTO post (content, userId) values ($1, $2) RETURNING *', [content, userId]);
+      const newPost = await db.query(
+        `INSERT INTO post (content, userId) 
+        values ($1, $2) RETURNING *`,
+        [content, userId]);
       return res.json(newPost.rows[0]);
     } catch (error) {
       return res.status(400).json({ message: 'Ошибка при добавлении поста!' });
     }
   };
-  async deletePost(req, res) {
+  // удалить пост
+  static async deletePost(req, res) {
     try {
       const { id } = req.body;
       const isValidId = await validator.ValidId(id, 'post');
       if (!isValidId) {
         return res.status(404).json({ message: 'Такого поста не существует!' })
       }
-      await db.query('DELETE FROM post WHERE id = $1', [id]);
+      await db.query(
+        `DELETE FROM post 
+        WHERE id = $1`, [id]);
       return res.status(200).json({ message: 'Пост успешно удален!' });
     } catch (error) {
       return res.status(400).json({ message: 'Ошибка при удалении поста!' });
     }
   };
-  async getAllPost(req, res) {
+  // получить все посты
+  static async getAllPost(req, res) {
     try {
       const { userId } = req.body;
       const posts = await db.query(`
@@ -45,4 +53,4 @@ class PostController {
   }
 }
 
-module.exports = new PostController();
+module.exports = PostController;

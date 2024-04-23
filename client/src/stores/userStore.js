@@ -1,6 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useUserAPI } from "@/api/userApiStore";
 import { getCookies } from "@/shared/helper/cookies/Cookies";
 
@@ -21,6 +21,8 @@ export const useUserStore = defineStore('userStore', () => {
     city: '',
   });
 
+  const userAvatar = ref(`http://localhost:5000/${userData.value.image}`)
+  
   function updateIsLogin(newValue) {
     isLogin.value = newValue;
     localStorage.setItem('isLogin', isLogin.value)
@@ -91,7 +93,7 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   return {
-    userData, isLogin, getUserData,
+    userData, isLogin, userAvatar, getUserData,
     getCurrentUser, getUsers, updateIsLogin,
     updateUser
   }

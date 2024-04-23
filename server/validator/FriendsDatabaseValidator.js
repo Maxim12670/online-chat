@@ -1,7 +1,8 @@
 const db = require('../db');
 
 class ValidatorFriend {
-  async ValidPair(id_sender, id_recipient) {
+  // проверка зарегистрирована пара или нет
+  async friendsPairExists(id_sender, id_recipient) {
     try {
       const result = await db.query(`SELECT id_sender FROM friends WHERE id_sender = ${id_recipient} AND id_recipient = ${id_sender}`)
       console.log(result.rowCount)
@@ -15,7 +16,6 @@ class ValidatorFriend {
       return false;
     }
   };
-
   async OnlyPair(id_sender, id_recipient) {
     try {
       const result = await db.query('SELECT COUNT(*) FROM friends WHERE id_sender = $1 AND id_recipient = $2', [id_sender, id_recipient]);
