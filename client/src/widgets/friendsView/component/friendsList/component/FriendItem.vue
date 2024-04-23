@@ -1,7 +1,7 @@
 <template>
   <div class="friend-item">
     <SpriteSVG />
-    <img class="friend-item__photo" src="@/shared/assets/image/pict.jpg" alt="avatar">
+    <user-avatar class="friend-item__photo" :image="image"/>
     <div class="friend-item__initials">
       {{ `${surname} ${name }` }}
     </div>
@@ -22,7 +22,7 @@
 
 <script setup>
 import './style.scss';
-import { SpriteSVG } from '@/shared/ui';
+import { SpriteSVG, UserAvatar } from '@/shared/ui';
 import { useFriendsStore } from '@/stores/friendsStore';
 import { ref } from 'vue';
 

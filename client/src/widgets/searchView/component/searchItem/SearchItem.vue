@@ -2,7 +2,7 @@
   <div class="search-item">
     <SpriteSVG />
     <div class="search-item__photo">
-      <img src="@/shared/assets/image/pict.jpg" alt="avatar">
+      <user-avatar :image="image" />
     </div>
     <div class="search-item__initials">
       {{ `${surname} ${name}` }}
@@ -24,13 +24,14 @@
 
 <script setup>
 import './style.scss';
-import { SpriteSVG } from '@/shared/ui/index';
+import { SpriteSVG, UserAvatar } from '@/shared/ui/index';
 import { useFriendsStore } from '@/stores/friendsStore';
 
 const props = defineProps({
   id: Number,
   name: String,
-  surname: String
+  surname: String,
+  image: String
 })
 
 const friendsStore = useFriendsStore();
@@ -38,7 +39,7 @@ const friendsStore = useFriendsStore();
 async function sendFriendRequest() {
   try {
     await friendsStore.sendFriendRequest(props.id);
-  } catch(error) {
+  } catch (error) {
     console.log('Произошла ошибка:', error);
   }
 }

@@ -3,7 +3,7 @@
     <SpriteSVG />
     <div class="post-header">
       <div class="post-header__photo">
-        <img src="../../../shared/assets/image/pict.jpg" alt="avatar">
+        <user-avatar :image="image"/>
       </div>
       <div class="post-header__wrapper">
         <div class="post-header__initials">
@@ -28,7 +28,7 @@
 <script setup>
 import './style.scss';
 import { ref } from 'vue';
-import { SpriteSVG } from '@/shared/ui/index';
+import { SpriteSVG, UserAvatar } from '@/shared/ui/index';
 import { useUserStore } from '@/stores/userStore';
 
 const props = defineProps({
