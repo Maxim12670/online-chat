@@ -8,7 +8,7 @@
     <div class="user-page__content">
       <div class="user-page__photo">
         <!-- <img src="../../../shared/assets/image/pict.jpg" alt="logo"> -->
-        <img :src="'http://localhost:5000/' + userData.image" alt="logo">
+        <img :src="userData.image" alt="logo">
       </div>
       <div class="user-page__descr">
         <div v-show="userData.surname !== null" class="user-page__name">

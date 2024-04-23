@@ -3,7 +3,7 @@
     <my-input class="search-list__input" v-model="filterString" placeholder="Поиск" type="text" :isRequired="false" />
     <div class="search-list__container">
       <search-item class="search-list__item" v-for="(person, index) in filterPersons" :key="index" :id="person.id"
-        :name="person.name" :surname="person.surname" />
+        :name="person.name" :surname="person.surname" :image="person.image"/>
     </div>
   </div>
 </template>

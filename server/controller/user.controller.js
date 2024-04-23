@@ -31,7 +31,7 @@ class UserController {
       // TODO заменить undefined на фото по умолчанию
       const newUser = {
         id, email, name, surname, password, age, city,
-        image: image?.path,
+        image: image ? image.path : "images\default_avatar.jpg",
       }
 
       const newValue = findNewValue(oldUser, newUser);

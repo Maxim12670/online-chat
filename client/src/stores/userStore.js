@@ -88,7 +88,7 @@ export const useUserStore = defineStore('userStore', () => {
       email: email,
       age: age,
       city: city,
-      image: image
+      image: `http://localhost:5000/${image}`
     }
   }
 
