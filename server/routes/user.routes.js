@@ -13,25 +13,10 @@ router.post('/registr', [
   }
 ], userController.createUser);
 
-
 router.post('/auth', userController.authUser)
 router.post('/user', userController.getUserData);
 router.get('/users', userController.getAllUsers);
-
-
-// router.post('/update', fileMiddleware.single('image'), userController.updateUser);
-
-router.post('/update', (req, res, next) => {
-  console.log('body data', req.body)
-  console.log('3333333', req.files[0].originalname)
-  if(!req.files) {
-    console.log('файла не было!');
-    return next();
-  }
-  console.log('мой файлик:', req.files[0]);
-  fileMiddleware.single('image');
-}, userController.updateUser);
-
+router.post('/update', fileMiddleware.single('image'), userController.updateUser);
 router.post('/:id', userController.deleteUser);
 
 

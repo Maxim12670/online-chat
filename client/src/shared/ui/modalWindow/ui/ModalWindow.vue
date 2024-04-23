@@ -2,7 +2,7 @@
   <Transition name="modal">
     <div v-if="show" class="modal-window__mask">
       <div class="modal-window__container">
-        <form @submit.prevent="updateUserInfo">
+        <form @submit.prevent="updateUserInfo" enctype="multipart/form-data">
           <div class="modal-window__wrapper">
             <h2 class="modal-window__title">Введите свои данные</h2>
             <SpriteSVG />
@@ -18,7 +18,7 @@
             :isRequired="false" />
           <my-input class="modal-window__input" v-model="formData.city" type="text" placeholder="Город:"
             :isRequired="false" />
-          <input class="modal-window__input modal-window__input_file"  @change="onFileChange" type="file"
+          <input class="modal-window__input modal-window__input_file" @change="onFileChange" type="file"
             placeholder="Загрузить фото" />
           <my-button class="modal-window__btn" type="submit" text="Сохранить данные" @click="show = !show">
             Сохранить данные
@@ -56,8 +56,10 @@ const onFileChange = (event) => {
 const updateUserInfo = async (event) => {
   try {
     const { name, surname, age, city, image } = formData.value;
-    const { id } = userStore.userData;
-    await userStore.updateUser(id, name, surname, age, city, image);
+    // в будущем будет функционал по обновлению всех данных!!!
+    const { id, email, password } = userStore.userData;
+    await userStore.updateUser(
+      id, email, name, surname, password, age, city, image);
   } catch (error) {
     console.log('Произошла ошибка:', error);
   }

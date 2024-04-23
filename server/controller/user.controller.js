@@ -7,9 +7,8 @@ const findNewValue = (oldUser, newUser) => {
   const keys = Object.keys(oldUser);
 
   for (let key of keys) {
-    if (oldUser[key] !== newUser[key]
-      && newUser[key] !== undefined
-      && newUser[key] !== null) {
+    if (oldUser[key] !== newUser[key] && newUser[key] !== undefined && newUser[key] !== 'null' && newUser[key] !== ''
+    ) {
       newValue[key] = newUser[key];
     } else {
       newValue[key] = oldUser[key];
@@ -19,6 +18,42 @@ const findNewValue = (oldUser, newUser) => {
 }
 
 class UserController {
+  async updateUser(req, res) {
+    console.log('file', req.file)
+    console.log('body', req.body)
+    try {
+      const { id, email, name, surname, password, age, city } = req.body;
+      const image = req.file;
+
+      const [booleanFlag, oldUser] = await validator.GetOldValueUser(id);
+
+      if (!booleanFlag) {
+        return res.status(400).json({ message: 'Пользователь не найден!' });
+      }
+      
+      // заменить undefined на фото по умолчанию
+      const newUser = {
+        'id': id,
+        'email': email,
+        'name': name,
+        'surname': surname,
+        'password': password,
+        'image': image ? image.path : undefined,
+        'age': age,
+        'city': city
+      }
+
+      const newValue = findNewValue(oldUser, newUser);
+      const user = await db.query(
+        `UPDATE person set email = $1, name = $2, surname = $3, password = $4, image = $5, age = $6, city = $7  
+        where id = $8 RETURNING *`,
+        [newValue.email, newValue.name, newValue.surname, newValue.password, newValue.image, newValue.age, newValue.city, id]
+      );
+      return res.clearCookie('userData').cookie('userData', JSON.stringify(user.rows[0])).status(200).json(user.rows[0]);
+    } catch (e) {
+      return res.status(400).json({ message: `Произошла ошибка при обновление данных!` })
+    }
+  };
   async createUser(req, res) {
     try {
       const errors = validationResult(req);
@@ -82,41 +117,6 @@ class UserController {
       res.json(users.rows);
     } catch (e) {
       return res.status(400).json({ message: 'Произошла ошибка при поиске всех пользователей!' });
-    }
-  };
-
-  async updateUser(req, res) {
-    try {
-      const { id, email, name, surname, password, image, age, city } = req.body;
-      const [booleanFlag, oldUser] = await validator.UpdateValueUser(id);
-
-      if(req.file) {
-        console.log('имя файла:', req.file)
-      }
-      console.log('файла не было(')
-
-      if (!booleanFlag) {
-        return res.status(400).json({ message: 'Пользователь не найден!' });
-      }
-
-      const newUser = {
-        'email': email,
-        'name': name,
-        'surname': surname,
-        'password': password,
-        'image': image,
-        'age': age,
-        'city': city
-      }
-
-      const newValue = findNewValue(oldUser, newUser);
-      const user = await db.query(
-        'UPDATE person set email = $1, name = $2, surname = $3, password = $4, image = $5, age = $6, city = $7  where id = $8 RETURNING *',
-        [newValue.email, newValue.name, newValue.surname, newValue.password, newValue.image, newValue.age, newValue.city, id]
-      );
-      return res.clearCookie('userData').cookie('userData', JSON.stringify(user.rows[0])).status(200).json(user.rows[0]);
-    } catch (e) {
-      return res.status(400).json({ message: `Произошла ошибка при обновление данных!` })
     }
   };
 

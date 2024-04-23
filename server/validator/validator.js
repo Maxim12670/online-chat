@@ -41,7 +41,7 @@ class Validator {
     }
   }
 
-  async UpdateValueUser(id) {
+  async GetOldValueUser(id) {
     try {
       const oldUser = await db.query('SELECT * FROM person WHERE id = $1', [id]);
       if (oldUser.rows[0] == undefined) {
@@ -50,10 +50,9 @@ class Validator {
       return [true, oldUser.rows[0]];
     } catch (error) {
       console.log('Произошла ошибка', error);
-      return [false]
+      return [false];
     }
   }
-
 }
 
 module.exports = new Validator();

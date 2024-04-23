@@ -63,17 +63,19 @@ export const useUserAPI = defineStore('userAPI', () => {
   };
 
   // обновление данных пользователя
-  const putUpdateUser = async (id, name = null, surname = null,
-    age = null, city = null, image = null) => {
+  const putUpdateUser = async (
+    id, email = null, name = null, surname = null,
+    password = null, age = null, city = null, image = null) => {
     try {
       const formData = new FormData();
       formData.append('id', id);
+      formData.append('email', email);
       formData.append('name', name);
       formData.append('surname', surname);
+      formData.append('password', password);
       formData.append('age', age);
       formData.append('city', city);
       formData.append('image', image);
-      console.log(formData.get("image"))
       const { data } = await axios.post(`${urlByUser}update`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'

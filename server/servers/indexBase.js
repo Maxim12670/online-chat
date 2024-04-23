@@ -3,17 +3,24 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const multer = require('multer');
+const bodyParser = require('body-parser');
+
 const userRouter = require('../routes/user.routes');
 const postRouter = require('../routes/post.routers');
+
 const PORT = process.env.PORT || 5000;
 const baseURL = "*";
 
-const upload = multer();
+
 const app = express();
 
-app.use(upload.any());
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.use(express.json({ extended: true }));
-app.use('/images', express.static(path.join(__dirname, '../images')));
+app.use('/images', express.static('server/images'));
+
 
 app.use(
   cors({

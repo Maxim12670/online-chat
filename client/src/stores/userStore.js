@@ -13,16 +13,16 @@ export const useUserStore = defineStore('userStore', () => {
 
   const userData = ref({
     id: '',
+    email: '',
     name: '',
     surname: '',
-    email: '',
+    image: '',
     age: '',
     city: '',
-    image: ''
   });
 
-  function updateIsLogin(val) {
-    isLogin.value = val;
+  function updateIsLogin(newValue) {
+    isLogin.value = newValue;
     localStorage.setItem('isLogin', isLogin.value)
   }
 
@@ -31,12 +31,12 @@ export const useUserStore = defineStore('userStore', () => {
       const data = await userAPI.getUserById(id);
       userData.value = {
         id: data.id,
+        email: data.email,
         name: data.name,
         surname: data.surname,
-        email: data.email,
+        image: data.image,
         age: data.age,
-        city: data.city,
-        image: data.image
+        city: data.city
       };
     } catch (error) {
       console.log('Произошла ошибка:', error);
@@ -61,10 +61,13 @@ export const useUserStore = defineStore('userStore', () => {
     }
   };
 
-  async function updateUser(id, name = null, surname = null,
+  async function updateUser(
+    id, email = null, name = null, surname = null,
+    password = null,
     age = null, city = null, image = null) {
     try {
-      await userAPI.putUpdateUser(id, name, surname, age, city, image)
+      await userAPI.putUpdateUser(
+        id, email, name, surname, password, age, city, image)
         .then(res => {
           getUserData(id);
         });;
