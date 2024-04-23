@@ -11,8 +11,8 @@ class FriendController {
   static async sendRequestToFriends(req, res) {
     try {
       const { id_sender, id_recipient } = req.body;
-      const isValidFirst = await validator.ValidId(id_sender, 'person');
-      const isValidSecond = await validator.ValidId(id_recipient, 'person');
+      const isValidFirst = await validator.idExistsDatabase(id_sender, 'person');
+      const isValidSecond = await validator.idExistsDatabase(id_recipient, 'person');
 
       if (!isValidFirst || !isValidSecond) {
         return res.status(400).json({ message: 'Пользователь не найден!' });
@@ -36,8 +36,8 @@ class FriendController {
   static async answerFriendRequest(req, res) {
     try {
       const { id_sender, id_recipient, status } = req.body;
-      const isValidFirst = await validator.ValidId(id_sender, 'person');
-      const isValidSecond = await validator.ValidId(id_recipient, 'person');
+      const isValidFirst = await validator.idExistsDatabase(id_sender, 'person');
+      const isValidSecond = await validator.idExistsDatabase(id_recipient, 'person');
 
       if (!isValidFirst || !isValidSecond) {
         return res.status(400).json({ message: 'Нет такого пользователя!' });
@@ -63,8 +63,8 @@ class FriendController {
   static async removeFromFriends(req, res) {
     try {
       const { firstUser, secondUser } = req.body;
-      const isValidFirst = await validator.ValidId(firstUser, 'person');
-      const isValidSecond = await validator.ValidId(secondUser, 'person');
+      const isValidFirst = await validator.idExistsDatabase(firstUser, 'person');
+      const isValidSecond = await validator.idExistsDatabase(secondUser, 'person');
 
       if (!isValidFirst || !isValidSecond) {
         return res.status(400).json({ message: 'Пользователь не найден!' });
@@ -90,7 +90,7 @@ class FriendController {
   static async getFriends(req, res) {
     try {
       const { idUser } = req.body;
-      const isValidId = await validator.ValidId(idUser, 'person');
+      const isValidId = await validator.idExistsDatabase(idUser, 'person');
 
       if (isValidId) {
         const friendsQuery = await db.query(`
@@ -126,7 +126,7 @@ class FriendController {
   static async getFollowers(req, res) {
     try {
       const { idUser } = req.body;
-      const isValidId = await validator.ValidId(idUser, 'person');
+      const isValidId = await validator.idExistsDatabase(idUser, 'person');
 
       if (isValidId) {
         const followersQuery = await db.query(`
@@ -155,7 +155,7 @@ class FriendController {
   static async getSubscriptions(req, res) {
     try {
       const { idUser } = req.body;
-      const isValidId = await validator.ValidId(idUser, 'person');
+      const isValidId = await validator.idExistsDatabase(idUser, 'person');
 
       if (isValidId) {
         const subscriptionsQuery = await db.query(`
