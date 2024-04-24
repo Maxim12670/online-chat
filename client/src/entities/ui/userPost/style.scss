@@ -15,7 +15,8 @@
 
     &:hover {
       border-color: transparent;
-      transform: translate(.2rem, -.2rem);
+      //  transform: translate(.2rem, -.2rem);
+      transform: scale(1.02);
     }
   }
 
