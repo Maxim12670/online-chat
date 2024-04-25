@@ -114,13 +114,15 @@ class UserController {
   // получить всех пользователей
   static async getAllUsers(req, res) {
     try {
-      const { idUser } = req.body;
-      const isUserIdValid = userDatabaseValidator.idExistsDatabase(idUser, 'person');
+      const { idUser } = req.query;
+      const isUserIdValid = await userDatabaseValidator.idExistsDatabase(idUser, 'person');
 
-      if(!isUserIdValid) return res.status(400).json({message: 'Такого пользователя не существует!'});
-      
+      if (!isUserIdValid)
+        return res.status(400).json({ message: 'Такого пользователя не существует!' });
+
       const users = await db.query(`SELECT * FROM person WHERE id != $1`, [idUser]);
-      res.json(users.rows);
+      return res.json(users.rows);
+      
     } catch (e) {
       console.log('Error', e)
       return res.status(400).json({ message: 'Произошла ошибка при поиске всех пользователей!' });
