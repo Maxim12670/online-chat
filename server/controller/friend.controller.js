@@ -19,15 +19,17 @@ class FriendController {
       }
 
       const isValidPair = await validatorFriend.canAddFriend(id_sender, id_recipient);
-      
-      if (isValidPair) {
-        const newPair = await db.query(
-          `INSERT INTO friends (id_sender, id_recipient, status)
-           values ($1, $2, $3) RETURNING *`,
-          [id_sender, id_recipient, Status.Await]);
-        return res.json(newPair.rows[0])
+
+      if (!isValidPair) {
+        return res.status(400).json({ message: 'Такая пара уже существует' });
       }
-      return res.status(400).json({ message: 'Такая пара уже существует' });
+
+      const newPair = await db.query(
+        `INSERT INTO friends (id_sender, id_recipient, status)
+         values ($1, $2, $3) RETURNING *`,
+        [id_sender, id_recipient, Status.Await]);
+      return res.json(newPair.rows[0])
+      
     } catch (error) {
       return res.status(400).json({ message: 'Ошибка при отправке запроса в друзья!' });
     }
@@ -71,8 +73,8 @@ class FriendController {
         return res.status(400).json({ message: 'Пользователь не найден!' });
       }
 
-      if(!isValidFriendPair) {
-        return res.status(400).json({message: 'Пара друзей не существует, ее нельзя удалить!'});
+      if (!isValidFriendPair) {
+        return res.status(400).json({ message: 'Пара друзей не существует, ее нельзя удалить!' });
       }
 
       await db.query(`
