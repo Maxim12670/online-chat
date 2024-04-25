@@ -28,11 +28,15 @@ const filterPersons = computed(() => {
 })
 
 onMounted(async () => {
-  const personsArray = await userStore.getUsers();
-  personsArray.forEach(item => {
-    if (item.id !== userStore.userData.id) {
-      persons.value.push(item);
-    }
-  });
+  persons.value = await userStore.getUsers(userStore.userData.id);
 })
 </script>
+
+<!-- import { searchString } from '@/shared/lib/hooks/searchString';
+
+const { query: filterString, result: persons } = searchString({
+  foo: async (val) => {
+    console.log(val)
+    return await userStore.getUsers()
+  }
+}) -->
