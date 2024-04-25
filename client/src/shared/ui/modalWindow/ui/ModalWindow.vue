@@ -18,7 +18,7 @@
             :isRequired="false" />
           <my-input class="modal-window__input" v-model="formData.city" type="text" placeholder="Город:"
             :isRequired="false" />
-          <input class="modal-window__input modal-window__input_file" @change="onFileChange" type="file"
+          <my-input class="modal-window__input modal-window__input_file" @change="onFileChange" type="file"
             placeholder="Загрузить фото" />
           <my-button class="modal-window__btn" type="submit" text="Сохранить данные" @click="show = !show">
             Сохранить данные
@@ -42,10 +42,10 @@ const props = defineProps({
 const userStore = useUserStore();
 
 const formData = ref({
-  name: null,
-  surname: null,
-  age: null,
-  city: null,
+  name: userStore.userData.name || '',
+  surname: userStore.userData.surname || '',
+  age: userStore.userData.age || '',
+  city: userStore.userData.city || '',
   image: null
 });
 
