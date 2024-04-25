@@ -44,7 +44,7 @@ async function deleteFriend() {
 
 async function addToFriend() {
   await friendsStore.respondToFriendRequest(props.id, true)
-  cons.log('добавил в друзья');
+  console.log('добавил в друзья');
 };
 
 async function deleteToSubscription() {
@@ -59,7 +59,7 @@ async function deleteToSubscription() {
       break;
     case 'follower':
       selectedFunction.value = addToFriend;
-      breautk;
+      break;
     case 'subscription':
       selectedFunction.value = deleteToSubscription;
       break;
