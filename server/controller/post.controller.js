@@ -20,7 +20,7 @@ class PostController {
   static async deletePost(req, res) {
     try {
       const { id } = req.body;
-      const isValidId = await validator.ValidId(id, 'post');
+      const isValidId = await validator.idExistsDatabase(id, 'post');
       if (!isValidId) {
         return res.status(404).json({ message: 'Такого поста не существует!' })
       }
