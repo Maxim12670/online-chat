@@ -17,7 +17,9 @@ defineProps({
   type: String,
   placeholder: String,
   isRequired: Boolean,
-  modelValue: String,
+  modelValue: {
+    type: [String, Number]
+  },
   name: String
 })
 
