@@ -36,16 +36,20 @@ class PostController {
   static async getAllPost(req, res) {
     try {
       const { userId } = req.body;
+      const isValidUserId = await validator.idExistsDatabase(userId, 'person');
+      if(!isValidUserId) return res.status(400).json({message: 'Такого польвателя не существует!'});
+
       const posts = await db.query(`
         SELECT post.id, post.content, post.date, person.name, person.surname, person.image
         FROM post
         JOIN person ON post.userid = person.id
         WHERE post.userId = $1`, [userId]);
+
       if (posts.rows.length === 0) {
         return res.status(404).json({ message: 'постов нет!' });
       }
 
-      return res.status(200).json(posts.rows);
+      return res.status(200).json(posts.rows.reverse());
 
     } catch (error) {
       return res.status(400).json({ message: 'Ошибка при получении постов!' });
