@@ -21,18 +21,6 @@ export const usePostAPI = defineStore('postAPI', () => {
   };
 
   // получить все посты
-  // const getAllPosts = async (id) => {
-  //   try {
-  //     await axios.get(`${baseURLPost}/posts/${id}`, {
-  //     })
-  //       .then((response => {
-  //         return response.data
-  //       }));
-
-  //   } catch (error) {
-  //     console.log('Произошла ошибка:', error)
-  //   }
-  // };
   const getAllPosts = async (userId) => {
     try {
       const { data } = await axios.post(`${baseURLPost}/posts`, {
