@@ -18,9 +18,9 @@ class FriendController {
         return res.status(400).json({ message: 'Пользователь не найден!' });
       }
 
-      const isValidPair = await validatorFriend.friendsPairExists(id_sender, id_recipient);
-      const isOnlyPair = await validatorFriend.OnlyPair(id_sender, id_recipient);
-      if (isValidPair && isOnlyPair) {
+      const isValidPair = await validatorFriend.canAddFriend(id_sender, id_recipient);
+      
+      if (isValidPair) {
         const newPair = await db.query(
           `INSERT INTO friends (id_sender, id_recipient, status)
            values ($1, $2, $3) RETURNING *`,
@@ -65,23 +65,24 @@ class FriendController {
       const { firstUser, secondUser } = req.body;
       const isValidFirst = await validator.idExistsDatabase(firstUser, 'person');
       const isValidSecond = await validator.idExistsDatabase(secondUser, 'person');
+      const isValidFriendPair = await validatorFriend.friendPairExists(firstUser, secondUser)
 
-      if (!isValidFirst || !isValidSecond) {
+      if (!isValidFirst && !isValidSecond) {
         return res.status(400).json({ message: 'Пользователь не найден!' });
       }
 
-      const isPairExist = await validatorFriend.OnlyPair(firstUser, secondUser);
+      if(!isValidFriendPair) {
+        return res.status(400).json({message: 'Пара друзей не существует, ее нельзя удалить!'});
+      }
 
-      if (isPairExist === false) {
-        await db.query(`
+      await db.query(`
         DELETE FROM friends 
         WHERE (id_sender = $1 AND id_recipient = $2 AND status = $3)
         OR (id_sender = $2 AND id_recipient = $1 AND status = $3)`,
-          [firstUser, secondUser, Status.Active]);
-        return res.status(200).json({ message: 'Пара удалена' });
-      }
+        [firstUser, secondUser, Status.Active]);
+      return res.status(200).json({ message: 'Пара удалена' });
 
-      return res.status(400).json({ message: 'Такой пары друзей нет!' })
+
     } catch (error) {
       res.status(400).json({ message: 'Ошибка при удалении из друзей!' })
     }
@@ -148,7 +149,7 @@ class FriendController {
       }
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
-      return res.status(200).json({ message: 'Ошибка на сервере!' })
+      return res.status(200).json({ message: 'Ошибка на сервере!' });
     }
   };
   // получить все подписки
