@@ -32,7 +32,7 @@ class UserController {
       const newUser = {
         id, email, name, surname, password, age, city,
         image: image ? image.path : "images\default_avatar.jpg",
-      }
+      };
 
       const newValue = findNewValue(oldUser, newUser);
       const user = await db.query(
@@ -46,7 +46,7 @@ class UserController {
         .cookie('userData', JSON.stringify(user.rows[0]))
         .status(200).json(user.rows[0]);
     } catch (e) {
-      return res.status(400).json({ message: `Произошла ошибка при обновление данных!` })
+      return res.status(400).json({ message: `Произошла ошибка при обновление данных!` });
     }
   };
   // создать пользователя
@@ -114,9 +114,15 @@ class UserController {
   // получить всех пользователей
   static async getAllUsers(req, res) {
     try {
-      const users = await db.query('SELECT * FROM person');
+      const { idUser } = req.body;
+      const isUserIdValid = userDatabaseValidator.idExistsDatabase(idUser, 'person');
+
+      if(!isUserIdValid) return res.status(400).json({message: 'Такого пользователя не существует!'});
+      
+      const users = await db.query(`SELECT * FROM person WHERE id != $1`, [idUser]);
       res.json(users.rows);
     } catch (e) {
+      console.log('Error', e)
       return res.status(400).json({ message: 'Произошла ошибка при поиске всех пользователей!' });
     }
   };
