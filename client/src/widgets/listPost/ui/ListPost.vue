@@ -26,7 +26,6 @@ const newPostContent = ref('');
 
 async function getPosts() {
   posts.value = await postStore.getUserPosts();
-  posts.value.reverse();
 }
 
 const submitPost = async () => {
