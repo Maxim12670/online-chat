@@ -53,9 +53,13 @@ export const useUserAPI = defineStore('userAPI', () => {
   };
 
   //получение всех пользователей
-  const getAllUsers = async () => {
+  const getAllUsers = async (id) => {
     try {
-      const { data } = await axios.get(`${urlByUser}users`);
+      const { data } = await axios.get(`${urlByUser}users`, {
+        params: {
+          "idUser": id
+        }
+      });
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)

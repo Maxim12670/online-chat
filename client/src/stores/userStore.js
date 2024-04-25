@@ -54,9 +54,9 @@ export const useUserStore = defineStore('userStore', () => {
     }
   };
 
-  async function getUsers() {
+  async function getUsers(id) {
     try {
-      const res = await userAPI.getAllUsers();
+      const res = await userAPI.getAllUsers(id);
       return res;
     } catch (error) {
       console.log('Произошла ошибка:', error);
