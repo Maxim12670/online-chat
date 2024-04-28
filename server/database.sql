@@ -27,3 +27,21 @@ create TABLE friends(
   FOREIGN KEY (user_sender) REFERENCES person(id),
   FOREIGN KEY (user_recipient) REFERENCES person(id)
 );
+-- создание таблицы диалоговых комнат
+CREATE TABLE dialog_room(
+  id SERIAL PRIMARY KEY,
+  id_first_user INT NOT NULL,
+  id_second_user INT NOT NULL,
+  FOREIGN KEY (id_first_user) REFERENCES person(id),
+  FOREIGN KEY (id_second_user) REFERENCES person(id)
+);
+-- создание таблицы сообщений
+CREATE TABLE message(
+  id SERIAL PRIMARY KEY,
+  id_room INT NOT NULL,
+  id_user INT NOT NULL,
+  message_text VARCHAR(255),
+  date_message TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (id_room) REFERENCES dialog_room(id),
+  FOREIGN KEY (id_user) REFERENCES person(id)
+);

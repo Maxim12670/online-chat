@@ -1,10 +1,10 @@
 <template>
   <div class="dialog-list">
-    <!-- <my-input class="dialog-list__input" placeholder="Поиск" type="text" :isRequired="false" v-model="searchFilter" />
+    <my-input class="dialog-list__input" placeholder="Поиск" type="text" :isRequired="false" v-model="searchFilter" />
     <div class="dialog-list__container">
       <dialog-item class="dialog-list__item" />
-    </div> -->
-    <chat-room/>
+    </div>
+    <!-- <chat-room/> -->
   </div>
 </template>
 
