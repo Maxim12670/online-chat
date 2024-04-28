@@ -1,4 +1,4 @@
-
+-- создание таблицы пользователей
 create TABLE person(
   id SERIAL PRIMARY KEY,
   email VARCHAR(255),
@@ -9,7 +9,7 @@ create TABLE person(
   age INTEGER,
   city VARCHAR(255)
 );
-
+-- создание таблицы постов
 create TABLE post(
   id SERIAL PRIMARY KEY,
   content TEXT NOT NULL,
@@ -17,9 +17,7 @@ create TABLE post(
   userID INT,
   FOREIGN KEY (userID) REFERENCES person(id)
 );
-
-
-
+-- создание таблицы друзей
 CREATE TYPE status_enum AS ENUM ('active', 'await');
 create TABLE friends(
   id SERIAL PRIMARY KEY,
