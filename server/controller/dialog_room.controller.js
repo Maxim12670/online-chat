@@ -15,7 +15,7 @@ class DialogRoomController {
           .json({ message: 'Такого пользователя не существует!' });
       }
 
-      const isValidDialog = await DialogValidator.dialogExists(idUser, idCompanion);
+      const isValidDialog = await DialogValidator.usersCanAddDialog(idUser, idCompanion);
 
       if (!isValidDialog) {
         return res.status(400).json({ message: 'Диалог уже создан!' })
