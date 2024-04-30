@@ -2,7 +2,7 @@ const db = require('../db');
 
 class ValidatorDialog {
   // проверка создан диалог или нет
-  async dialogExists(firstUser, secondUser) {
+  async usersCanAddDialog(firstUser, secondUser) {
     try {
       const result = await db.query(
         `SELECT * FROM dialog_room
@@ -18,6 +18,23 @@ class ValidatorDialog {
 
     } catch (error) {
       console.log('Произошла ошибка:', error);
+      return false;
+    }
+  };
+  // проверка существует диалог или нет
+  async dialogExists(idDialog) {
+    try {
+      const result = await db.query(
+        `SELECT * FROM dialog_room
+        WHERE id = $1`, [idDialog]);
+
+      if(result.rowCount > 0) {
+        return true;
+      }
+
+      return false;
+    }catch(error) {
+      console.log('Error:', error);
       return false;
     }
   }
