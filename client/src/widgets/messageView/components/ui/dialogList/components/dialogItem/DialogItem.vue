@@ -1,13 +1,20 @@
 <template>
   <div class="dialog-item">
-    <img class="dialog-item__photo" src="@/shared/assets/image/pict.jpg" alt="avatar">
+    <user-avatar class="dialog-item__photo" :image="image"/>
     <div class="dialog-item__initials">
-      Name Surname
+      {{ surname + ' ' + name }}
     </div>
   </div>
 </template>
 
 <script setup>
 import './style.scss';
+import { UserAvatar } from '@/shared/ui';
+
+defineProps({
+  name: String,
+  surname: String,
+  image: String
+});
 
 </script>
