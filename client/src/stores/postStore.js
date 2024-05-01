@@ -8,6 +8,7 @@ export const usePostStore = defineStore('postStore', () => {
 
   const postAPI = usePostAPI();
   const userStore = useUserStore();
+  const userId = userStore.userData.id;
   const postsArray = ref([{
     id: '',
     content: '',
@@ -16,7 +17,6 @@ export const usePostStore = defineStore('postStore', () => {
   }]);
 
   async function addUserPost(content) {
-    const userId = userStore.userData.id;
     try {
       if (content.lenght != 0) {
         await postAPI.addPost(userId, content);
@@ -31,7 +31,6 @@ export const usePostStore = defineStore('postStore', () => {
 
   async function getUserPosts() {
     try {
-      const userId = userStore.userData.id;
       const res = await postAPI.getAllPosts(userId);
       
       return res;
