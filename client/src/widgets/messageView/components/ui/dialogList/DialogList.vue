@@ -2,7 +2,9 @@
   <div class="dialog-list">
     <my-input class="dialog-list__input" placeholder="Поиск" type="text" :isRequired="false" v-model="searchFilter" />
     <div class="dialog-list__container">
-      <dialog-item class="dialog-list__item" />
+      <dialog-item class="dialog-list__item" 
+      v-for="dialog in dialogs" :key="dialog.dialog_id"
+      :name="dialog.name_companion" :surname="dialog.surname_companion" :image="dialog.image_companion"/>
     </div>
     <!-- <chat-room/> -->
   </div>
@@ -14,9 +16,13 @@
 import './style.scss';
 import { MyInput } from '@/shared/ui/index';
 import DialogItem from './components/dialogItem/DialogItem.vue';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import {useDialogStore} from '@/stores/dialogStore';
 
-import ChatRoom  from '@/widgets/chatRoom/ui/ChatRoom.vue'
+import ChatRoom from '@/widgets/chatRoom/ui/ChatRoom.vue'
+
+const dialogStore = useDialogStore();
+const dialogs = ref([]);
 
 const searchFilter = ref('');
 const filterChat = computed(() => {
@@ -24,7 +30,9 @@ const filterChat = computed(() => {
   return searchFilter.value;
 })
 
-// добавить при onMounted загрузку всех чатов
-// которые уже были созданы ранее
+onMounted(async() => {
+  dialogs.value = await dialogStore.getAllDialogs();
+});
+
 
 </script>
