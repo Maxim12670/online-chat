@@ -62,8 +62,8 @@ class DialogRoomController {
         WHERE 
             dialog_room.id_first_user = $1 OR dialog_room.id_second_user = $1;`, [idUser]);
 
-      console.log(result.rows[0])
-      return res.json(result.rows[0]);
+      console.log(result.rows)
+      return res.json(result.rows);
 
     } catch (error) {
       console.log('Error', error);
