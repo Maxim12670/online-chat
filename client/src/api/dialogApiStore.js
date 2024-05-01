@@ -1,7 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 
-const baseURLDialog = "http://localhost:5001/api/dialog";
+const baseURLDialog = 'http://localhost:5001/api/dialog';
 const apiRoutesDialog = {
   createDialog: '/create',
   getAllDialogs: '/dialogs'
@@ -25,16 +25,16 @@ export const useDialogApi = defineStore('dialogAPI', () => {
   // получить все диалоги пользователя
   const getAllDialogs = async (idUser) => {
     try {
-      const { data } = await axios.get(`${baseURLDialog}${apiRoutesDialog.getAllDialogs}`, {
+      const {data} = await axios.get(`${baseURLDialog}${apiRoutesDialog.getAllDialogs}`, {
         params: {
-          "idUser": idUser
+          idUser: idUser
         }
       });
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
-  }
+  };
 
   return { createDialog, getAllDialogs }
 });
