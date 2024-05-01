@@ -42,7 +42,6 @@ class DialogRoomController {
         return res.status(400).json({ message: 'Такого пользователя нет!' });
       }
 
-      // вставить запрос из заметок
       const result = await db.query(
         `SELECT dialog_room.id AS dialog_id,
           CASE
@@ -64,7 +63,7 @@ class DialogRoomController {
             dialog_room.id_first_user = $1 OR dialog_room.id_second_user = $1;`, [idUser]);
 
       console.log(result.rows[0])
-      return res.status(400).json(result.rows[0]);
+      return res.json(result.rows[0]);
 
     } catch (error) {
       console.log('Error', error);
