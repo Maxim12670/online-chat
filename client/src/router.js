@@ -11,8 +11,10 @@ const routers = [
     children: [
       { path: 'user', component: UserView },
       { path: 'search', component: SearchView },
-      { path: 'message', component: MessageView },
-      {path: 'friends', component: FriendsView}
+      {
+        path: 'dialogs', component: MessageView
+      },
+      { path: 'friends', component: FriendsView }
     ]
   },
   { name: 'FormsPage', path: '/auth', component: FormsPage },
