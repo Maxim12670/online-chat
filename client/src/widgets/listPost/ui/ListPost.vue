@@ -5,7 +5,8 @@
         :isRequired="true" />
       <my-button class="list-post__btn" type="submit" text="ок" />
     </form>
-    <div class="list-post__container">
+    <loader-content v-if="!loadedPosts" class="list-post__load-icon"/>
+    <div v-else class="list-post__container">
       <not-data-stub v-if="!posts" text="Постов нет!"/>
       <user-post v-else class="list-post__item" v-for="(post, index) in posts" :key="index" :id="post.id" :name="post.name"
         :image="post.image" :surname="post.surname" :content="post.content" :date="post.date"
@@ -17,16 +18,18 @@
 <script setup>
 import './style.scss';
 import { onMounted, ref } from 'vue';
-import { MyInput, MyButton, NotDataStub } from '@/shared/ui';
+import { MyInput, MyButton, NotDataStub, LoaderContent } from '@/shared/ui';
 import { UserPost } from '@/entities/ui/index';
 import { usePostStore } from "@/stores/postStore";
 
 const postStore = usePostStore();
 const posts = ref([]);
 const newPostContent = ref('');
+const loadedPosts = ref(false);
 
 async function getPosts() {
   posts.value = await postStore.getUserPosts();
+  loadedPosts.value = true;
 }
 
 const submitPost = async () => {
