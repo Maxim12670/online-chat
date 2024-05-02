@@ -8,35 +8,46 @@ import { useMessageStore } from "./stores/messageStore";
 const routers = [
   {
     name: 'MainPage', path: '/', component: MainPage,
+    redirect: to => {return 'user'},
     children: [
-      { name: 'user', path: 'user', component: UserView },
-      { name: 'search', path: 'search', component: SearchView },
+      { name: 'user', path: '/user', component: UserView },
+      { name: 'search', path: '/search', component: SearchView },
       {
-        name: 'dialogs', path: 'dialogs', component: MessageView
+        name: 'dialogs', path: '/dialogs', component: MessageView
       },
       {
         name: 'chat',
-        path: 'chat/:id', 
-        component: ChatRoom, 
+        path: '/chat/:id',
+        component: ChatRoom,
         props: (route) => ({
           name: route.query.name,
           surname: route.query.surname
-        }), 
-        beforeEnter: getDialogMessages },
+        }),
+        beforeEnter: getDialogMessages
+      },
       { name: 'friends', path: 'friends', component: FriendsView }
-    ]
+    ], beforeEnter: checkAuth
   },
   { name: 'FormsPage', path: '/auth', component: FormsPage },
 ];
+
+const router = createRouter({
+  history: createWebHashHistory(),
+  routes: routers
+});
+
+function checkAuth(to, from, next) {
+  if (localStorage.getItem('isLogin')) {
+    next()
+  } else {
+    next('/auth')
+  }
+};
 
 async function getDialogMessages(to, from, next) {
   const messageStore = useMessageStore();
   to.params.messages = await messageStore.getAllMessageDialog(to.params.id);
   next();
-}
+};
 
-export default createRouter({
-  history: createWebHashHistory(),
-  routes: routers
-})
-
+export default router;
