@@ -15,7 +15,7 @@
           :surname="person.surname" :image="person.image" :type-case="filter" class="friends-list__item" />
       </div>
 
-      <not-data-stub v-else class="friends-list__stub"/>
+      <not-data-stub v-else text="Нет данных!" class="friends-list__stub"/>
     </div>
 
   </div>
