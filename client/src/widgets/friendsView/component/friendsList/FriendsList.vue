@@ -15,13 +15,7 @@
           :surname="person.surname" :image="person.image" :type-case="filter" class="friends-list__item" />
       </div>
 
-      <div v-else class="friends-list__wrapper">
-        <SpriteSVG />
-        <svg class="friends-list__icon">
-          <use xlink:href="#absence-icon"></use>
-        </svg>
-        <h2 class="friends-list__title">Нет данных!</h2>
-      </div>
+      <not-data-stub v-else class="friends-list__stub"/>
     </div>
 
   </div>
@@ -30,7 +24,7 @@
 <script setup>
 import './style.scss';
 import FriendItem from './component/FriendItem.vue';
-import { MyInput, SpriteSVG } from '@/shared/ui';
+import { MyInput, NotDataStub } from '@/shared/ui';
 import { ref } from 'vue';
 import { computedAsync } from '@vueuse/core'
 import { nuvBtnValues } from './config/nuvBtnValues';
@@ -55,10 +49,4 @@ const persons = computedAsync(async () => {
   }
 });
 
-
-// if (searchString) {
-//   return arrayPersons.value.filter((person) => {
-//     person.name.indexOf(searchString.value) !== -1 || person.surname.indexOf(searchString.value) !== -1
-//   })
-// }
 </script>
