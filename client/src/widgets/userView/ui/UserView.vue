@@ -6,9 +6,7 @@
     </teleport>
 
     <div class="user-page__content">
-      <div class="user-page__photo">
-        <img :src="userData.image" alt="logo">
-      </div>
+      <user-avatar class="user-page__photo" :image="userData.image"/>
       <my-button class="user-page__exit" text="Выйти" @click="exitAccount"/>
       <div class="user-page__descr">
         <div v-show="userData.surname !== null" class="user-page__name">
@@ -37,7 +35,7 @@ import './style.scss';
 import { ref, computed, onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 import { ListPost } from '@/widgets/index';
-import { ModalWindow, MyButton } from '@/shared/ui/index';
+import { ModalWindow, MyButton, UserAvatar } from '@/shared/ui/index';
 
 const show = ref(false);
 const userStore = useUserStore();
