@@ -6,7 +6,8 @@
       <my-button class="list-post__btn" type="submit" text="ок" />
     </form>
     <div class="list-post__container">
-      <user-post class="list-post__item" v-for="(post, index) in posts" :key="index" :id="post.id" :name="post.name"
+      <not-data-stub v-if="!posts" text="Постов нет!"/>
+      <user-post v-else class="list-post__item" v-for="(post, index) in posts" :key="index" :id="post.id" :name="post.name"
         :image="post.image" :surname="post.surname" :content="post.content" :date="post.date"
         @delete-current-post="deleteCurrentPost" />
     </div>
@@ -16,7 +17,7 @@
 <script setup>
 import './style.scss';
 import { onMounted, ref } from 'vue';
-import { MyInput, MyButton } from '@/shared/ui';
+import { MyInput, MyButton, NotDataStub } from '@/shared/ui';
 import { UserPost } from '@/entities/ui/index';
 import { usePostStore } from "@/stores/postStore";
 
