@@ -5,6 +5,11 @@
     margin-bottom: .6rem;
   }
 
+  &__loader {
+    width: 25%;
+    margin: 5rem auto;
+  }
+
   &__container {
     display: grid;
     gap: .6rem;
