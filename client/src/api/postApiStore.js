@@ -2,13 +2,18 @@ import axios from "axios";
 import { defineStore } from "pinia";
 
 const baseURLPost = "http://localhost:5000/api/post";
+const apiRoutesPost = {
+  createPost: '/add',
+  getAllPosts: '/posts',
+  deletePost: '/delete'
+}
 
 export const usePostAPI = defineStore('postAPI', () => {
 
   // добавление поста
   const addPost = async (userId, content) => {
     try {
-      await axios.post(`${baseURLPost}/add`, {
+      await axios.post(`${baseURLPost}${apiRoutesPost.createPost}`, {
         userId: userId,
         content: content
       })
@@ -23,7 +28,7 @@ export const usePostAPI = defineStore('postAPI', () => {
   // получить все посты
   const getAllPosts = async (userId) => {
     try {
-      const { data } = await axios.post(`${baseURLPost}/posts`, {
+      const { data } = await axios.post(`${baseURLPost}${apiRoutesPost.getAllPosts}`, {
         userId: userId
       });
       return data;
@@ -35,7 +40,7 @@ export const usePostAPI = defineStore('postAPI', () => {
   // удалить выбранный пост
   const deletePost = async (id) => {
     try {
-      await axios.post(`${baseURLPost}/delete`, {
+      await axios.post(`${baseURLPost}${apiRoutesPost.deletePost}`, {
         id: id
       });
     } catch (error) {
