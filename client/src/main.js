@@ -2,12 +2,6 @@ import './assets/main.scss';
 import { createApp } from 'vue';
 import App from './App.vue';
 import { createPinia } from 'pinia';
-import router from './router.js';
+import router from './router';
 
 createApp(App).use(createPinia()).use(router).mount('#app');
-
-if (localStorage.getItem('isLogin')) {
-  router.push('/user')
-} else {
-  router.push('/auth')
-}
