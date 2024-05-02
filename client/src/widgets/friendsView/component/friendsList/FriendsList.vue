@@ -9,7 +9,8 @@
       </div>
     </div>
 
-    <div class="friends-list__container">
+    <loader-content v-if="!loadedPersons" class="friends-list__loader"/>
+    <div v-else class="friends-list__container">
       <div v-if="persons != 0">
         <friend-item v-for="person in persons" :key="person.id_found" :id="person.id" :name="person.name"
           :surname="person.surname" :image="person.image" :type-case="filter" class="friends-list__item" />
@@ -24,7 +25,7 @@
 <script setup>
 import './style.scss';
 import FriendItem from './component/FriendItem.vue';
-import { MyInput, NotDataStub } from '@/shared/ui';
+import { MyInput, NotDataStub, LoaderContent } from '@/shared/ui';
 import { ref } from 'vue';
 import { computedAsync } from '@vueuse/core'
 import { nuvBtnValues } from './config/nuvBtnValues';
@@ -34,17 +35,21 @@ const friendStore = useFriendsStore();
 const searchString = ref('');
 const filter = ref('friends');
 const arrayPersons = ref([])
+const loadedPersons = ref(false);
 
 const persons = computedAsync(async () => {
   switch (filter.value) {
     case 'friends':
       arrayPersons.value = await friendStore.getAllFriends();
+      loadedPersons.value = true;
       return arrayPersons.value;
     case 'follower':
       arrayPersons.value = await friendStore.getAllFollowers();
+      loadedPersons.value = true;
       return arrayPersons.value;
     case 'subscription':
       arrayPersons.value = await friendStore.getAllSubscriptions();
+      loadedPersons.value = true;
       return arrayPersons.value;
   }
 });
