@@ -25,7 +25,7 @@ export const useDialogApi = defineStore('dialogAPI', () => {
   // получить все диалоги пользователя
   const getAllDialogs = async (idUser) => {
     try {
-      const {data} = await axios.get(`${baseURLDialog}${apiRoutesDialog.getAllDialogs}`, {
+      const { data } = await axios.get(`${baseURLDialog}${apiRoutesDialog.getAllDialogs}`, {
         params: {
           idUser: idUser
         }

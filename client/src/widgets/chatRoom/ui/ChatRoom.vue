@@ -15,28 +15,22 @@
       <user-avatar class="chat-room__photo" :image="null" />
     </div>
 
-    <!-- <ul class="message-list">
-      <li class="message-list__item message-list__item_left">
-        Friends message
-      </li>
-      <li class="message-list__item message-list__item_rigth">
-        My message
-      </li>
-    </ul> -->
-
     <ul class="message-list">
       <div v-if="!messages.length" class="message-list_empty">Напиши первое сообщение!</div>
-      <li v-else v-for="item in messages" :key="item.id" class="message-list__item" 
-        :class="[ item.status === 'user-message'? 'message-list__item_rigth' : 'message-list__item_left' ]">
+      <li v-else v-for="item in messages" :key="item.id" class="message-list__item"
+        :class="[item.status === 'user-message' ? 'message-list__item_rigth' : 'message-list__item_left']">
         {{ item.message_text }}
       </li>
     </ul>
 
     <div class="message-panel">
       <textarea class="message-panel__input" placeholder="Новое сообщение..." wrap v-model="messageString"
-        maxlength="200" @input="(event) => autoResizeTextarea(event)"></textarea>
+        maxlength="200" @input="(event) => {
+        autoResizeTextarea(event);
+        inputMessageText(event.target.value)
+      }"></textarea>
 
-      <button class="message-panel__btn">
+      <button class="message-panel__btn" @click="() => sendMessage(messageString)">
         <svg class="message-panel__icon">
           <use xlink:href="#send-message-icon"></use>
         </svg>
@@ -50,10 +44,25 @@ import './style.scss';
 import { SpriteSVG, UserAvatar } from '@/shared/ui';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useMessageStore } from '@/stores/messageStore';
 
 const router = useRoute();
+const messageStore = useMessageStore();
 const messageString = ref('')
 const messages = ref([]);
+const idDialog = ref('');
+
+function inputMessageText(str) {
+  messageString.value = str;
+}
+
+async function getMessages() {
+  try {
+    messages.value = await messageStore.getAllMessageDialog(idDialog.value);
+  } catch (error) {
+    console.log('Что-то пошло не так...', error);
+  }
+}
 
 function autoResizeTextarea(event) {
   const textarea = event.target;
@@ -61,21 +70,20 @@ function autoResizeTextarea(event) {
   textarea.style.height = textarea.scrollHeight - 14 + 'px';
 }
 
+async function sendMessage(messageText) {
+  try {
+    // await messageStore.createMessage(idDialog.value, messageText);
+    console.log(messageText)
+    messageString.value = '';
+    getMessages();
+  } catch (error) {
+    console.log('Что-то пошло не так...'.error);
+  }
+}
+
 onMounted(() => {
   messages.value = router.params.messages;
-  console.log(messages.value)
+  idDialog.value = router.params.id;
 })
 
 </script>
-
-
-
-
-<!-- <ul class="message-list">
-  <li class="message-list__item message-list__item_left">
-    Friends message
-  </li>
-  <li class="message-list__item message-list__item_rigth">
-    My message
-  </li>
-</ul> -->

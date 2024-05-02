@@ -8,7 +8,7 @@
       {{ `${surname} ${name}` }}
     </div>
     <div class="search-item__btns">
-      <button class="search-item__btn">
+      <button class="search-item__btn" @click="() => createDialog(id)">
         <svg class="search-item__icon">
           <use xlink:href="#message-icon"></use>
         </svg>
@@ -26,6 +26,7 @@
 import './style.scss';
 import { SpriteSVG, UserAvatar } from '@/shared/ui/index';
 import { useFriendsStore } from '@/stores/friendsStore';
+import { useDialogStore } from '@/stores/dialogStore';
 
 const props = defineProps({
   id: Number,
@@ -35,6 +36,7 @@ const props = defineProps({
 })
 
 const friendsStore = useFriendsStore();
+const dialogStore = useDialogStore();
 
 async function sendFriendRequest() {
   try {
@@ -44,5 +46,12 @@ async function sendFriendRequest() {
   }
 }
 
-//добавить функиционал - написать сообщение
+async function createDialog(idCompanion) {
+  try {
+    await dialogStore.createDialog(idCompanion);
+    console.log('создал диалог');
+  } catch (error) {
+    console.log('Что-то пошло не так...', error);
+  }
+}
 </script>
