@@ -5,7 +5,7 @@
         :isRequired="true" />
       <my-button class="list-post__btn" type="submit" text="ок" />
     </form>
-    <loader-content v-if="!loadedPosts" class="list-post__load-icon"/>
+    <loader-content v-if="!loadedPosts" class="list-post__loader"/>
     <div v-else class="list-post__container">
       <not-data-stub v-if="!posts" text="Постов нет!"/>
       <user-post v-else class="list-post__item" v-for="(post, index) in posts" :key="index" :id="post.id" :name="post.name"
