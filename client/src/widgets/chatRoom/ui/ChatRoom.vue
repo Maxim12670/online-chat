@@ -15,7 +15,8 @@
       <user-avatar class="chat-room__photo" :image="null" />
     </div>
 
-    <ul class="message-list">
+    <loader-content v-if="!loadedMessages" class="message-loader"/>
+    <ul v-else class="message-list">
       <div v-if="!messages.length" class="message-list_empty">Напиши первое сообщение!</div>
       <li v-else v-for="item in messages" :key="item.id" class="message-list__item"
         :class="[item.status === 'user-message' ? 'message-list__item_rigth' : 'message-list__item_left']">
@@ -41,7 +42,7 @@
 
 <script setup>
 import './style.scss';
-import { SpriteSVG, UserAvatar } from '@/shared/ui';
+import { SpriteSVG, UserAvatar, LoaderContent } from '@/shared/ui';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMessageStore } from '@/stores/messageStore';
@@ -51,6 +52,7 @@ const messageStore = useMessageStore();
 const messageString = ref('')
 const messages = ref([]);
 const idDialog = ref('');
+const loadedMessages = ref(false);
 
 function inputMessageText(str) {
   messageString.value = str;
@@ -84,6 +86,7 @@ async function sendMessage(messageText) {
 onMounted(() => {
   messages.value = router.params.messages;
   idDialog.value = router.params.id;
+  loadedMessages.value = true;
 })
 
 </script>
