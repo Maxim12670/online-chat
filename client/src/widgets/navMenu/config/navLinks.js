@@ -5,21 +5,21 @@ export const navLinks = [
   {
     label: 'Главная',
     idIcon: 'none',
-    path: 'user'
+    path: '/user'
   },
   {
     label: 'Поиск',
     idIcon: '#search-icon',
-    path: 'search'
+    path: '/search'
   },
   {
     label: 'Сообщения',
     idIcon: '#message-icon',
-    path: 'dialogs'
+    path: '/dialogs'
   },
   {
     label: 'Друзья',
     idIcon: '#friends-icon',
-    path: 'friends'
+    path: '/friends'
   }
 ]

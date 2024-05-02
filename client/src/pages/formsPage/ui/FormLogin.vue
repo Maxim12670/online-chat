@@ -37,7 +37,9 @@ const authorizeUser = async (event) => {
         userStore.updateIsLogin(true);
       })
       .then(() => {
-        router.push('/')
+        router.push({
+          name: 'MainPage'
+        })
       })
       .catch(error => {
         console.log('ошибка:', error)
