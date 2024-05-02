@@ -5,6 +5,7 @@ import SpriteSVG from "./spriteSVG/SpriteSVG.vue";
 import NotDataStub from "./notDataStub/ui/NotDataStub.vue";
 import ModalWindow from "./modalWindow/ui/ModalWindow.vue";
 import UserAvatar from "./userAvatar/UserAvatar.vue";
+import LoaderContent from "./loaderContent/ui/LoaderContent.vue";
 
 export {
   MyInput,
@@ -13,5 +14,6 @@ export {
   SpriteSVG,
   NotDataStub,
   ModalWindow,
-  UserAvatar
+  UserAvatar,
+  LoaderContent
 }
