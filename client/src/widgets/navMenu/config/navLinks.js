@@ -15,7 +15,7 @@ export const navLinks = [
   {
     label: 'Сообщения',
     idIcon: '#message-icon',
-    path: 'message'
+    path: 'dialogs'
   },
   {
     label: 'Друзья',
