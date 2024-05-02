@@ -2,7 +2,8 @@
   <div class="dialog-list">
     <my-input class="dialog-list__input" placeholder="Поиск" type="text" :isRequired="false" v-model="searchFilter" />
     <div class="dialog-list__container">
-      <dialog-item class="dialog-list__item" v-for="dialog in dialogs" :key="dialog.dialog_id"
+      <not-data-stub v-if="!dialogs.length" text="Диалогов нет!"/>
+      <dialog-item v-else class="dialog-list__item" v-for="dialog in dialogs" :key="dialog.dialog_id"
         :name="dialog.name_companion" :surname="dialog.surname_companion" :image="dialog.image_companion"
         @click="openChatRoom(dialog.dialog_id, dialog.name_companion, dialog.surname_companion)" />
     </div>
@@ -11,7 +12,7 @@
 
 <script setup>
 import './style.scss';
-import { MyInput } from '@/shared/ui/index';
+import { MyInput, NotDataStub } from '@/shared/ui/index';
 import DialogItem from './components/dialogItem/DialogItem.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useDialogStore } from '@/stores/dialogStore';
