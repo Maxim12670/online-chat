@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import { computed, ref } from 'vue';
 import { useUserAPI } from "@/api/userApiStore";
 import { getCookies } from "@/shared/helper/cookies/Cookies";
+import { useRouter } from "vue-router";
 
 const urlByUser = 'http://localhost:5000/api/user/';
 
@@ -10,6 +11,7 @@ export const useUserStore = defineStore('userStore', () => {
 
   const isLogin = ref(false);
   const userAPI = useUserAPI();
+  const router = useRouter();
 
   const userData = ref({
     id: '',
@@ -22,7 +24,7 @@ export const useUserStore = defineStore('userStore', () => {
   });
 
   const userAvatar = ref(`http://localhost:5000/${userData.value.image}`)
-  
+
   function updateIsLogin(newValue) {
     isLogin.value = newValue;
     localStorage.setItem('isLogin', isLogin.value)
@@ -78,6 +80,21 @@ export const useUserStore = defineStore('userStore', () => {
     }
   };
 
+  function exitAccount() {
+    userData.value = {
+      id: '',
+      email: '',
+      name: '',
+      surname: '',
+      image: '',
+      age: '',
+      city: '',
+    };
+    isLogin.value = false;
+    localStorage.removeItem('isLogin');
+    router.push({path: '/auth'});
+  };
+
   if (localStorage.getItem('isLogin')) {
     const cookieValue = JSON.parse(getCookies('userData'));
     const { id, name, surname, email, age, city, image } = cookieValue;
@@ -95,6 +112,6 @@ export const useUserStore = defineStore('userStore', () => {
   return {
     userData, isLogin, userAvatar, getUserData,
     getCurrentUser, getUsers, updateIsLogin,
-    updateUser
+    updateUser, exitAccount
   }
 });

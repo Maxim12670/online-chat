@@ -8,6 +8,16 @@
   &__content {
     display: flex;
     flex-direction: row;
+
+    position: relative;
+  }
+
+  &__exit {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 10rem;
+    background-color: red;
   }
 
   &__photo {

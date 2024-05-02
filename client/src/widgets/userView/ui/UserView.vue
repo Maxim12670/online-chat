@@ -7,9 +7,9 @@
 
     <div class="user-page__content">
       <div class="user-page__photo">
-        <!-- <img src="../../../shared/assets/image/pict.jpg" alt="logo"> -->
         <img :src="userData.image" alt="logo">
       </div>
+      <my-button class="user-page__exit" text="Выйти" @click="exitAccount"/>
       <div class="user-page__descr">
         <div v-show="userData.surname !== null" class="user-page__name">
           {{ userData.surname + ' ' + userData.name }}
@@ -41,5 +41,10 @@ import { ModalWindow, MyButton } from '@/shared/ui/index';
 
 const show = ref(false);
 const userStore = useUserStore();
-const userData = computed(() => userStore.userData)
+const userData = computed(() => userStore.userData);
+
+const exitAccount = () => {
+  console.log(11111)
+  userStore.exitAccount();
+}
 </script>
