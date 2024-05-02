@@ -2,7 +2,12 @@ import axios from "axios";
 import { defineStore } from "pinia";
 
 const urlRegistrUser = "http://localhost:5000/api/registr";
-const urlByUser = "http://localhost:5000/api/user/";
+const baseURLUser = "http://localhost:5000/api/user";
+const apiRoutesUser = {
+  getUser: '/user',
+  getAllUsers: '/users',
+  updateUserData: '/update'
+}
 
 const instance = axios.create({
   withCredentials: true,
@@ -43,7 +48,7 @@ export const useUserAPI = defineStore('userAPI', () => {
   const getUserById = async (id) => {
     try {
       axios.defaults.withCredentials = true
-      const { data } = await instance.post(`${urlByUser}user`, {
+      const { data } = await instance.post(`${baseURLUser}${apiRoutesUser.getUser}`, {
         id: id
       });
       return data;
@@ -55,7 +60,7 @@ export const useUserAPI = defineStore('userAPI', () => {
   //получение всех пользователей
   const getAllUsers = async (id) => {
     try {
-      const { data } = await axios.get(`${urlByUser}users`, {
+      const { data } = await axios.get(`${baseURLUser}${apiRoutesUser.getAllUsers}`, {
         params: {
           "idUser": id
         }
@@ -80,7 +85,7 @@ export const useUserAPI = defineStore('userAPI', () => {
       formData.append('age', age);
       formData.append('city', city);
       formData.append('image', image);
-      const { data } = await axios.post(`${urlByUser}update`, formData, {
+      const { data } = await axios.post(`${baseURLUser}${apiRoutesUser.updateUserData}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
