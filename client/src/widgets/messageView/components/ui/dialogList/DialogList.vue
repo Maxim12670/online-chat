@@ -1,7 +1,8 @@
 <template>
   <div class="dialog-list">
     <my-input class="dialog-list__input" placeholder="Поиск" type="text" :isRequired="false" v-model="searchFilter" />
-    <div class="dialog-list__container">
+    <loader-content v-if="!loadedDialogs" class="dialog-list__loader"/>
+    <div v-else class="dialog-list__container">
       <not-data-stub v-if="!dialogs.length" text="Диалогов нет!"/>
       <dialog-item v-else class="dialog-list__item" v-for="dialog in dialogs" :key="dialog.dialog_id"
         :name="dialog.name_companion" :surname="dialog.surname_companion" :image="dialog.image_companion"
@@ -12,7 +13,7 @@
 
 <script setup>
 import './style.scss';
-import { MyInput, NotDataStub } from '@/shared/ui/index';
+import { MyInput, NotDataStub, LoaderContent } from '@/shared/ui/index';
 import DialogItem from './components/dialogItem/DialogItem.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useDialogStore } from '@/stores/dialogStore';
@@ -21,6 +22,7 @@ import { useRouter } from 'vue-router';
 const dialogStore = useDialogStore();
 const router = useRouter();
 const dialogs = ref([]);
+const loadedDialogs = ref(false);
 
 const searchFilter = ref('');
 const filterChat = computed(() => {
@@ -40,6 +42,7 @@ const openChatRoom = (idChat, userName, userSurname) => {
 
 onMounted(async () => {
   dialogs.value = await dialogStore.getAllDialogs();
+  loadedDialogs.value = true;
 });
 
 
