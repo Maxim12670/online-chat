@@ -4,6 +4,7 @@ import SearchView from "./searchView/ui/SearchView.vue";
 import ListPost from "./listPost/ui/ListPost.vue";
 import MessageView from "./messageView/ui/MessageView.vue";
 import FriendsView from "./friendsView/ui/FriendsView.vue";
+import ChatRoom from "./chatRoom/ui/ChatRoom.vue";
 
 
 export {
@@ -12,5 +13,6 @@ export {
   MessageView,
   FriendsView,
   NavMenu,
-  ListPost
+  ListPost,
+  ChatRoom
 }
