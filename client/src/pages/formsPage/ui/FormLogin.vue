@@ -32,8 +32,8 @@ const authorizeUser = async (event) => {
       email: email,
       password: password
     })
-      .then(res => {
-        userStore.getUserData(res.data.id);
+      .then(async (res) => {
+        await userStore.getUserData(res.data.id);
         userStore.updateIsLogin(true);
       })
       .then(() => {

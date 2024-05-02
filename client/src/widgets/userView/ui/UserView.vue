@@ -34,7 +34,7 @@
 
 <script setup>
 import './style.scss';
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useUserStore } from '@/stores/userStore';
 import { ListPost } from '@/widgets/index';
 import { ModalWindow, MyButton } from '@/shared/ui/index';
@@ -46,4 +46,8 @@ const userData = computed(() => userStore.userData);
 const exitAccount = () => {
   userStore.exitAccount();
 }
+
+onMounted(() => {
+  console.log(userStore.userData)
+})
 </script>

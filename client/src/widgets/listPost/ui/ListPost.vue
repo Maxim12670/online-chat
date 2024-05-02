@@ -37,16 +37,16 @@ const submitPost = async () => {
     await postStore.addUserPost(newPostContent.value);
     newPostContent.value = '';
   }
-  getPosts();
+  await getPosts();
 }
 
 const deleteCurrentPost = async (id) => {
   await postStore.deleteUserPost(id);
-  getPosts()
+  await getPosts()
 }
 
 onMounted(async () => {
-  getPosts();
+  await getPosts();
 })
 
 </script>
