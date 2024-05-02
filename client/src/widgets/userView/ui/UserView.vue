@@ -44,7 +44,6 @@ const userStore = useUserStore();
 const userData = computed(() => userStore.userData);
 
 const exitAccount = () => {
-  console.log(11111)
   userStore.exitAccount();
 }
 </script>
