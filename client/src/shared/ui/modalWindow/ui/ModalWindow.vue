@@ -46,7 +46,7 @@ const formData = ref({
   surname: userStore.userData.surname || '',
   age: userStore.userData.age || '',
   city: userStore.userData.city || '',
-  image: null
+  image: ''
 });
 
 const onFileChange = (event) => {

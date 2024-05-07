@@ -1,12 +1,16 @@
 const express = require('express');
 const http = require('http');
-const { Server } = require('socket.io');
 const cors = require('cors');
+const { Server } = require('socket.io');
+
+
 const friendRouter = require('../routes/friend.router');
 const dialogRouter = require('../routes/dialog.router');
 const messageRouter = require('../routes/message.router');
+
 const PORT = process.env.PORT || 5001;
 const baseURL = "*";
+
 const app = express();
 
 app.use(cors({
@@ -34,10 +38,31 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: "*",
-    methods: ["GET", "POST", "PUT"]
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
+
+io.on('connection', (socket) => {
+  console.log('user connected');
+
+  socket.on('sendMessage', (msg) => {
+    io.emit('server found your message:', msg);
+    console.log('this is object msg:', msg);
+    
+  });
+
+  // socket.on('sendMessage', (msg) => {
+  //   io.emit('server found your message:', msg);
+  // });
+
+  socket.on('disconnected', () => {
+    console.log('User disconnect');
+  })
+})
+
+
 server.listen(PORT, () => {
-  console.log(`socket server is running on post ${PORT}`);
+  console.log(`socket server is running on port ${PORT}`);
 });

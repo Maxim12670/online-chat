@@ -15,7 +15,7 @@
       <user-avatar class="chat-room__photo" :image="null" />
     </div>
 
-    <loader-content v-if="!loadedMessages" class="message-loader"/>
+    <loader-content v-if="!loadedMessages" class="message-loader" />
     <ul v-else class="message-list">
       <div v-if="!messages.length" class="message-list_empty">Напиши первое сообщение!</div>
       <li v-else v-for="item in messages" :key="item.id" class="message-list__item"
@@ -47,12 +47,18 @@ import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMessageStore } from '@/stores/messageStore';
 
+import { io } from 'socket.io-client';
+const socket = io("http://localhost:5001");
+
+
+
 const router = useRoute();
 const messageStore = useMessageStore();
-const messageString = ref('')
+const messageString = ref('');
 const messages = ref([]);
 const idDialog = ref('');
 const loadedMessages = ref(false);
+
 
 function inputMessageText(str) {
   messageString.value = str;
@@ -66,6 +72,7 @@ async function getMessages() {
   }
 }
 
+
 function autoResizeTextarea(event) {
   const textarea = event.target;
   textarea.style.height = 'auto';
@@ -74,19 +81,25 @@ function autoResizeTextarea(event) {
 
 async function sendMessage(messageText) {
   try {
+    socket.emit('sendMessage', messageText);
     // await messageStore.createMessage(idDialog.value, messageText);
-    console.log(messageText)
+    // console.log('messageText', messageText);
     messageString.value = '';
-    getMessages();
+
+    // getMessages();
   } catch (error) {
     console.log('Что-то пошло не так...'.error);
   }
 }
 
+socket.on('sendMessage', (msg) => {
+  console.log('server msg:', msg)
+})
+
 onMounted(() => {
   messages.value = router.params.messages;
   idDialog.value = router.params.id;
   loadedMessages.value = true;
-})
+});
 
 </script>
