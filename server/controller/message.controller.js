@@ -55,7 +55,6 @@ class MessageController {
         WHERE 
             id_room = $2;`, [idUser, idDialog]);
 
-      console.log('messages:', result.rows);
       return res.json(result.rows);
     } catch (error) {
       console.log('Error', error);

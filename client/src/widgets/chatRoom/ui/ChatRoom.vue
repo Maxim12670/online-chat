@@ -46,12 +46,9 @@ import { SpriteSVG, UserAvatar, LoaderContent } from '@/shared/ui';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMessageStore } from '@/stores/messageStore';
+import { useSocketStore } from '@/stores/socketStore';
 
-import { io } from 'socket.io-client';
-const socket = io("http://localhost:5001");
-
-
-
+const socketStore = useSocketStore();
 const router = useRoute();
 const messageStore = useMessageStore();
 const messageString = ref('');
@@ -72,7 +69,6 @@ async function getMessages() {
   }
 }
 
-
 function autoResizeTextarea(event) {
   const textarea = event.target;
   textarea.style.height = 'auto';
@@ -81,9 +77,9 @@ function autoResizeTextarea(event) {
 
 async function sendMessage(messageText) {
   try {
-    socket.emit('sendMessage', messageText);
-    // await messageStore.createMessage(idDialog.value, messageText);
-    // console.log('messageText', messageText);
+    socketStore.sendMessage(idDialog.value, messageText);
+
+    console.log('messageText', messageText);
     messageString.value = '';
 
     // getMessages();
@@ -92,14 +88,11 @@ async function sendMessage(messageText) {
   }
 }
 
-socket.on('sendMessage', (msg) => {
-  console.log('server msg:', msg)
-})
-
 onMounted(() => {
   messages.value = router.params.messages;
   idDialog.value = router.params.id;
   loadedMessages.value = true;
+  socketStore.joinRoom(idDialog.value)
 });
 
 </script>

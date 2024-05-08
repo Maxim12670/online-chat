@@ -45,20 +45,22 @@ const io = new Server(server, {
 
 
 io.on('connection', (socket) => {
-  console.log('user connected');
+  console.log(`user with id: ${socket.id} connected`);
 
-  socket.on('sendMessage', (msg) => {
-    io.emit('server found your message:', msg);
-    console.log('this is object msg:', msg);
-    
+
+  socket.on('joinRoom', (roomId) => {
+    console.log('room id:', roomId);
+    socket.join(roomId);
+  })
+
+  // добавить логику записи сообщения в базу данных
+  socket.on('sendMessage', (data) => {
+    io.to(data.roomId).emit('reciveMessage', data.message);
   });
 
-  // socket.on('sendMessage', (msg) => {
-  //   io.emit('server found your message:', msg);
-  // });
 
-  socket.on('disconnected', () => {
-    console.log('User disconnect');
+  socket.on('disconnect', () => {
+    console.log(`user with id: ${socket.id} disconnected`);
   })
 })
 
