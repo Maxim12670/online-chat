@@ -3,8 +3,9 @@ import { useUserStore } from "./userStore";
 import { io } from "socket.io-client";
 
 export const useSocketStore = defineStore('socketStore', () => {
-  
-  const userData = useUserStore;
+
+  const userStore = useUserStore();
+  const idUser = userStore.userData.id;
   const baseURLSocket = "http://localhost:5001";
   const socket = io(baseURLSocket);
 
@@ -13,9 +14,9 @@ export const useSocketStore = defineStore('socketStore', () => {
   }
 
   function sendMessage(idDialog, messageText) {
-    
-    // добавить id пользователя
+
     const data = {
+      idUser: idUser,
       roomId: idDialog,
       message: messageText
     };
@@ -23,9 +24,14 @@ export const useSocketStore = defineStore('socketStore', () => {
     socket.emit('sendMessage', data);
   }
 
-  socket.on('reciveMessage', (data) => {
-    console.log('message from server:', data);
-  });
+  function reciveMessage() {
+    return new Promise((resolve, reject) => {
+      socket.on('reciveMessage', (data) => {
+        console.log('message from server:', data);
+        resolve(data);
+      });
+    });
+  }
 
-  return { joinRoom, sendMessage }
+  return { joinRoom, sendMessage, reciveMessage }
 });

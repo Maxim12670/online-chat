@@ -2,7 +2,7 @@ const express = require('express');
 const http = require('http');
 const cors = require('cors');
 const { Server } = require('socket.io');
-
+const db = require('../db');
 
 const friendRouter = require('../routes/friend.router');
 const dialogRouter = require('../routes/dialog.router');
@@ -53,9 +53,21 @@ io.on('connection', (socket) => {
     socket.join(roomId);
   })
 
-  // добавить логику записи сообщения в базу данных
-  socket.on('sendMessage', (data) => {
-    io.to(data.roomId).emit('reciveMessage', data.message);
+  socket.on('sendMessage', async (data) => {
+    try {
+      const { idUser, roomId, message } = data;
+      await db.query(
+        `INSERT INTO message (id_room, id_user, message_text)
+        VALUES ($1, $2, $3) RETURNING *`, [roomId, idUser, message]);
+      let reciveMessage = {
+        message_text: data.message,
+        status: 'friend-message'
+      }
+      socket.broadcast.to(data.roomId).emit('reciveMessage', reciveMessage);
+    } catch (error) {
+      console.log('Произошла ошибка при отправке сообщения (сокеты):', error);
+    }
+
   });
 
 
@@ -63,7 +75,6 @@ io.on('connection', (socket) => {
     console.log(`user with id: ${socket.id} disconnected`);
   })
 })
-
 
 server.listen(PORT, () => {
   console.log(`socket server is running on port ${PORT}`);

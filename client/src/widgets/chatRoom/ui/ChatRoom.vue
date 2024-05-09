@@ -18,7 +18,7 @@
     <loader-content v-if="!loadedMessages" class="message-loader" />
     <ul v-else class="message-list">
       <div v-if="!messages.length" class="message-list_empty">Напиши первое сообщение!</div>
-      <li v-else v-for="item in messages" :key="item.id" class="message-list__item"
+      <li v-else v-for="item in messages" :key="item" class="message-list__item"
         :class="[item.status === 'user-message' ? 'message-list__item_rigth' : 'message-list__item_left']">
         {{ item.message_text }}
       </li>
@@ -78,15 +78,26 @@ function autoResizeTextarea(event) {
 async function sendMessage(messageText) {
   try {
     socketStore.sendMessage(idDialog.value, messageText);
+    let message = {
+      message_text: messageText,
+      status: 'user-message'
+    }
+    messages.value.push(message)
 
     console.log('messageText', messageText);
     messageString.value = '';
 
-    // getMessages();
   } catch (error) {
     console.log('Что-то пошло не так...'.error);
   }
 }
+
+socketStore.reciveMessage().then((data) => {
+  console.log('it is work:', data);
+  messages.value.push(data);
+}).catch((error) => {
+  console.log('Error in socket:', error);
+})
 
 onMounted(() => {
   messages.value = router.params.messages;
