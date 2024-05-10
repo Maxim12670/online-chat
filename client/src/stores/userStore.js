@@ -23,8 +23,6 @@ export const useUserStore = defineStore('userStore', () => {
     city: '',
   });
 
-  const userAvatar = ref(`http://localhost:5000/${userData.value.image}`)
-
   function updateIsLogin(newValue) {
     isLogin.value = newValue;
     localStorage.setItem('isLogin', isLogin.value)
@@ -81,15 +79,7 @@ export const useUserStore = defineStore('userStore', () => {
   };
 
   function exitAccount() {
-    userData.value = {
-      id: '',
-      email: '',
-      name: '',
-      surname: '',
-      image: '',
-      age: '',
-      city: '',
-    };
+    userData.value = '';
     isLogin.value = false;
     localStorage.removeItem('isLogin');
     router.push({path: '/auth'});
@@ -110,7 +100,7 @@ export const useUserStore = defineStore('userStore', () => {
   }
 
   return {
-    userData, isLogin, userAvatar, getUserData,
+    userData, isLogin, getUserData,
     getCurrentUser, getUsers, updateIsLogin,
     updateUser, exitAccount
   }
