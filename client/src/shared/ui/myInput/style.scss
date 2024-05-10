@@ -7,16 +7,17 @@
   box-sizing: border-box;
   border: .1rem solid white;
   border-radius: 1rem;
-  background-color: $c-syper-light-blue;
+  background-color: #8b8ddb;
   opacity: 0.9;
   color: $c-black;
   font-size: 1.8rem;
   font-weight: 500;
 
   @media (hover:hover) {
-    transition: border-color .15s, transform .15s;
+    transition: border-color .15s, transform .15s, background-color .15s;
 
     &:hover {
+      background-color: #7e80d7;
       border-color: transparent;
       box-shadow: -0.1rem 0rem 2.1rem 0rem rgba(26, 68, 166, 0.75);
     }

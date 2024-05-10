@@ -1,22 +1,28 @@
 // MAIN PAGE
 
+@import '@/assets/variables';
+
 .main-page {
   display: flex;
   flex-direction: row;
   width: 100%;
   min-height: 85vh;
-  background-color: blueviolet;
 
   &__menu {
     display: block;
-    width: 25%;
-    background-color: pink;
+    width: 20%;
+    margin-right: 0.5rem;
     box-sizing: border-box;
+    background-color: $c-dark-blue;
+    border-radius: 1rem;
   }
 
   &__content {
-    width: 75%;
-    background-color: blue;
+    width: 80%;
     box-sizing: border-box;
+    overflow: hidden;
+    border-radius: 1rem;
+    background-color: $c-dark-blue;
+
   }
 }
