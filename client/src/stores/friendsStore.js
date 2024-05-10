@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { defineStore } from 'pinia';
 import { useFriendsAPI } from '@/api/friendsApiStore';
 import { useUserStore } from './userStore';
