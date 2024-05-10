@@ -1,4 +1,4 @@
-import { defineStore, setMapStoreSuffix } from "pinia";
+import { defineStore } from "pinia";
 import axios from 'axios';
 
 const baseURLFriends = "http://localhost:5001/api/friend";
