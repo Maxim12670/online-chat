@@ -1,9 +1,7 @@
 <template>
   <content-container class="main-page__wrapper">
     <div class="main-page">
-      <div class="main-page__menu">
-        <nav-menu />
-      </div>
+        <nav-menu class="main-page__menu"/>
       <div class="main-page__content">
         <router-view />
         <!-- <message-view/> -->
