@@ -1,11 +1,8 @@
-import axios from "axios";
 import { defineStore } from "pinia";
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useUserAPI } from "@/api/userApiStore";
 import { getCookies } from "@/shared/helper/cookies/Cookies";
 import { useRouter } from "vue-router";
-
-const urlByUser = 'http://localhost:5000/api/user/';
 
 export const useUserStore = defineStore('userStore', () => {
 
@@ -82,7 +79,7 @@ export const useUserStore = defineStore('userStore', () => {
     userData.value = '';
     isLogin.value = false;
     localStorage.removeItem('isLogin');
-    router.push({path: '/auth'});
+    router.push({ path: '/auth' });
   };
 
   if (localStorage.getItem('isLogin')) {
