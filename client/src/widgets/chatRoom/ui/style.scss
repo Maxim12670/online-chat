@@ -6,14 +6,15 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  background-color: #fff;
+  background-color: $c-syper-light-blue;
 
   &__header {
     display: flex;
     flex-direction: row;
     align-items: center;
     height: 4rem;
-    background-color: red;
+    padding: 0.25rem 1rem 0.25rem 0.1rem;
+    background-color: $c-dark-blue;
   }
 
   &__exit {
@@ -49,7 +50,7 @@
     width: 4rem;
     height: 4rem;
     border-radius: 100%;
-    margin: 0 1rem 0 auto;
+    margin: 0 0 0 auto;
   }
 }
 
@@ -62,7 +63,6 @@
   width: 100%;
   overflow-y: auto;
   max-height: 70rem;
-  background-color: aqua;
 
   &_empty {
     font-size: 2.5rem;
@@ -107,11 +107,12 @@
   min-height: 1rem;
   margin-top: auto;
   margin-bottom: 0;
+  padding: 0 .25rem .25rem;
 
   &__btn {
-    width: 4.5rem;
-    height: 4.5rem;
-    padding: 0.5rem;
+    width: 4rem;
+    height: 4rem;
+    padding: 0.25rem;
     border: none;
     background-color: rgba(28, 28, 28, 0);
     cursor: pointer;
@@ -121,29 +122,27 @@
   &__icon {
     width: 100%;
     height: 100%;
-    fill: $c-light-blue;
+    fill: $c-dark-blue;
 
     @media (hover:hover) {
       transition: fill .15s;
 
       &:hover {
-        fill: $c-syper-light-blue;
+        fill: $c-blue;
       }
     }
   }
 
   &__input {
     flex-grow: 1;
-    height: 48px;
+    height: 4.65rem;
     max-height: 15rem;
     box-sizing: border-box;
-    border: 0.25rem solid $c-light-blue;
+    border: 0.25rem solid $c-dark-blue;
     border-radius: 1.25rem;
     padding: 1.2rem 1rem;
     resize: none;
     overflow-y: hidden;
-
-
     font-size: 1.6rem;
     font-weight: 400;
 
