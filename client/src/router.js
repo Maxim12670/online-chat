@@ -8,33 +8,52 @@ import { useMessageStore } from "./stores/messageStore";
 const routers = [
   {
     name: 'MainPage', path: '/', component: MainPage,
-    redirect: to => {return 'user'},
+    meta: { title: 'Главная' },
+    redirect: to => { return 'user' },
     children: [
-      { name: 'user', path: '/user', component: UserView },
-      { name: 'search', path: '/search', component: SearchView },
       {
-        name: 'dialogs', path: '/dialogs', component: MessageView
+        name: 'user', path: '/user', component: UserView, meta: { title: 'Главная' }
+      },
+      {
+        name: 'search', path: '/search', component: SearchView, meta: { title: 'Поиск' }
+      },
+      {
+        name: 'dialogs', path: '/dialogs', component: MessageView, meta: { title: 'Сообщения' }
       },
       {
         name: 'chat',
         path: '/chat/:id',
         component: ChatRoom,
+        meta: { title: 'Чат' },
         props: (route) => ({
           name: route.query.name,
           surname: route.query.surname
         }),
         beforeEnter: getDialogMessages
       },
-      { name: 'friends', path: 'friends', component: FriendsView }
+      {
+        name: 'friends', path: 'friends', component: FriendsView, meta: { title: 'Друзья' }
+      }
     ], beforeEnter: checkAuth
   },
-  { name: 'FormsPage', path: '/auth', component: FormsPage },
+  {
+    name: 'FormsPage', path: '/auth', component: FormsPage, meta: { title: 'Авторизация' }
+  },
 ];
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes: routers
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title;
+  } else {
+    document.title = 'Какая-то страница'
+  }
+  next();
+})
 
 function checkAuth(to, from, next) {
   if (localStorage.getItem('isLogin')) {
@@ -43,6 +62,7 @@ function checkAuth(to, from, next) {
     next('/auth')
   }
 };
+
 
 async function getDialogMessages(to, from, next) {
   const messageStore = useMessageStore();
