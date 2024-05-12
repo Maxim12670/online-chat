@@ -24,7 +24,7 @@
 import './style.scss';
 import { SpriteSVG, UserAvatar } from '@/shared/ui';
 import { useFriendsStore } from '@/stores/friendsStore';
-import { ref } from 'vue';
+import { inject, ref } from 'vue';
 
 const props = defineProps({
   id: Number,
@@ -34,21 +34,26 @@ const props = defineProps({
   typeCase: String
 });
 
+const deletePersonFromArray = inject('deletePersonFromArray');
+
 const friendsStore = useFriendsStore();
 const selectedFunction = ref('');
 
 async function deleteFriend() {
   await friendsStore.removeFriend(props.id);
+  deletePersonFromArray(props.id);
   console.log('друг успешно удален)');
 };
 
 async function addToFriend() {
   await friendsStore.respondToFriendRequest(props.id, true)
+  deletePersonFromArray(props.id);
   console.log('добавил в друзья');
 };
 
 async function deleteToSubscription() {
   await friendsStore.respondToFriendRequest(props.id, false)
+  deletePersonFromArray(props.id);
   console.log('отменил подписку')
 };
 

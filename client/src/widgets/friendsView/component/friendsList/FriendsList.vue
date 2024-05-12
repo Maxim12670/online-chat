@@ -26,7 +26,7 @@
 import './style.scss';
 import FriendItem from './component/FriendItem.vue';
 import { MyInput, NotDataStub, LoaderContent } from '@/shared/ui';
-import { computed, ref } from 'vue';
+import { computed, provide, ref } from 'vue';
 import { computedAsync } from '@vueuse/core'
 import { nuvBtnValues } from './config/nuvBtnValues';
 import { useFriendsStore } from '@/stores/friendsStore.js';
@@ -58,5 +58,15 @@ const persons = computedAsync(async () => {
       return arrayPersons.value;
   }
 });
+
+function deletePersonFromArray(idItem) {
+  const indexItem = arrayPersons.value.findIndex(item => item.id === idItem);
+
+  if(indexItem !== -1) {
+    arrayPersons.value.splice(indexItem, 1);
+  }
+}
+
+provide('deletePersonFromArray', deletePersonFromArray)
 
 </script>
