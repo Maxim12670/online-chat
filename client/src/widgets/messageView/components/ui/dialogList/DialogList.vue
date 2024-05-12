@@ -1,10 +1,10 @@
 <template>
   <div class="dialog-list">
-    <my-input class="dialog-list__input" placeholder="Поиск" type="text" :isRequired="false" v-model="searchFilter" />
+    <my-input class="dialog-list__input" v-model="filterString" placeholder="Поиск" type="text" :isRequired="false"  />
     <loader-content v-if="!loadedDialogs" class="dialog-list__loader"/>
     <div v-else class="dialog-list__container">
-      <not-data-stub v-if="!dialogs.length" text="Диалогов нет!"/>
-      <dialog-item v-else class="dialog-list__item" v-for="dialog in dialogs" :key="dialog.dialog_id"
+      <not-data-stub v-if="!filterDialog.length" text="Диалогов нет!"/>
+      <dialog-item v-else class="dialog-list__item" v-for="(dialog, index) in filterDialog" :key="index"
         :name="dialog.name_companion" :surname="dialog.surname_companion" :image="dialog.image_companion"
         @click="openChatRoom(dialog.dialog_id, dialog.name_companion, dialog.surname_companion)" />
     </div>
@@ -17,6 +17,7 @@ import { MyInput, NotDataStub, LoaderContent } from '@/shared/ui/index';
 import DialogItem from './components/dialogItem/DialogItem.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useDialogStore } from '@/stores/dialogStore';
+import { searchByStringInPerson } from '@/shared/lib/hooks/searchString';
 import { useRouter } from 'vue-router';
 
 const dialogStore = useDialogStore();
@@ -24,10 +25,9 @@ const router = useRouter();
 const dialogs = ref([]);
 const loadedDialogs = ref(false);
 
-const searchFilter = ref('');
-const filterChat = computed(() => {
-  // добавить логику фильтрации
-  return searchFilter.value;
+const filterString = ref('');
+const filterDialog = computed(() => {
+  return searchByStringInPerson(filterString.value, dialogs.value);
 });
 
 const openChatRoom = (idChat, userName, userSurname) => {
