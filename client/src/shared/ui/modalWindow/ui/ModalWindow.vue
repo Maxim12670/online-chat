@@ -5,7 +5,6 @@
         <form @submit.prevent="updateUserInfo" enctype="multipart/form-data">
           <div class="modal-window__wrapper">
             <h2 class="modal-window__title">Введите свои данные</h2>
-            <SpriteSVG />
             <svg class="modal-window__close" @click="show = !show">
               <use xlink:href="#close-icon"></use>
             </svg>
@@ -32,7 +31,7 @@
 <script setup>
 import './style.scss';
 import { ref } from 'vue';
-import { MyInput, MyButton, SpriteSVG } from '../../index';
+import { MyInput, MyButton } from '../../index';
 import { useUserStore } from '@/stores/userStore';
 
 const props = defineProps({

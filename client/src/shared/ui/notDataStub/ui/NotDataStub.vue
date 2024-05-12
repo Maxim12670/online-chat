@@ -1,6 +1,5 @@
 <template>
   <div class="not-data-stub">
-    <SpriteSVG/>
     <svg class="not-data-stub__icon">
       <use xlink:href="#absence-icon"></use>
     </svg>
@@ -10,7 +9,6 @@
 
 <script setup>
 import './style.scss';
-import { SpriteSVG } from '../..';
 
 defineProps({
   text: String

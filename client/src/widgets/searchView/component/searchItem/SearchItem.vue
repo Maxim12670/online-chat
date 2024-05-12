@@ -1,6 +1,5 @@
 <template>
   <div class="search-item">
-    <SpriteSVG />
     <div class="search-item__photo">
       <user-avatar :image="image" />
     </div>
@@ -24,7 +23,7 @@
 
 <script setup>
 import './style.scss';
-import { SpriteSVG, UserAvatar } from '@/shared/ui/index';
+import { UserAvatar } from '@/shared/ui/index';
 import { useFriendsStore } from '@/stores/friendsStore';
 import { useDialogStore } from '@/stores/dialogStore';
 

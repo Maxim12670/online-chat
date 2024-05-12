@@ -1,6 +1,5 @@
 <template>
   <div class="friend-item">
-    <SpriteSVG />
     <user-avatar class="friend-item__photo" :image="image"/>
     <div class="friend-item__initials">
       {{ `${surname} ${name }` }}
@@ -22,7 +21,7 @@
 
 <script setup>
 import './style.scss';
-import { SpriteSVG, UserAvatar } from '@/shared/ui';
+import { UserAvatar } from '@/shared/ui';
 import { useFriendsStore } from '@/stores/friendsStore';
 import { inject, ref } from 'vue';
 

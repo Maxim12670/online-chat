@@ -1,6 +1,5 @@
 <template>
   <nav class="nav-menu">
-    <SpriteSVG />
     <div class="nav-menu__list">
       <router-link :to="link.path" class="nav-menu__item" v-for="link in navLinks" :key="link.label">
           <svg class="nav-menu__icon">
@@ -16,7 +15,6 @@
 
 <script setup>
 import './style.scss';
-import { SpriteSVG } from '../../../shared/ui/index.js';
 import { navLinks } from '../config/navLinks';
 
 

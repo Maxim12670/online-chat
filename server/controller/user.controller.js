@@ -28,7 +28,6 @@ class UserController {
         return res.status(400).json({ message: 'Пользователь не найден!' });
       }
 
-      // TODO заменить undefined на фото по умолчанию
       const newUser = {
         id, email, name, surname, password, age, city,
         image: image ? image.path : "images\default_avatar.jpg",

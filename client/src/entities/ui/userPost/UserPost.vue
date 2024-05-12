@@ -1,6 +1,5 @@
 <template>
   <div class="post">
-    <SpriteSVG />
     <div class="post-header">
       <div class="post-header__photo">
         <user-avatar :image="image"/>
@@ -28,7 +27,7 @@
 <script setup>
 import './style.scss';
 import { ref } from 'vue';
-import { SpriteSVG, UserAvatar } from '@/shared/ui/index';
+import { UserAvatar } from '@/shared/ui/index';
 import { useUserStore } from '@/stores/userStore';
 
 const props = defineProps({

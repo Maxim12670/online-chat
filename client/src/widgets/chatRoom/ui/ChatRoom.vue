@@ -1,6 +1,5 @@
 <template>
   <div class="chat-room">
-    <SpriteSVG />
     <div class="chat-room__header">
 
       <button class="chat-room__exit-btn" @click="$router.go(-1)">
@@ -42,7 +41,7 @@
 
 <script setup>
 import './style.scss';
-import { SpriteSVG, UserAvatar, LoaderContent } from '@/shared/ui';
+import { UserAvatar, LoaderContent } from '@/shared/ui';
 import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useMessageStore } from '@/stores/messageStore';
