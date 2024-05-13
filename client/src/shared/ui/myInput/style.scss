@@ -34,7 +34,7 @@
   &::file-selector-button {
     margin-right: 20px;
     border: none;
-    background: #084cdf;
+    background-color: #8b8ddb;
     padding: 10px 20px;
     border-radius: 10px;
     color: #fff;
@@ -45,6 +45,6 @@
   }
 
   &:hover::file-selector-button:hover {
-    background: #0d45a5;
+    background-color: #7e80d7;
   }
 }
