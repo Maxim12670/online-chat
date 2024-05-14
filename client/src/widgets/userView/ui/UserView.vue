@@ -44,8 +44,4 @@ const userData = computed(() => userStore.userData);
 const exitAccount = () => {
   userStore.exitAccount();
 }
-
-onMounted(() => {
-  console.log(userStore.userData)
-})
 </script>
