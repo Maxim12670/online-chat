@@ -45,3 +45,25 @@ CREATE TABLE message(
   FOREIGN KEY (id_room) REFERENCES dialog_room(id),
   FOREIGN KEY (id_user) REFERENCES person(id)
 );
+
+-- блок для работы с токенами
+--создание таблицы для токенов
+CREATE TABLE user_tokens (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+-- функция которая будет удалять запись если 
+CREATE OR REPLACE FUNCTION delete_old_tokens() RETURNS TRIGGER AS $$
+BEGIN
+    DELETE FROM user_tokens WHERE created_at < NOW() - INTERVAL '30 days';
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+-- триггер, который будет вызывать функцию каждые сутки
+CREATE TRIGGER delete_old_tokens_trigger
+AFTER INSERT ON user_tokens
+EXECUTE FUNCTION delete_old_tokens();
+
+
