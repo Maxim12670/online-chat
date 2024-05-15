@@ -12,7 +12,6 @@
 <script setup>
 import './style.scss';
 import { ref } from 'vue';
-import axios from 'axios';
 import { MyInput, MyButton } from '@/shared/ui/index';
 import { useUserStore } from '@/stores/userStore';
 import { useRouter } from 'vue-router';
@@ -28,24 +27,12 @@ const router = useRouter();
 const authorizeUser = async (event) => {
   const { email, password } = formData.value;
   try {
-    await axios.post('http://localhost:5000/api/user/auth', {
-      email: email,
-      password: password
-    })
-      .then(async (res) => {
-        await userStore.getUserData(res.data.id);
-        userStore.updateIsLogin(true);
-      })
-      .then(() => {
-        router.push({
-          name: 'MainPage'
-        })
-      })
-      .catch(error => {
-        console.log('ошибка:', error)
-      })
+    const data = await userStore.authorization(email, password)
+    await userStore.getUserData(data.id);
+    userStore.checkAuth();
   } catch (error) {
     console.log('Произошла ошибка:', error)
   }
 }
+
 </script>

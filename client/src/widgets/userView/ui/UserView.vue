@@ -7,7 +7,7 @@
 
     <div class="user-page__content">
       <user-avatar class="user-page__photo" :image="userData.image"/>
-      <my-button class="user-page__exit" text="Выйти" @click="exitAccount"/>
+      <my-button class="user-page__exit" text="Выйти" @click="logoutAccount"/>
       <div class="user-page__descr">
         <div v-show="userData.surname !== null" class="user-page__name">
           {{ userData.surname + ' ' + userData.name }}
@@ -41,7 +41,7 @@ const show = ref(false);
 const userStore = useUserStore();
 const userData = computed(() => userStore.userData);
 
-const exitAccount = () => {
-  userStore.exitAccount();
+const logoutAccount = () => {
+  userStore.logout();
 }
 </script>

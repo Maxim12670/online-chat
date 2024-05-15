@@ -34,7 +34,7 @@ const routers = [
       {
         name: 'friends', path: 'friends', component: FriendsView, meta: { title: 'Друзья' }
       }
-    ], beforeEnter: checkAuth
+    ]
   },
   {
     name: 'FormsPage', path: '/auth', component: FormsPage, meta: { title: 'Авторизация' }
@@ -54,15 +54,6 @@ router.beforeEach((to, from, next) => {
   }
   next();
 })
-
-function checkAuth(to, from, next) {
-  if (localStorage.getItem('isLogin')) {
-    next()
-  } else {
-    next('/auth')
-  }
-};
-
 
 async function getDialogMessages(to, from, next) {
   const messageStore = useMessageStore();

@@ -30,7 +30,7 @@
 
 <script setup>
 import './style.scss';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { MyInput, MyButton } from '../../index';
 import { useUserStore } from '@/stores/userStore';
 

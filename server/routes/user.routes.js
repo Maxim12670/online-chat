@@ -3,6 +3,7 @@ const router = new Router();
 const userController = require('../controller/user.controller');
 const { check } = require('express-validator');
 const fileMiddleware = require('../middleware/upload');
+const verifyRefreshToken = require('../utils/verifyRefreshToken');
 
 
 router.post('/registr', [
@@ -13,8 +14,9 @@ router.post('/registr', [
   }
 ], userController.createUser);
 
-router.post('/auth', userController.authUser)
-router.post('/user', userController.getUserData);
+router.post('/auth', userController.authUser);
+router.post('/logout',verifyRefreshToken, userController.logout);
+router.post('/user', verifyRefreshToken, userController.getUserData);
 router.get('/users', userController.getAllUsers);
 router.post('/update', fileMiddleware.single('image'), userController.updateUser);
 router.post('/:id', userController.deleteUser);

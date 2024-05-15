@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 const userRouter = require('../routes/user.routes');
 const postRouter = require('../routes/post.routers');
+const refreshRouter = require('../routes/refreshToken.router');
 
 const PORT = process.env.PORT || 5000;
 const baseURL = "*";
@@ -37,8 +38,10 @@ app.all('*', function (req, res, next) {
 });
 
 app.use(cookieParser());
+
 app.use('/api/user', userRouter);
 app.use('/api/post', postRouter);
+app.use('/api', refreshRouter);
 
 app.listen(PORT, () => {
   console.log(`base server is running on port ${PORT}`);

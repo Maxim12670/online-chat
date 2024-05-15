@@ -51,7 +51,7 @@ CREATE TABLE message(
 CREATE TABLE user_tokens (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
-    token VARCHAR(255) NOT NULL,
+    token TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 -- функция которая будет удалять запись если 

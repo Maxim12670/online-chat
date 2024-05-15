@@ -1,6 +1,8 @@
 const db = require('../db');
 const { validationResult } = require('express-validator')
 const userDatabaseValidator = require('../validator/UserDatabaseValidator');
+const generateAccessToken = require('../utils/generateAccessToken');
+const generateRefreshToken = require('../utils/generateRefreshToken');
 
 const findNewValue = (oldUser, newUser) => {
   const newValue = {};
@@ -83,12 +85,27 @@ class UserController {
       if (!isValidPassword) {
         return res.status(400).json({ message: 'Пароль неверный!' });
       }
-      const userData = await db.query(
+      // генерация токенов
+      const result = await db.query(
         'SELECT * FROM person WHERE email = $1', [email]);
 
-      return res.status(200).json(userData.rows[0]);
+      const userData = result.rows[0];
+      const accessToken = generateAccessToken(userData);
+      const refreshToken = generateRefreshToken(userData);
+
+      // запись в таблицу токенов
+      await db.query(`
+        INSERT INTO user_tokens (user_id, token)
+        VALUES ($1, $2)`, [userData.id, refreshToken]);
+
+      return res.status(200).json({
+        ...userData,
+        accessToken,
+        refreshToken
+      });
 
     } catch (e) {
+      console.log(e)
       return res.status(400).json({ message: 'Ошибка при авторизации!' });
     }
   };
@@ -104,9 +121,14 @@ class UserController {
       const userData = await db.query(
         'SELECT * FROM person WHERE id = $1', [id]);
 
-      return res.cookie('userData', JSON.stringify(userData.rows[0])).status(200).json(userData.rows[0]);
+      // const userData = await db.query(`SELECT * FROM user_tokens WHERE user_id = $1`, [id]);
+      // return res.cookie('userData', JSON.stringify(userData.rows[0])).status(200).json(userData.rows[0]);
+      
+      const accessToken = req.headers.authorization.split(" ")[1];
+      return res.cookie('userData', JSON.stringify(accessToken)).status(200).json(userData.rows[0]);
 
     } catch (e) {
+      console.log(e)
       return res.status(400).json({ message: 'Произошла ошибка поиска пользователя!' });
     }
   };
@@ -121,12 +143,29 @@ class UserController {
 
       const users = await db.query(`SELECT * FROM person WHERE id != $1`, [idUser]);
       return res.json(users.rows);
-      
+
     } catch (e) {
       console.log('Error', e)
       return res.status(400).json({ message: 'Произошла ошибка при поиске всех пользователей!' });
     }
   };
+  // выйти из аккаунта
+  static async logout(req, res) {
+    try {
+      const { id } = req.body;
+      const isValidId = await userDatabaseValidator.idExistsDatabase(id, 'person');
+      if (!isValidId) {
+        return res.status(400).json({ message: `Не удалось удалить пользователя с id: ${id}` })
+      }
+
+      await db.query(`DELETE FROM user_tokens WHERE user_id = $1`, [id]);
+
+      return res.clearCookie('userData').status(200).json({ message: 'Пользователь успешно вышел из системы!' })
+    } catch (error) {
+      console.log(error)
+      return res.status(400).json({ message: 'Произошла ошибка при выходе из аккаунта!' })
+    }
+  }
   // удалить пользователя
   static async deleteUser(req, res) {
     try {

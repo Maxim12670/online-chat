@@ -1,9 +1,14 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 
-const urlRegistrUser = "http://localhost:5000/api/registr";
+import axiosToken from '@/shared/helper/axios/axiosConfig';
+
+
 const baseURLUser = "http://localhost:5000/api/user";
 const apiRoutesUser = {
+  registration: '/registr',
+  authorization: '/auth',
+  logout: '/logout',
   getUser: '/user',
   getAllUsers: '/users',
   updateUserData: '/update'
@@ -21,7 +26,7 @@ export const useUserAPI = defineStore('userAPI', () => {
   //регистрация пользователя
   const postUser = async (name, surname, email, password) => {
     try {
-      await instance.post(urlRegistrUser, {
+      await instance.post(`${baseURLUser}${apiRoutesUser.registration}`, {
         name: name,
         surname: surname,
         email: email,
@@ -44,13 +49,33 @@ export const useUserAPI = defineStore('userAPI', () => {
     }
   };
 
+  // авторизация пользователя
+  const authorization = async (email, password) => {
+    try {
+      const { data } = await axios.post(`${baseURLUser}${apiRoutesUser.authorization}`, {
+        email: email,
+        password: password
+      });
+      return data;
+    } catch (error) {
+      console.log('Произошла ошибка при авторизации:', error);
+    }
+  };
+
+  // выход из аккаунта
+  const logout = async (id) => {
+    try {
+      await axiosToken.post(`${baseURLUser}${apiRoutesUser.logout}`, { id });
+    } catch (error) {
+      console.log('Произошла ошибка:', error);
+    }
+  }
+
   //получение пользователя по id
   const getUserById = async (id) => {
     try {
-      axios.defaults.withCredentials = true
-      const { data } = await instance.post(`${baseURLUser}${apiRoutesUser.getUser}`, {
-        id: id
-      });
+      const { data } = await axiosToken.post('/user/user', { id: id });
+      console.log('getUserById:', data);
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
@@ -96,5 +121,8 @@ export const useUserAPI = defineStore('userAPI', () => {
     }
   };
 
-  return { getUserById, postUser, putUpdateUser, getAllUsers }
+  return {
+    authorization, logout, getUserById,
+    postUser, putUpdateUser, getAllUsers
+  }
 })
