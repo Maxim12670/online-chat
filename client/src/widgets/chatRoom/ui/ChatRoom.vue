@@ -76,16 +76,17 @@ function autoResizeTextarea(event) {
 
 async function sendMessage(messageText) {
   try {
-    socketStore.sendMessage(idDialog.value, messageText);
-    let message = {
-      message_text: messageText,
-      status: 'user-message'
+    if (messageText !== '') {
+      socketStore.sendMessage(idDialog.value, messageText);
+      let message = {
+        message_text: messageText,
+        status: 'user-message'
+      }
+      messages.value.push(message)
+
+      console.log('messageText', messageText);
+      messageString.value = '';
     }
-    messages.value.push(message)
-
-    console.log('messageText', messageText);
-    messageString.value = '';
-
   } catch (error) {
     console.log('Что-то пошло не так...'.error);
   }
