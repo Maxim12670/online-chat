@@ -14,7 +14,7 @@
 <script setup>
 import './style.scss';
 import { MyInput, NotDataStub, LoaderContent } from '@/shared/ui/index';
-import DialogItem from './components/dialogItem/DialogItem.vue';
+import DialogItem from '../dialogItem/DialogItem.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useDialogStore } from '@/stores/dialogStore';
 import { searchByStringInPerson } from '@/shared/lib/hooks/searchString';
