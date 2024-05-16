@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { ref } from 'vue';
 import { useUserAPI } from "@/api/userApiStore";
 import { useRouter } from "vue-router";
-import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
 export const useUserStore = defineStore('userStore', () => {
@@ -38,8 +37,7 @@ export const useUserStore = defineStore('userStore', () => {
 
   function setUserToken(data) {
     userToken.value = {
-      accessToken: data.accessToken,
-      refreshToken: data ? data.refreshToken : userToken.value.refreshToken
+      accessToken: data.accessToken
     }
   }
 
@@ -116,6 +114,8 @@ export const useUserStore = defineStore('userStore', () => {
         router.push({ name: 'FormsPage' });
       } else {
         const decodeToken = jwtDecode(cookieToken);
+        userToken.value.accessToken = cookieToken;
+        // await getUserData();
         setUserData(decodeToken);
 
         router.push({ name: 'MainPage' });
