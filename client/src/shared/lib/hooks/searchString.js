@@ -1,6 +1,4 @@
 function searchByStringInPerson(str, array) {
-  console.log('filter string', str);
-  console.log('array filter ', array)
   const regex = new RegExp(str, 'i');
   if (array.length) {
     const filteredArray = array.filter((item => {

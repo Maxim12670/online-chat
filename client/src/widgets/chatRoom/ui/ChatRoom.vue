@@ -84,7 +84,6 @@ async function sendMessage(messageText) {
       }
       messages.value.push(message)
 
-      console.log('messageText', messageText);
       messageString.value = '';
     }
   } catch (error) {

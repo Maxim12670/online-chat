@@ -14,20 +14,18 @@ export const useSocketStore = defineStore('socketStore', () => {
   }
 
   function sendMessage(idDialog, messageText) {
-
     const data = {
       idUser: idUser,
       roomId: idDialog,
       message: messageText
     };
-    console.log(data)
+
     socket.emit('sendMessage', data);
   }
 
   function reciveMessage() {
     return new Promise((resolve, reject) => {
       socket.on('reciveMessage', (data) => {
-        console.log('message from server:', data);
         resolve(data);
       });
     });
