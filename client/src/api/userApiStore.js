@@ -10,6 +10,7 @@ const apiRoutesUser = {
   authorization: '/auth',
   logout: '/logout',
   getUser: '/user',
+  getCurrentUser: '/user/current',
   getAllUsers: '/users',
   updateUserData: '/update'
 }
@@ -62,10 +63,21 @@ export const useUserAPI = defineStore('userAPI', () => {
     }
   };
 
+  // получить данные авторизованного пользователя
+  const getUser = async () => {
+    try {
+      const data = await axiosToken.get(`${baseURLUser}${apiRoutesUser.getUser}`);
+      console.log('getUser', data);
+      return data
+    } catch (error) {
+      console.log('Произошла ошибка:', error);
+    }
+  }
+
   // выход из аккаунта
   const logout = async (id) => {
     try {
-      await axiosToken.post(`${baseURLUser}${apiRoutesUser.logout}`, { id });
+      await axiosToken.post(`http://localhost:5000/api/user/logout`, { id: id });
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
@@ -74,8 +86,12 @@ export const useUserAPI = defineStore('userAPI', () => {
   //получение пользователя по id
   const getUserById = async (id) => {
     try {
-      const { data } = await axiosToken.post('/user/user', { id: id });
-      console.log('getUserById:', data);
+      const { data } = await axios.get(
+        `${baseURLUser}${apiRoutesUser.getCurrentUser}`, {
+        params: {
+          id: id
+        }
+      });
       return data;
     } catch (error) {
       console.log('Произошла ошибка:', error)
@@ -122,7 +138,12 @@ export const useUserAPI = defineStore('userAPI', () => {
   };
 
   return {
-    authorization, logout, getUserById,
-    postUser, putUpdateUser, getAllUsers
+    authorization,
+    getUser,
+    logout,
+    getUserById,
+    postUser,
+    putUpdateUser,
+    getAllUsers
   }
 })
