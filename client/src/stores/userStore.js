@@ -117,8 +117,6 @@ export const useUserStore = defineStore('userStore', () => {
         const decodeToken = jwtDecode(cookieToken);
         userToken.value.accessToken = cookieToken;
         setUserData(decodeToken);
-
-        router.push({ name: 'MainPage' });
       }
     } catch (error) {
       console.log('Ошибка при проверке авторизации:', error);
