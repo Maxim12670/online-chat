@@ -30,6 +30,7 @@ const authorizeUser = async (event) => {
     const data = await userStore.authorization(email, password)
     await userStore.getUserData();
     userStore.checkAuth();
+    router.push({name: 'MainPage'})
   } catch (error) {
     console.log('Произошла ошибка:', error)
   }
