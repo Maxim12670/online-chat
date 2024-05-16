@@ -28,7 +28,7 @@ const authorizeUser = async (event) => {
   const { email, password } = formData.value;
   try {
     const data = await userStore.authorization(email, password)
-    await userStore.getUserData(data.id);
+    await userStore.getUserData();
     userStore.checkAuth();
   } catch (error) {
     console.log('Произошла ошибка:', error)
