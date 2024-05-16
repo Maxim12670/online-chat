@@ -53,7 +53,7 @@ export const useUserAPI = defineStore('userAPI', () => {
   // авторизация пользователя
   const authorization = async (email, password) => {
     try {
-      const { data } = await axios.post(`${baseURLUser}${apiRoutesUser.authorization}`, {
+      const { data } = await instance.post(`${baseURLUser}${apiRoutesUser.authorization}`, {
         email: email,
         password: password
       });
@@ -66,8 +66,10 @@ export const useUserAPI = defineStore('userAPI', () => {
   // получить данные авторизованного пользователя
   const getUser = async () => {
     try {
-      const data = await axiosToken.get(`${baseURLUser}${apiRoutesUser.getUser}`);
-      console.log('getUser', data);
+      const data = await axiosToken.get(`${baseURLUser}${apiRoutesUser.getUser}`, {
+        withCredentials: true
+      })
+
       return data
     } catch (error) {
       console.log('Произошла ошибка:', error);
@@ -81,7 +83,7 @@ export const useUserAPI = defineStore('userAPI', () => {
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
-  }
+  };
 
   //получение пользователя по id
   const getUserById = async (id) => {
