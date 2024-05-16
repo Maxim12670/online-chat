@@ -116,7 +116,6 @@ export const useUserStore = defineStore('userStore', () => {
       } else {
         const decodeToken = jwtDecode(cookieToken);
         userToken.value.accessToken = cookieToken;
-        // await getUserData();
         setUserData(decodeToken);
 
         router.push({ name: 'MainPage' });

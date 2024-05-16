@@ -38,7 +38,7 @@ class RefreshToken {
           .json({
             accessToken: newAccessToken,
             refreshToken: newRefreshToken
-          })
+          });
       })
 
     } catch (error) {

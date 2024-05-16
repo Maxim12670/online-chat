@@ -75,7 +75,7 @@ class UserController {
       return res.status(400).json({ message: 'Ошибка при регистрации!' });
     }
   };
-  // авторизация
+  // авторизация пользователя
   static async authUser(req, res) {
     try {
       const { email, password } = req.body;
@@ -87,22 +87,19 @@ class UserController {
       if (!isValidPassword) {
         return res.status(400).json({ message: 'Пароль неверный!' });
       }
-      // генерация токенов
+
       const result = await db.query(
         'SELECT * FROM person WHERE email = $1', [email]);
       const userData = result.rows[0];
       const accessToken = generateAccessToken(userData);
       const refreshToken = generateRefreshToken(userData);
 
-      // запись в таблицу токенов
       await db.query(`
         INSERT INTO user_tokens (user_id, token)
         VALUES ($1, $2)`, [userData.id, refreshToken]);
 
       return res
-        .cookie('userData', refreshToken, {
-          httpOnly: true
-        })
+        .cookie('userData', refreshToken)
         .status(200)
         .json({ accessToken });
 
@@ -183,7 +180,7 @@ class UserController {
       console.log(error)
       return res.status(400).json({ message: 'Произошла ошибка при выходе из аккаунта!' })
     }
-  }
+  };
   // удалить пользователя
   static async deleteUser(req, res) {
     try {
