@@ -21,8 +21,7 @@ export const useUserStore = defineStore('userStore', () => {
   });
 
   const userToken = ref({
-    accessToken: '',
-    refreshToken: ''
+    accessToken: ''
   })
 
   function setUserData(data) {
@@ -40,18 +39,15 @@ export const useUserStore = defineStore('userStore', () => {
   function setUserToken(data) {
     userToken.value = {
       accessToken: data.accessToken,
-      refreshToken: data.refreshToken
+      refreshToken: data ? data.refreshToken : userToken.value.refreshToken
     }
   }
 
   async function authorization(email, password) {
     try {
       const data = await userAPI.authorization(email, password);
-      setUserData(data);
       setUserToken(data);
-
-      return { id: userData.value.id };
-
+      localStorage.setItem('access-token', userToken.value.accessToken);
     } catch (error) {
       console.log('Произошла ошибка при авторизации:', error);
     }
@@ -61,22 +57,18 @@ export const useUserStore = defineStore('userStore', () => {
     try {
       await userAPI.logout(userData.value.id);
       userData.value = '';
-      isLogin.value = false;
+      userToken.value = '';
       router.push({ path: '/auth' });
     } catch (error) {
       console.log('Произошла ошибка при выходе из аккаунта:', error);
     }
   }
 
-  async function getUserData(id) {
-    try {
-      const data = await userAPI.getUserById(id);
-      setUserData(data);
 
-      userToken.value = {
-        accessToken: data.accessToken,
-        refreshToken: data.refreshToken
-      }
+  async function getUserData() {
+    try {
+      const data = await userAPI.getUser();
+      setUserData(data)
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
@@ -109,7 +101,7 @@ export const useUserStore = defineStore('userStore', () => {
       console.log(userData.value.accessToken)
       await userAPI.putUpdateUser(
         id, email, name, surname, password, age, city, image, accessToken, refreshToken)
-      getUserData(id, userData.value.accessToken);
+      getUserData();
 
     } catch (error) {
       console.log('Произошла ошибка:', error)
@@ -119,23 +111,29 @@ export const useUserStore = defineStore('userStore', () => {
 
   async function checkAuth() {
     try {
-      const cookieToken = Cookies.get('userData');
+      const cookieToken = localStorage.getItem('access-token');
       if (!cookieToken) {
         router.push({ name: 'FormsPage' });
       } else {
         const decodeToken = jwtDecode(cookieToken);
         setUserData(decodeToken);
+
         router.push({ name: 'MainPage' });
       }
     } catch (error) {
       console.log('Ошибка при проверке авторизации:', error);
     }
-  }
+  };
 
   return {
-    userData, userToken, authorization,
-    logout, getUserData, getCurrentUser,
-    getUsers, updateUser,
+    userData,
+    userToken,
+    authorization,
+    logout,
+    getUserData,
+    getCurrentUser,
+    getUsers,
+    updateUser,
     checkAuth
   }
 });
