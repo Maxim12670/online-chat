@@ -43,7 +43,8 @@ class UserController {
         [newValue.email, newValue.name, newValue.surname, newValue.password,
         newValue.image, newValue.age, newValue.city, id]
       );
-      return res.clearCookie('userData')
+      return res
+        .clearCookie('userData')
         .cookie('userData', JSON.stringify(user.rows[0]))
         .status(200).json(user.rows[0]);
     } catch (e) {
@@ -67,6 +68,7 @@ class UserController {
         `INSERT INTO person (email, name, surname, password) 
         values ($1, $2, $3, $4) RETURNING *`,
         [email, name, surname, password]);
+
       return res.json(newPerson.rows[0]);
 
     } catch (e) {
@@ -97,11 +99,12 @@ class UserController {
         INSERT INTO user_tokens (user_id, token)
         VALUES ($1, $2)`, [userData.id, refreshToken]);
 
-      return res.status(200)
-        .cookie('userData', JSON.stringify(refreshToken))
-        .json({
-          accessToken
-        });
+      return res
+        .cookie('userData', refreshToken, {
+          httpOnly: true
+        })
+        .status(200)
+        .json({ accessToken });
 
     } catch (e) {
       console.log(e)
@@ -112,6 +115,7 @@ class UserController {
   static async getUserData(req, res) {
     try {
       const data = req.user;
+      console.log('id', data.id)
       const userData = await db.query(
         'SELECT * FROM person WHERE id = $1', [data.id]);
 

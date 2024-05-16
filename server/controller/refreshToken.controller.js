@@ -18,7 +18,7 @@ class RefreshToken {
       const tokenData = result.rows[0];
 
       if (!tokenData) {
-        return res.status(403).json('Токен не валидный!');
+        return res.status(403).json('Токен не валидный, токен не зареган!');
       }
 
       jwt.verify(refreshToken, config.token.REFRESH_SECRET_KEY, async (err, user) => {

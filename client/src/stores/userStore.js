@@ -56,6 +56,7 @@ export const useUserStore = defineStore('userStore', () => {
       await userAPI.logout(userData.value.id);
       userData.value = '';
       userToken.value = '';
+      localStorage.clear('userData');
       router.push({ path: '/auth' });
     } catch (error) {
       console.log('Произошла ошибка при выходе из аккаунта:', error);

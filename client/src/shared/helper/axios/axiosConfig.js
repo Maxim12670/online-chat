@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { useUserStore } from '@/stores/userStore';
-import Cookies from "js-cookie";
 
 
 const baseURL = 'http://localhost:5000/api';
@@ -26,13 +25,15 @@ const refreshOldToken = async () => {
 
 const axiosToken = axios.create({
   withCredentials: true,
-  baseURL: baseURL
+  baseURL: baseURL,
+  headers: {
+    'Content-Type': 'application/json'
+  }
 });
 
 axiosToken.interceptors.request.use((config) => {
   const userStore = useUserStore();
   const token = userStore.userToken.accessToken;
-  // console.log('token', userStore.userToken.accessToken)
   config.headers.Authorization = "Bearer " + token;
   return config;
 });
@@ -40,13 +41,11 @@ axiosToken.interceptors.request.use((config) => {
 axiosToken.interceptors.request.use(
   async (config) => {
     let currentDate = new Date();
-    const userStore = useUserStore();
-    if (userStore.userToken.accessToken) {
-      const decodedToken = jwtDecode(userStore.userToken.accessToken);
-      // console.log('decode token', decodedToken)
+    const accessToken = localStorage.getItem('userData');
+    if (accessToken) {
+      const decodedToken = jwtDecode(accessToken);
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
         const data = await refreshOldToken();
-        // console.log('refresh old token:', data)
         config.headers["Authorization"] = "Bearer " + data.accessToken;
       }
     }
