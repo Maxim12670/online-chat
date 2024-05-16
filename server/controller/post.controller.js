@@ -13,6 +13,7 @@ class PostController {
         [content, userId]);
       return res.json(newPost.rows[0]);
     } catch (error) {
+      console.log('Error', error)
       return res.status(400).json({ message: 'Ошибка при добавлении поста!' });
     }
   };
@@ -29,6 +30,7 @@ class PostController {
         WHERE id = $1`, [id]);
       return res.status(200).json({ message: 'Пост успешно удален!' });
     } catch (error) {
+      console.log('Error', error)
       return res.status(400).json({ message: 'Ошибка при удалении поста!' });
     }
   };
@@ -52,6 +54,7 @@ class PostController {
       return res.status(200).json(posts.rows.reverse());
 
     } catch (error) {
+      console.log('Error', error)
       return res.status(400).json({ message: 'Ошибка при получении постов!' });
     }
   }

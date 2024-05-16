@@ -31,6 +31,7 @@ class FriendController {
       return res.json(newPair.rows[0])
       
     } catch (error) {
+      console.log('Error', error)
       return res.status(400).json({ message: 'Ошибка при отправке запроса в друзья!' });
     }
   };
@@ -58,7 +59,8 @@ class FriendController {
         [Status.Active, id_sender, id_recipient]);
       return res.json(result.rows[0]);
     } catch (error) {
-      res.status(400).json({ message: 'Ошибка при отправке ответа на запрос!' })
+      console.log('Error', error)
+      return res.status(400).json({ message: 'Ошибка при отправке ответа на запрос!' })
     }
   };
   // удалить пару друзей
@@ -86,7 +88,8 @@ class FriendController {
 
 
     } catch (error) {
-      res.status(400).json({ message: 'Ошибка при удалении из друзей!' })
+      console.log('Error', error)
+      return res.status(400).json({ message: 'Ошибка при удалении из друзей!' })
     }
   };
   // получить всех друзей
@@ -122,6 +125,7 @@ class FriendController {
       }
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
+      console.log('Error', error)
       return res.status(200).json({ message: 'Ошибка на сервере!' })
     }
   };
@@ -151,6 +155,7 @@ class FriendController {
       }
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
+      console.log('Error', error)
       return res.status(200).json({ message: 'Ошибка на сервере!' });
     }
   };
@@ -182,7 +187,7 @@ class FriendController {
 
       return res.status(400).json({ message: 'Такого пользователя нет!' });
     } catch (error) {
-      console.error(error);
+      console.log('Error', error)
       return res.status(500).json({ message: 'Ошибка на сервере!' });
     }
   };

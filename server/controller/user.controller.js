@@ -103,8 +103,8 @@ class UserController {
         .status(200)
         .json({ accessToken });
 
-    } catch (e) {
-      console.log(e)
+    } catch (error) {
+      console.log('Error', error)
       return res.status(400).json({ message: 'Ошибка при авторизации!' });
     }
   };
@@ -112,15 +112,14 @@ class UserController {
   static async getUserData(req, res) {
     try {
       const data = req.user;
-      console.log('id', data.id)
       const userData = await db.query(
         'SELECT * FROM person WHERE id = $1', [data.id]);
 
       return res
         .status(200)
         .json(userData.rows[0]);
-    } catch (e) {
-      console.log(e)
+    } catch (error) {
+      console.log('Error', error)
       return res.status(400).json({ message: 'Произошла ошибка поиска пользователя!' });
     }
   };
@@ -139,8 +138,8 @@ class UserController {
       return res
         .status(200)
         .json(userData.rows[0]);
-    } catch (e) {
-      console.log(e)
+    } catch (error) {
+      console.log('Error', error)
     }
   };
   // получить всех пользователей
@@ -155,15 +154,14 @@ class UserController {
       const users = await db.query(`SELECT * FROM person WHERE id != $1`, [idUser]);
       return res.json(users.rows);
 
-    } catch (e) {
-      console.log('Error', e)
+    } catch (error) {
+      console.log('Error', error)
       return res.status(400).json({ message: 'Произошла ошибка при поиске всех пользователей!' });
     }
   };
   // выйти из аккаунта
   static async logout(req, res) {
     try {
-      console.log('отработал сервер')
       const { id } = req.body;
       const isValidId = await userDatabaseValidator.idExistsDatabase(id, 'person');
       if (!isValidId) {
@@ -177,7 +175,7 @@ class UserController {
         .status(200)
         .json({ message: 'Пользователь успешно вышел из системы!' })
     } catch (error) {
-      console.log(error)
+      console.log('Error', error)
       return res.status(400).json({ message: 'Произошла ошибка при выходе из аккаунта!' })
     }
   };
