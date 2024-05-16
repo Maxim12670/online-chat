@@ -35,7 +35,6 @@ class RefreshToken {
 
         return res
           .status(200)
-          .cookie('userData', newRefreshToken, { httpOnly: true })
           .json({
             accessToken: newAccessToken,
             refreshToken: newRefreshToken
