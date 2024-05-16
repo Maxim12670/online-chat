@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { useUserStore } from '@/stores/userStore';
+import Cookies from "js-cookie";
 
 
 const baseURL = 'http://localhost:5000/api';
@@ -9,40 +10,47 @@ const refreshOldToken = async () => {
   try {
     const userStore = useUserStore();
     const userToken = userStore.userToken;
-    const { data } = await axios.post('/refresh', { token: userToken.accessToken });
+    const data = await axios.post('http://localhost:5000/api/refresh', {}, {
+      withCredentials: true
+    });
 
     userToken = {
-      accessToken: data.accessToken,
-      refreshToken: data.refreshToken
+      accessToken: data.accessToken
     }
-    
+
     return res.data
   } catch (error) {
     console.log('Ошибка при обновлении токена:', error);
   }
 }
 
-const api = axios.create({
+const axiosToken = axios.create({
   withCredentials: true,
   baseURL: baseURL
 });
 
-api.interceptors.request.use((config) => {
+axiosToken.interceptors.request.use((config) => {
   const userStore = useUserStore();
   const token = userStore.userToken.accessToken;
-  config.headers.Authorization = `Bearer ${token}`;
+  // console.log('token', userStore.userToken.accessToken)
+  config.headers.Authorization = "Bearer " + token;
   return config;
 });
 
-api.interceptors.request.use(
+axiosToken.interceptors.request.use(
   async (config) => {
     let currentDate = new Date();
     const userStore = useUserStore();
-    const decodedToken = jwtDecode(userStore.userToken.accessToken);
-    if (decodedToken.exp * 1000 < currentDate.getTime()) {
-      const data = await refreshOldToken();
-      config.headers["authorization"] = `Bearer ${data.accessToken}`;
+    if (userStore.userToken.accessToken) {
+      const decodedToken = jwtDecode(userStore.userToken.accessToken);
+      // console.log('decode token', decodedToken)
+      if (decodedToken.exp * 1000 < currentDate.getTime()) {
+        const data = await refreshOldToken();
+        // console.log('refresh old token:', data)
+        config.headers["Authorization"] = "Bearer " + data.accessToken;
+      }
     }
+
     return config;
   },
   (error) => {
@@ -50,4 +58,4 @@ api.interceptors.request.use(
   }
 );
 
-export default api;
+export default axiosToken;

@@ -24,20 +24,22 @@ class RefreshToken {
       jwt.verify(refreshToken, config.token.REFRESH_SECRET_KEY, async (err, user) => {
         err && console.log(err);
 
-        // удалить
         await db.query(`DELETE FROM user_tokens WHERE token = $1`, [refreshToken]);
-        // создать новые
+
         const newAccessToken = generateAccessToken(user);
         const newRefreshToken = generateRefreshToken(user);
-        // добавить в таблицу
-        const resultToken = await db.query(`
+
+        await db.query(`
         INSERT INTO user_tokens (user_id, token)
         VALUES ($1, $2)`, [user.id, newRefreshToken]);
 
-        return res.status(200).json({
-          accessToken: newAccessToken,
-          refreshToken: newRefreshToken
-        })
+        return res
+          .status(200)
+          .cookie('userData', newRefreshToken, { httpOnly: true })
+          .json({
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken
+          })
       })
 
     } catch (error) {

@@ -16,7 +16,8 @@ router.post('/registr', [
 
 router.post('/auth', userController.authUser);
 router.post('/logout',verifyRefreshToken, userController.logout);
-router.post('/user', verifyRefreshToken, userController.getUserData);
+router.get('/user', verifyRefreshToken, userController.getUserData);
+router.get('/user/current', userController.getCurrentUserData);
 router.get('/users', userController.getAllUsers);
 router.post('/update', fileMiddleware.single('image'), userController.updateUser);
 router.post('/:id', userController.deleteUser);
