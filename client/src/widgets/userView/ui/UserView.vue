@@ -7,7 +7,11 @@
 
     <div class="user-page__content">
       <user-avatar class="user-page__photo" :image="userData.image" />
-      <my-button class="user-page__exit" text="Выйти" @click="logoutAccount" />
+      <button class="user-page__exit" @click="logoutAccount">
+        <svg class="user-page__exit-icon">
+          <use xlink:href="#logout-account-icon"></use>
+        </svg>
+      </button>
       <div class="user-page__descr">
         <div v-show="userData.surname !== null" class="user-page__name">
           {{ userData.surname + ' ' + userData.name }}
