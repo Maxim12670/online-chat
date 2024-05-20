@@ -24,7 +24,7 @@
 
 <script setup>
 import './style.scss';
-import FriendItem from './component/FriendItem.vue';
+import FriendItem from '../friendItem/FriendItem.vue';
 import { MyInput, NotDataStub, LoaderContent } from '@/shared/ui';
 import { computed, provide, ref } from 'vue';
 import { computedAsync } from '@vueuse/core'
