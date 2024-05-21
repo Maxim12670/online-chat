@@ -1,29 +1,23 @@
 <template>
-  <div class="friend-item">
-    <user-avatar class="friend-item__photo" :image="image"/>
-    <div class="friend-item__initials">
-      {{ `${surname} ${name }` }}
-    </div>
-    <div class="friend-item__wrapper">
-      <button class="friend-item__btn">
-        <svg class="nav-menu__icon">
-          <use xlink:href="#message-icon"></use>
-        </svg>
-      </button>
-      <button class="friend-item__btn" @click="selectedFunction">
-        <svg class="nav-menu__icon">
-          <use :xlink:href="typeCase === 'follower' ? '#friends-icon' : '#basket-icon'"></use>
-        </svg>
-      </button>
-    </div>
-  </div>
+  <card-item class="friend-item" :name="name" :surname="surname" :image="image">
+    <button class="friend-item__btn">
+      <svg class="nav-menu__icon">
+        <use xlink:href="#message-icon"></use>
+      </svg>
+    </button>
+    <button class="friend-item__btn" @click="selectedFunction">
+      <svg class="nav-menu__icon">
+        <use :xlink:href="typeCase === 'follower' ? '#friends-icon' : '#basket-icon'"></use>
+      </svg>
+    </button>
+  </card-item>
 </template>
 
 <script setup>
 import './style.scss';
-import { UserAvatar } from '@/shared/ui';
 import { useFriendsStore } from '@/stores/friendsStore';
 import { inject, ref } from 'vue';
+import { CardItem } from '@/entities/ui/index';
 
 const props = defineProps({
   id: Number,
