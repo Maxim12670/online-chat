@@ -17,15 +17,29 @@ class DialogRoomController {
 
       const isValidDialog = await DialogValidator.usersCanAddDialog(idUser, idCompanion);
 
+      const idDialog = await db.query(
+        `SELECT dr.id AS roomId, 
+          p.id AS idCompanion, 
+          p.name, 
+          p.surname, 
+          p.image
+        FROM dialog_room dr
+        JOIN person p ON (p.id = CASE 
+          WHEN dr.id_first_user = $1 THEN dr.id_second_user 
+          ELSE dr.id_first_user 
+        END)
+        WHERE (dr.id_first_user = $1 AND dr.id_second_user = $2)
+            OR (dr.id_first_user = $2 AND dr.id_second_user = $1)`, [idUser, idCompanion]);
+
       if (!isValidDialog) {
-        return res.status(400).json({ message: 'Диалог уже создан!' })
+        return res.status(200).json(idDialog.rows[0]);
       }
 
       const newDialog = await db.query(
         `INSERT INTO dialog_room
         (id_first_user, id_second_user) values ($1, $2) RETURNING *`,
         [idUser, idCompanion]);
-      return res.json(newDialog.rows[0]);
+      return res.status(200).json(newDialog.rows[0]);
 
     } catch (error) {
       console.log('Error', error)
