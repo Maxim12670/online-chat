@@ -60,14 +60,6 @@ function inputMessageText(str) {
   messageString.value = str;
 }
 
-async function getMessages() {
-  try {
-    messages.value = await messageStore.getAllMessageDialog(idDialog.value);
-  } catch (error) {
-    console.log('Что-то пошло не так...', error);
-  }
-}
-
 function autoResizeTextarea(event) {
   const textarea = event.target;
   textarea.style.height = 'auto';
