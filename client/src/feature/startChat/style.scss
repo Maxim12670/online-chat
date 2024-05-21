@@ -1,0 +1,19 @@
+@import '@/assets/variables.scss';
+
+.start-chat {
+  cursor: pointer;
+  border: none;
+  background-color: rgba(28, 28, 28, 0);
+
+  &__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    stroke: $c-black;
+
+    @media (hover:hover) {
+      &:hover {
+        stroke: $c-white;
+      }
+    }
+  }
+}
