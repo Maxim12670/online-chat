@@ -11,13 +11,14 @@ export const useDialogApi = defineStore('dialogAPI', () => {
   // создание нового диалога
   const createDialog = async (idUser, idCompanion) => {
     try {
-      await axios.post(`${baseURLDialog}${apiRoutesDialog.createDialog}`, {
+      const response = await axios.post(`${baseURLDialog}${apiRoutesDialog.createDialog}`, {
         idUser: idUser,
         idCompanion: idCompanion
       })
-        .catch(error => {
-          console.log('Что-то пошло не так...');
-        });
+
+      if (response.status === 200) {
+        return response.data;
+      }
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }

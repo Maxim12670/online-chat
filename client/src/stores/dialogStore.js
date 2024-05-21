@@ -11,7 +11,8 @@ export const useDialogStore = defineStore('dialogStore', () => {
   // создать диалог
   async function createDialog(idCompanion) {
     try {
-      await dialogAPI.createDialog(userId, idCompanion);
+      const data = await dialogAPI.createDialog(userId, idCompanion);
+      return data;
     } catch (error) {
       console.log('Произошла ошибка:', error);
     }
