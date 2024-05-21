@@ -4,7 +4,7 @@
     <loader-content v-if="!loadedDialogs" class="dialog-list__loader"/>
     <div v-else class="dialog-list__container">
       <not-data-stub v-if="!filterDialog.length" text="Диалогов нет!"/>
-      <dialog-item v-else class="dialog-list__item" v-for="(dialog, index) in filterDialog" :key="index"
+      <card-item v-else class="dialog-list__item" v-for="(dialog, index) in filterDialog" :key="index"
         :name="dialog.name_companion" :surname="dialog.surname_companion" :image="dialog.image_companion"
         @click="openChatRoom(dialog.dialog_id, dialog.name_companion, dialog.surname_companion)" />
     </div>
@@ -14,7 +14,7 @@
 <script setup>
 import './style.scss';
 import { MyInput, NotDataStub, LoaderContent } from '@/shared/ui/index';
-import DialogItem from '../dialogItem/DialogItem.vue';
+import { CardItem } from '@/entities/ui';
 import { computed, onMounted, ref } from 'vue';
 import { useDialogStore } from '@/stores/dialogStore';
 import { searchByStringInPerson } from '@/shared/lib/hooks/searchString';
