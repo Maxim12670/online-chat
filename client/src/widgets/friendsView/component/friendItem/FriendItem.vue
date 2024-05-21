@@ -1,10 +1,6 @@
 <template>
   <card-item class="friend-item" :name="name" :surname="surname" :image="image">
-    <button class="friend-item__btn">
-      <svg class="friend-item__icon friend-item__icon_white">
-        <use xlink:href="#message-icon"></use>
-      </svg>
-    </button>
+    <start-chat :id-companion="id"/>
     <button class="friend-item__btn" @click="selectedFunction">
       <svg class="friend-item__icon"
         :class="typeCase !== 'follower' ? 'friend-item__icon_red' : 'friend-item__icon_white'">
@@ -16,9 +12,10 @@
 
 <script setup>
 import './style.scss';
-import { useFriendsStore } from '@/stores/friendsStore';
 import { inject, ref } from 'vue';
 import { CardItem } from '@/entities/ui/index';
+import { StartChat } from '@/feature/index';
+import { useFriendsStore } from '@/stores/friendsStore';
 
 const props = defineProps({
   id: Number,
