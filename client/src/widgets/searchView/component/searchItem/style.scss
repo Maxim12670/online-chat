@@ -1,49 +1,6 @@
 @import '@/assets/variables.scss';
 
 .search-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  padding: 1rem 1rem;
-  box-sizing: border-box;
-  background-color: $c-light-blue;
-  border: 0.1rem solid $c-white;
-  border-radius: 1rem;
-
-  @media (hover:hover) {
-    transition: border-color .15s, transform .15s;
-
-    &:hover {
-      border-color: transparent;
-      transform: translate(.2rem, -.2rem);
-    }
-  }
-
-
-  &__photo {
-    width: 7rem;
-    height: 7rem;
-    border-radius: 100%;
-    overflow: hidden;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-  }
-
-  &__initials {
-    margin-left: 2rem;
-    font-size: 1.8rem;
-    font-weight: 500;
-  }
-
-  &__btns {
-    margin: 0 0 0 auto;
-  }
-
   &__btn {
     cursor: pointer;
     border: none;
