@@ -1,12 +1,13 @@
 <template>
   <card-item class="friend-item" :name="name" :surname="surname" :image="image">
     <button class="friend-item__btn">
-      <svg class="nav-menu__icon">
+      <svg class="friend-item__icon friend-item__icon_white">
         <use xlink:href="#message-icon"></use>
       </svg>
     </button>
     <button class="friend-item__btn" @click="selectedFunction">
-      <svg class="nav-menu__icon">
+      <svg class="friend-item__icon"
+        :class="typeCase !== 'follower' ? 'friend-item__icon_red' : 'friend-item__icon_white'">
         <use :xlink:href="typeCase === 'follower' ? '#friends-icon' : '#basket-icon'"></use>
       </svg>
     </button>
