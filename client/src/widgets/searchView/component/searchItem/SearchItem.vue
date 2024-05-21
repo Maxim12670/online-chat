@@ -1,10 +1,6 @@
 <template>
   <card-item class="search-item" :name="name" :surname="surname" :image="image">
-    <button class="search-item__btn" @click="() => createDialog(id)">
-      <svg class="search-item__icon">
-        <use xlink:href="#message-icon"></use>
-      </svg>
-    </button>
+    <start-chat :id-companion="id"/>
     <button class="search-item__btn" @click="sendFriendRequest">
       <svg class="search-item__icon">
         <use xlink:href="#friends-icon"></use>
@@ -16,8 +12,10 @@
 <script setup>
 import './style.scss';
 import { CardItem } from '@/entities/ui';
+import { StartChat } from '@/feature/index';
 import { useFriendsStore } from '@/stores/friendsStore';
 import { useDialogStore } from '@/stores/dialogStore';
+
 
 const props = defineProps({
   id: Number,
@@ -37,12 +35,4 @@ async function sendFriendRequest() {
   }
 }
 
-async function createDialog(idCompanion) {
-  try {
-    await dialogStore.createDialog(idCompanion);
-    console.log('создал диалог');
-  } catch (error) {
-    console.log('Что-то пошло не так...', error);
-  }
-}
 </script>
