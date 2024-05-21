@@ -2,14 +2,39 @@
 
 .friend-item {
   &__btn {
-    background-color: rgba(28, 28, 28, 0);
-    border: none;
-    margin-left: 1rem;
     cursor: pointer;
+    border: none;
+    background-color: rgba(28, 28, 28, 0);
+    margin-left: 1.5rem;
+    stroke: black;
+    fill: black;
+  }
 
-    &:hover {
-      stroke: aqua;
-      fill: red;
+  &__icon {
+    width: 3.5rem;
+    height: 3.5rem;
+
+    // &:hover {
+    //   stroke: red;
+    //   fill: red;
+    // }
+
+    &_white {
+      @media (hover: hover) {
+        &:hover {
+          stroke: white;
+          fill: white;
+        }
+      }
+    }
+
+    &_red {
+      @media (hover: hover) {
+        &:hover {
+          stroke: red;
+          fill: red;
+        }
+      }
     }
   }
 }
