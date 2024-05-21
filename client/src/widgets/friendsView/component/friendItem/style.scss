@@ -1,40 +1,6 @@
 @import '@/assets/variables.scss';
 
 .friend-item {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  box-sizing: border-box;
-  border: .1rem solid $c-white;
-  background: $c-light-blue;
-  border-radius: 1rem;
-
-  @media (hover:hover) {
-    transition: transform .15s;
-
-    &:hover {
-      transform: translate(.2rem, -.2rem);
-    }
-  }
-
-  &__photo {
-    display: block;
-    width: 6rem;
-    height: 6rem;
-    border-radius: 100%;
-    box-sizing: border-box;
-  }
-
-  &__initials {
-    font-size: 1.8rem;
-    font-weight: 500;
-    margin-left: 2rem;
-  }
-
-  &__wrapper {
-    margin: 0 1rem 0 auto;
-  }
-
   &__btn {
     background-color: rgba(28, 28, 28, 0);
     border: none;
